@@ -10,7 +10,7 @@ public:
     const int ACCEL = 10;
 
     //Initializes the variablesA
-    Player(SDL_Surface* _screen, SDL_Surface* _sprite);
+    Player(SDL_Renderer* _renderer, SDL_Texture* _texture);
 
     void handleEvent(SDL_Event& event);
     void move(float delta);
@@ -19,6 +19,6 @@ public:
 private:
     int posX, posY;
     int velX, velY;
-    SDL_Surface* screen;
-    SDL_Surface* sprite;
+    SDL_Renderer* renderer;
+    SDL_Texture* texture;
 };

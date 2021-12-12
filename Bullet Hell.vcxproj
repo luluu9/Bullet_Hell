@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="drawing.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="character.cpp" />
   </ItemGroup>
@@ -30,6 +31,7 @@
   <ItemGroup>
     <ClInclude Include="drawing.h" />
     <ClInclude Include="character.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

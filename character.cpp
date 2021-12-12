@@ -8,11 +8,11 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 
-Player::Player(SDL_Surface* _screen, SDL_Surface* _sprite) {
+Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture) {
 	posX = posY = 0;
 	velX = velY = 0;
-	sprite = _sprite;
-	screen = _screen;
+	texture = _texture;
+	renderer = _renderer;
 }
 
 
@@ -40,5 +40,5 @@ void Player::move(float delta) {
 
 
 void Player::render() {
-	DrawSurface(screen, sprite, posX, posY);
+	DrawTexture(renderer, texture, posX, posY);
 }
