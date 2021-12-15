@@ -53,6 +53,18 @@ void DrawTexture(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y) {
 };
 
 
+void DrawTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y, double angle = 0.0) {
+	SDL_Rect dest;
+	int width, height;
+	SDL_QueryTexture(tex, NULL, NULL, &width, &height);
+	dest.x = x - width / 2;
+	dest.y = y - height / 2;
+	dest.w = width;
+	dest.h = height;
+	SDL_RenderCopyEx(renderer, tex, NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+};
+
+
 // rysowanie pojedynczego pixela
 // draw a single pixel
 void DrawPixel(SDL_Surface* surface, int x, int y, Uint32 color) {

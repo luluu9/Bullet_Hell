@@ -7,8 +7,8 @@
 #include "./SDL2-2.0.10/include/SDL_main.h"
 
 
-extern const int SCREEN_WIDTH = 620;
-extern const int SCREEN_HEIGHT = 480;
+extern const int SCREEN_WIDTH = 1080;
+extern const int SCREEN_HEIGHT = 640;
 bool FULLSCREEN = false;
 
 
@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 			frames = 0;
 			fpsTimer -= 0.5;
 		};
-		printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
+		// printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
 
 		game->handleEvents();
 		game->update();

@@ -2,7 +2,6 @@
 #include "game.h"
 
 
-
 Game::Game() {
 	isRunning = true;
 	window = nullptr;
