@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/assets/sky_gradients
+/assets/Clouds V2.png
+/assets/Clouds V2.aseprite
+/assets/Clouds V2-2.png

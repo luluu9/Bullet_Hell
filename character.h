@@ -27,16 +27,17 @@ class Player {
 public:
 	const int WIDTH = 40;
 	const int HEIGHT = 40;
-	const double ACCEL = 0.1;
+	const double ACCEL = 30;
 	const double ROT_SPEED = 2;
-	const double MAX_SPEED = 10;
+	const double MAX_SPEED = 500; //px per sec
 
 	//Initializes the variablesA
 	Player(SDL_Renderer* _renderer, SDL_Texture* _texture);
 
 	void handleEvent(SDL_Event& event);
 	void move(float delta);
-	void render();
+	void render(SDL_Rect camera);
+	Vector2 getPos();
 
 private:
 	Vector2 pos;

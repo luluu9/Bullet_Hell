@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
 		// printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
 
 		game->handleEvents();
-		game->update();
+		game->update(delta);
 		game->render();
 		
 		frames++;

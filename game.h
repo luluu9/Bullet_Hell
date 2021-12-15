@@ -11,7 +11,7 @@ public:
 	void init(const char* title, int width, int height, bool fullscreen);
 	
 	void handleEvents();
-	void update();
+	void update(double delta);
 	void render();
 	void clean();
 
@@ -27,5 +27,7 @@ private:
 	int SCREEN_HEIGHT;
 	
 	SDL_Texture* eti;
+	SDL_Texture* background;
 	Player* player;
+	SDL_Rect camera;
 };

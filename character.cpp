@@ -39,11 +39,15 @@ void Player::move(float delta) {
 	velocity = velocity.normalized();
 	pos.x += velocity.x * delta * speed;
 	pos.y += velocity.y * delta * speed;
-	printf_s("%f, %f: %f\n", velocity.x, velocity.y, speed);
-
+	// printf_s("%f, %f: %f\n", velocity.x, velocity.y, speed);
 }
 
 
-void Player::render() {
-	DrawTextureRotated(renderer, texture, pos.x, pos.y, angle);
+void Player::render(SDL_Rect cam) {
+	printf_s("%f, %f: %d, %d\n", pos.x, pos.y, cam.x, cam.y);
+	DrawTextureRotated(renderer, texture, pos.x - cam.x, pos.y - cam.y, angle);
+}
+
+Vector2 Player::getPos() {
+	return pos;
 }

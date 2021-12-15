@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "game.h"
+#include "drawing.h"
 
 
 Game::Game() {
@@ -37,7 +38,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 		isRunning = false;
 		return;
 	};
-	
+
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -46,8 +47,12 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 
 	SDL_ShowCursor(SDL_DISABLE);
 
-
+	camera.x = 0;
+	camera.y = 0;
+	camera.w = SCREEN_WIDTH;
+	camera.h = SCREEN_HEIGHT;
 	eti = loadTextureFromBMP("./eti.bmp");
+	background = loadTextureFromBMP("./assets/sky.bmp");
 	player = new Player(renderer, eti);
 }
 
@@ -68,13 +73,18 @@ void Game::handleEvents() {
 	};
 }
 
-void Game::update() {
-	player->move(1);
+void Game::update(double delta) {
+	player->move(delta);
+	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
+	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-	player->render();
+	DrawTexture(renderer, background, -camera.x, -camera.y);
+	DrawTexture(renderer, background, -camera.x + 1024, -camera.y);
+	DrawTexture(renderer, background, -camera.x + 1024 * 2, -camera.y);
+	player->render(camera);
 	SDL_RenderPresent(renderer);
 }
 
@@ -82,7 +92,7 @@ void Game::clean() {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
-	printf("Quiting game...");	
+	printf("Quiting game...");
 }
 
 SDL_Renderer* Game::getRenderer() {
