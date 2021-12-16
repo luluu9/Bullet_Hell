@@ -10,8 +10,10 @@ Game::Game() {
 	SCREEN_WIDTH = 0;
 	SCREEN_HEIGHT = 0;
 	eti = nullptr;
-	player = nullptr;
 	keyboard = nullptr;
+	background = nullptr;
+	player = nullptr;
+	camera = SDL_Rect{ 0 };
 }
 
 Game::~Game() {
@@ -54,9 +56,17 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	camera.y = 0;
 	camera.w = SCREEN_WIDTH;
 	camera.h = SCREEN_HEIGHT;
-	eti = loadTextureFromBMP("./eti.bmp");
+	eti = loadTextureFromBMP("./assets/etispinner_small.bmp");
 	background = loadTextureFromBMP("./assets/sky.bmp");
 	player = new Player(renderer, eti, keyboard);
+	entities.addEntity(player);
+
+	
+	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
+	for (int i = 0; i < 8; i++) {
+		Enemy *enemy = new Enemy(renderer, chemiczny);
+		entities.addEntity(enemy);
+	}
 }
 
 void Game::handleEvents() {
@@ -73,14 +83,18 @@ void Game::handleEvents() {
 			break;
 		};
 		keyboard->handleEvent(event);
-		player->handleEvent(event);
+		for (int i = 0; i < entities.currentEntity; i++) {
+			entities.entities[i]->handleEvent(event);
+		}
 	};
 }
 
 void Game::update(double delta) {
 	SDL_Event x;
-	player->handleEvent(x);
-	player->update(delta);
+	for (int i = 0; i < entities.currentEntity; i++) {
+		entities.entities[i]->update(delta);
+		entities.entities[i]->handleEvent(x);
+	}
 	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
 	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
 }
@@ -90,7 +104,9 @@ void Game::render() {
 	DrawTexture(renderer, background, -camera.x, -camera.y);
 	DrawTexture(renderer, background, -camera.x + 1024, -camera.y);
 	DrawTexture(renderer, background, -camera.x + 1024 * 2, -camera.y);
-	player->render(camera);
+	for (int i = 0; i < entities.currentEntity; i++) {
+		entities.entities[i]->render(camera);
+	}
 	SDL_RenderPresent(renderer);
 }
 
@@ -108,7 +124,6 @@ SDL_Renderer* Game::getRenderer() {
 bool Game::running() {
 	return isRunning;
 }
-
 
 SDL_Texture* Game::loadTextureFromBMP(const char* filepath) {
 	SDL_Surface* tmpSurface = SDL_LoadBMP(filepath);

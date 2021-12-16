@@ -4,6 +4,45 @@
 #include "character.h"
 #include "keyboard.h"
 
+struct GameEntities {
+	unsigned int amount = 10;
+	unsigned int currentEntity = 0;
+	Entity** entities = new Entity*[amount];
+	
+	void addEntity(Entity* entity) {
+		if (currentEntity < amount)
+			entities[currentEntity] = entity;
+		else {
+			// implement resizing array
+		}
+		currentEntity++;
+	}
+
+	void removeEntity(Entity* entityToRemove) {
+		Entity* firstEncounteredEntity = nullptr;
+		unsigned int firstEncounteredEntityId = amount;
+		for (int i = amount - 1; i > 0; i--) {
+			if (entities[i] != nullptr) {
+				if (entities[i] == entityToRemove) {
+					entities[i]->~Entity(); // call destructor
+					entities[i] = nullptr;
+					if (firstEncounteredEntity) { // fill gap in array
+						entities[i] = firstEncounteredEntity;
+						entities[firstEncounteredEntityId] = nullptr;
+					}
+					break;
+				}
+				if (firstEncounteredEntity == nullptr){ 
+					firstEncounteredEntity = entities[i];
+					firstEncounteredEntityId = i;
+				}
+			}
+		}
+	}
+
+};
+
+
 class Game {
 public:
 	Game();
@@ -30,6 +69,7 @@ private:
 	
 	SDL_Texture* eti;
 	SDL_Texture* background;
+	GameEntities entities;
 	Player* player;
 	SDL_Rect camera;
 

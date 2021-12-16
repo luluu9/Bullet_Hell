@@ -32,8 +32,8 @@ public:
 
 	Entity(SDL_Renderer* _renderer, SDL_Texture* _texture);
 
-	void handleEvent(SDL_Event& event);
-	void update(float delta);
+	virtual void handleEvent(SDL_Event& event);
+	virtual void update(double delta);
 	void render(SDL_Rect camera);
 	Vector2 getPos();
 
@@ -51,6 +51,7 @@ public:
 	double ACCEL = 30;
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 500; //px per sec
+	int ATTACK_ROT_MULTIPLIER = 10;
 
 	//Initializes the variablesA
 	Player(SDL_Renderer* _renderer, SDL_Texture* _texture, KeyboardHandler* _keyboard);
@@ -60,4 +61,21 @@ public:
 
 private:
 	KeyboardHandler* keyboard;
+};
+
+
+
+class Enemy : public Entity {
+public:
+	int WIDTH = 40;
+	int HEIGHT = 40;
+	double ACCEL = 30;
+	double SPEED = 50;
+	double ROT_SPEED = 2;
+	double MAX_SPEED = 500; //px per sec
+
+	//Initializes the variablesA
+	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture);
+
+	void update(double delta);
 };
