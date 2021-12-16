@@ -11,22 +11,20 @@ const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 640;
 
 
-Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture) {
+Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture, KeyboardHandler* _keyboard) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	texture = _texture;
 	renderer = _renderer;
+	keyboard = _keyboard;
 }
 
 
 void Player::handleEvent(SDL_Event& event) {
-	if (event.type == SDL_KEYDOWN) {}
-	switch (event.key.keysym.sym) {
-	case SDLK_UP: speed += ACCEL; break;
-	case SDLK_DOWN: speed -= ACCEL; break;
-	case SDLK_LEFT: angle -= ROT_SPEED; break;
-	case SDLK_RIGHT: angle += ROT_SPEED; break;
-	}
+	if (keyboard->isPressed(SDLK_UP)) speed += ACCEL;
+	if (keyboard->isPressed(SDLK_DOWN)) speed -= ACCEL;
+	if (keyboard->isPressed(SDLK_LEFT)) angle -= ROT_SPEED;
+	if (keyboard->isPressed(SDLK_RIGHT)) angle += ROT_SPEED;
 	if (speed > MAX_SPEED)
 		speed = MAX_SPEED;
 	else if (speed < 0)

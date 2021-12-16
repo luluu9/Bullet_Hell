@@ -2,6 +2,7 @@
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "character.h"
+#include "keyboard.h"
 
 class Game {
 public:
@@ -19,6 +20,7 @@ public:
 
 	SDL_Renderer* Game::getRenderer();
 	SDL_Texture* loadTextureFromBMP(const char* filepath);
+
 private:
 	bool isRunning;
 	SDL_Window* window;
@@ -30,4 +32,6 @@ private:
 	SDL_Texture* background;
 	Player* player;
 	SDL_Rect camera;
+
+	KeyboardHandler* keyboard;
 };

@@ -11,6 +11,7 @@ Game::Game() {
 	SCREEN_HEIGHT = 0;
 	eti = nullptr;
 	player = nullptr;
+	keyboard = nullptr;
 }
 
 Game::~Game() {
@@ -47,13 +48,15 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 
 	SDL_ShowCursor(SDL_DISABLE);
 
+	keyboard = new KeyboardHandler;
+
 	camera.x = 0;
 	camera.y = 0;
 	camera.w = SCREEN_WIDTH;
 	camera.h = SCREEN_HEIGHT;
 	eti = loadTextureFromBMP("./eti.bmp");
 	background = loadTextureFromBMP("./assets/sky.bmp");
-	player = new Player(renderer, eti);
+	player = new Player(renderer, eti, keyboard);
 }
 
 void Game::handleEvents() {
@@ -69,11 +72,14 @@ void Game::handleEvents() {
 			isRunning = false;
 			break;
 		};
+		keyboard->handleEvent(event);
 		player->handleEvent(event);
 	};
 }
 
 void Game::update(double delta) {
+	SDL_Event x;
+	player->handleEvent(x);
 	player->move(delta);
 	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
 	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;

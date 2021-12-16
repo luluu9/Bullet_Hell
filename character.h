@@ -2,6 +2,7 @@
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include <math.h>
+#include "keyboard.h"
 
 
 struct Vector2 {
@@ -32,7 +33,7 @@ public:
 	const double MAX_SPEED = 500; //px per sec
 
 	//Initializes the variablesA
-	Player(SDL_Renderer* _renderer, SDL_Texture* _texture);
+	Player(SDL_Renderer* _renderer, SDL_Texture* _texture, KeyboardHandler* _keyboard);
 
 	void handleEvent(SDL_Event& event);
 	void move(float delta);
@@ -45,4 +46,5 @@ private:
 	float speed;
 	SDL_Renderer* renderer;
 	SDL_Texture* texture;
+	KeyboardHandler* keyboard;
 };
