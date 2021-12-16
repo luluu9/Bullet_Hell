@@ -9,5 +9,5 @@ struct KeyboardHandler {
     bool isReleased(int keyCode);
     int handleKeyCode(int keyCode);
 
-    bool keyState[KEY_CODES_NUMBER];
+    bool keyState[KEY_CODES_NUMBER] = { false };
 };

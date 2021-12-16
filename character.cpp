@@ -11,16 +11,29 @@ const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 640;
 
 
-Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture, KeyboardHandler* _keyboard) {
+Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	texture = _texture;
 	renderer = _renderer;
-	keyboard = _keyboard;
+	SDL_QueryTexture(texture, NULL, NULL, &WIDTH, &HEIGHT);
 }
+
+void Entity::render(SDL_Rect cam) {
+	printf_s("%f, %f: %d, %d\n", pos.x, pos.y, cam.x, cam.y);
+	DrawTextureRotated(renderer, texture, pos.x - cam.x, pos.y - cam.y, angle);
+}
+
+Vector2 Entity::getPos() {
+	return pos;
+}
+
+Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture, KeyboardHandler* _keyboard) 
+	: Entity{ _renderer, _texture }, keyboard{ _keyboard } {}
 
 
 void Player::handleEvent(SDL_Event& event) {
+	printf("%d", keyboard->isPressed(SDLK_UP));
 	if (keyboard->isPressed(SDLK_UP)) speed += ACCEL;
 	if (keyboard->isPressed(SDLK_DOWN)) speed -= ACCEL;
 	if (keyboard->isPressed(SDLK_LEFT)) angle -= ROT_SPEED;
@@ -32,7 +45,7 @@ void Player::handleEvent(SDL_Event& event) {
 }
 
 
-void Player::move(float delta) {
+void Player::update(double delta) {
 	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
 	velocity = velocity.normalized();
 	pos.x += velocity.x * delta * speed;
@@ -40,12 +53,3 @@ void Player::move(float delta) {
 	// printf_s("%f, %f: %f\n", velocity.x, velocity.y, speed);
 }
 
-
-void Player::render(SDL_Rect cam) {
-	printf_s("%f, %f: %d, %d\n", pos.x, pos.y, cam.x, cam.y);
-	DrawTextureRotated(renderer, texture, pos.x - cam.x, pos.y - cam.y, angle);
-}
-
-Vector2 Player::getPos() {
-	return pos;
-}

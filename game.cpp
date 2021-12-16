@@ -80,7 +80,7 @@ void Game::handleEvents() {
 void Game::update(double delta) {
 	SDL_Event x;
 	player->handleEvent(x);
-	player->move(delta);
+	player->update(delta);
 	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
 	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
 }
