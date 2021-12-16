@@ -24,8 +24,8 @@ bool KeyboardHandler::isReleased(int keyCode) {
 
 
 int KeyboardHandler::handleKeyCode(int keyCode) {
-    if (keyCode >= 1073741881) // https://wiki.libsdl.org/SDLKeycodeLookup
-        return 127 + keyCode - 1073741881;
+    if (keyCode >= SDLK_CAPSLOCK) // https://wiki.libsdl.org/SDLKeycodeLookup
+        return SDLK_DELETE + keyCode - SDLK_CAPSLOCK;
     else
         return keyCode;
 }
