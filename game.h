@@ -10,11 +10,16 @@ struct GameEntities {
 	Entity** entities = new Entity*[amount];
 	
 	void addEntity(Entity* entity) {
-		if (currentEntity < amount)
-			entities[currentEntity] = entity;
-		else {
-			// implement resizing array
+		if (currentEntity >= amount) { 
+			// resize array
+			amount *= 2;
+			Entity** extendedArray = new Entity * [amount];
+			for (int i = 0; i < currentEntity; i++)
+				extendedArray[i] = entities[i];
+			delete[] entities;
+			entities = extendedArray;
 		}
+		entities[currentEntity] = entity;
 		currentEntity++;
 	}
 

@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 			frames = 0;
 			fpsTimer -= 0.5;
 		};
-		// printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
+		//printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
 
 		game->handleEvents();
 		game->update(delta);

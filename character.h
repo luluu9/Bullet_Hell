@@ -44,6 +44,7 @@ protected:
 	SDL_Texture* texture;
 };
 
+
 class Player : public Entity {
 public:
 	int WIDTH = 40;
@@ -62,7 +63,6 @@ public:
 private:
 	KeyboardHandler* keyboard;
 };
-
 
 
 class Enemy : public Entity {

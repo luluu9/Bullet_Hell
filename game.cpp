@@ -60,10 +60,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	background = loadTextureFromBMP("./assets/sky.bmp");
 	player = new Player(renderer, eti, keyboard);
 	entities.addEntity(player);
-
 	
 	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 15; i++) {
 		Enemy *enemy = new Enemy(renderer, chemiczny);
 		entities.addEntity(enemy);
 	}
@@ -92,8 +91,8 @@ void Game::handleEvents() {
 void Game::update(double delta) {
 	SDL_Event x;
 	for (int i = 0; i < entities.currentEntity; i++) {
-		entities.entities[i]->update(delta);
 		entities.entities[i]->handleEvent(x);
+		entities.entities[i]->update(delta);
 	}
 	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
 	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
