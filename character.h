@@ -30,18 +30,21 @@ public:
 	int WIDTH;
 	int HEIGHT;
 
-	Entity(SDL_Renderer* _renderer, SDL_Texture* _texture);
+	Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera);
 
 	virtual void handleEvent(SDL_Event& event);
 	virtual void update(double delta);
-	void render(SDL_Rect camera);
+	void render();
 	Vector2 getPos();
+	SDL_Rect getRect();
+	SDL_Rect getGlobalRect();
 
 protected:
 	Vector2 pos;
 	int speed, angle;
 	SDL_Renderer* renderer;
 	SDL_Texture* texture;
+	SDL_Rect* camera;
 };
 
 
@@ -55,7 +58,7 @@ public:
 	int ATTACK_ROT_MULTIPLIER = 10;
 
 	//Initializes the variablesA
-	Player(SDL_Renderer* _renderer, SDL_Texture* _texture, KeyboardHandler* _keyboard);
+	Player(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera, KeyboardHandler* _keyboard);
 
 	void handleEvent(SDL_Event& event);
 	void update(double delta);
@@ -75,7 +78,7 @@ public:
 	double MAX_SPEED = 500; //px per sec
 
 	//Initializes the variablesA
-	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture);
+	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera);
 
 	void update(double delta);
 };

@@ -58,12 +58,12 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	camera.h = SCREEN_HEIGHT;
 	eti = loadTextureFromBMP("./assets/etispinner_small.bmp");
 	background = loadTextureFromBMP("./assets/sky.bmp");
-	player = new Player(renderer, eti, keyboard);
+	player = new Player(renderer, eti, &camera, keyboard);
 	entities.addEntity(player);
 	
 	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
 	for (int i = 0; i < 15; i++) {
-		Enemy *enemy = new Enemy(renderer, chemiczny);
+		Enemy *enemy = new Enemy(renderer, chemiczny, &camera);
 		entities.addEntity(enemy);
 	}
 }
@@ -104,7 +104,7 @@ void Game::render() {
 	DrawTexture(renderer, background, -camera.x + 1024, -camera.y);
 	DrawTexture(renderer, background, -camera.x + 1024 * 2, -camera.y);
 	for (int i = 0; i < entities.currentEntity; i++) {
-		entities.entities[i]->render(camera);
+		entities.entities[i]->render();
 	}
 	SDL_RenderPresent(renderer);
 }

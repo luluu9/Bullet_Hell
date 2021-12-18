@@ -9,16 +9,18 @@
 #include <math.h>
 
 #define PI 3.14159265
+#define DRAW_COLLISION_BOX 1
 
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 640;
 
 
-Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture) {
+Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	texture = _texture;
 	renderer = _renderer;
+	camera = _camera;
 	SDL_QueryTexture(texture, NULL, NULL, &WIDTH, &HEIGHT);
 }
 
@@ -30,18 +32,38 @@ void Entity::update(double delta) {
 	//printf("entity update");
 }
 
-void Entity::render(SDL_Rect cam) {
+void Entity::render() {
 	//printf_s("%f, %f: %d, %d\n", pos.x, pos.y, cam.x, cam.y);
-	DrawTextureRotated(renderer, texture, pos.x - cam.x, pos.y - cam.y, angle);
+	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle);
+	if (DRAW_COLLISION_BOX) {
+		SDL_Rect rect = getGlobalRect();
+		SDL_RenderDrawRect(renderer, &rect);
+	}
 }
 
 Vector2 Entity::getPos() {
 	return pos;
 }
 
+SDL_Rect Entity::getRect() {
+	SDL_Rect rect;
+	rect.x = pos.x - WIDTH / 2;
+	rect.y = pos.y - HEIGHT / 2;
+	rect.w = WIDTH;
+	rect.h = HEIGHT;
+	return rect;
+}
 
-Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture, KeyboardHandler* _keyboard)
-	: Entity{ _renderer, _texture }, keyboard{ _keyboard } {}
+SDL_Rect Entity::getGlobalRect() {
+	SDL_Rect rect = getRect();
+	rect.x -= camera->x;
+	rect.y -= camera->y;
+	return rect;
+}
+
+
+Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera, KeyboardHandler* _keyboard)
+	: Entity{ _renderer, _texture, _camera }, keyboard{ _keyboard } {}
 
 void Player::handleEvent(SDL_Event& event) {
 	//printf("%d", keyboard->isPressed(SDLK_UP));
@@ -62,11 +84,12 @@ void Player::update(double delta) {
 	pos.x += velocity.x * delta * speed;
 	pos.y += velocity.y * delta * speed;
 	// printf_s("%f, %f: %f\n", velocity.x, velocity.y, speed);
+	printf_s("%d, %d: %d, %d\n", getRect().x, getRect().y, getRect().w, getRect().h);
 }
 
 
-Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture)
-	:Entity(_renderer, _texture) {
+Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera)
+	:Entity(_renderer, _texture, _camera) {
 	angle = rand() % 360;
 }
 
