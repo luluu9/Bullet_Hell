@@ -49,6 +49,18 @@ protected:
 };
 
 
+class Weapon : public Entity {
+public:
+	int WIDTH = 40;
+	int HEIGHT = 40;
+	double ACCEL = 30;
+	double SPEED = 50;
+
+	Weapon(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera, int _angle);
+	void update(double delta);
+};
+
+
 class Player : public Entity {
 public:
 	int WIDTH = 40;
@@ -63,6 +75,8 @@ public:
 
 	void handleEvent(SDL_Event& event);
 	void update(double delta);
+	void collide(Entity* collidingEntity);
+	void collide(Weapon* collidingEntity);
 
 private:
 	KeyboardHandler* keyboard;

@@ -61,11 +61,16 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	player = new Player(renderer, eti, &camera, keyboard);
 	entities.addEntity(player);
 	
-	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
-	for (int i = 0; i < 15; i++) {
-		Enemy *enemy = new Enemy(renderer, chemiczny, &camera);
-		entities.addEntity(enemy);
-	}
+	//SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
+	//for (int i = 0; i < 15; i++) {
+	//	Enemy *enemy = new Enemy(renderer, chemiczny, &camera);
+	//	entities.addEntity(enemy);
+	//}
+
+	SDL_Texture* acid = loadTextureFromBMP("./assets/acid.bmp");
+	Weapon* acidWeapon = new Weapon(renderer, acid, &camera, 0);
+	entities.addEntity(acidWeapon);
+
 }
 
 void Game::handleEvents() {
@@ -113,8 +118,10 @@ void Game::update(double delta) {
 	player->colliding = false;
 	for (int i = 0; i < entities.currentEntity; i++) {
 		if (entities.entities[i] != player) {
-			if (isColliding(player, entities.entities[i]))
-				player->colliding = true;
+			if (isColliding(player, entities.entities[i])) {
+				player->collide(entities.entities[i]);
+			}
+				
 		}
 	}
 }

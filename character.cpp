@@ -95,6 +95,14 @@ void Player::update(double delta) {
 	// printf_s("%d, %d: %d, %d\n", getRect().x, getRect().y, getRect().w, getRect().h);
 }
 
+void Player::collide(Entity* collidingEntity) {
+	colliding = true;	
+}
+
+void Player::collide(Weapon* collidingEntity) {
+	colliding = true;
+}
+
 
 Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera)
 	:Entity(_renderer, _texture, _camera) {
@@ -102,6 +110,19 @@ Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera)
 }
 
 void Enemy::update(double delta) {
+	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
+	velocity = velocity.normalized();
+	pos.x += velocity.x * delta * SPEED;
+	pos.y += velocity.y * delta * SPEED;
+}
+
+
+Weapon::Weapon(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera, int _angle)
+	:Entity(_renderer, _texture, _camera) {
+	angle = _angle;
+}
+
+void Weapon::update(double delta) {
 	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
 	velocity = velocity.normalized();
 	pos.x += velocity.x * delta * SPEED;
