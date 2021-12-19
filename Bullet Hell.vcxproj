@@ -19,20 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="base_types.cpp" />
     <ClCompile Include="drawing.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="weapons.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="cs8x8.bmp" />
     <Image Include="eti.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="base_types.h" />
     <ClInclude Include="drawing.h" />
     <ClInclude Include="character.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="weapons.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

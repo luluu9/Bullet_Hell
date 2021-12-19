@@ -1,11 +1,7 @@
 #include <stdio.h>
-#include "game.h"
-#include "drawing.h"
-#include "character.h"
-
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
-
+#include "game.h"
 
 extern const int SCREEN_WIDTH = 1080;
 extern const int SCREEN_HEIGHT = 640;

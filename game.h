@@ -4,6 +4,7 @@
 #include "character.h"
 #include "keyboard.h"
 
+
 struct GameEntities {
 	unsigned int amount = 10;
 	unsigned int currentEntity = 0;
