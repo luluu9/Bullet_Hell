@@ -88,6 +88,19 @@ void Game::handleEvents() {
 	};
 }
 
+bool isColliding(Entity* a, Entity* b) {
+	// AABB algorithm
+	SDL_Rect rect1 = a->getGlobalRect();
+	SDL_Rect rect2 = b->getGlobalRect();
+	if (rect1.x < rect2.x + rect2.w &&
+		rect1.x + rect1.w > rect2.x &&
+		rect1.y < rect2.y + rect2.h &&
+		rect1.h + rect1.y > rect2.y) {
+		return true;
+	}
+	return false;
+}
+
 void Game::update(double delta) {
 	SDL_Event x;
 	for (int i = 0; i < entities.currentEntity; i++) {
@@ -96,6 +109,14 @@ void Game::update(double delta) {
 	}
 	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
 	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
+
+	player->colliding = false;
+	for (int i = 0; i < entities.currentEntity; i++) {
+		if (entities.entities[i] != player) {
+			if (isColliding(player, entities.entities[i]))
+				player->colliding = true;
+		}
+	}
 }
 
 void Game::render() {

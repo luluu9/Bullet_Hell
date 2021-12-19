@@ -21,6 +21,7 @@ Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera
 	texture = _texture;
 	renderer = _renderer;
 	camera = _camera;
+	colliding = false;
 	SDL_QueryTexture(texture, NULL, NULL, &WIDTH, &HEIGHT);
 }
 
@@ -37,7 +38,13 @@ void Entity::render() {
 	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle);
 	if (DRAW_COLLISION_BOX) {
 		SDL_Rect rect = getGlobalRect();
+		uint8_t r, g, b, a;
+		SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+		if (colliding) 
+			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0); // change drawing color to red
 		SDL_RenderDrawRect(renderer, &rect);
+		SDL_SetRenderDrawColor(renderer, r, g, b, a); // return to original color
+
 	}
 }
 
@@ -84,7 +91,8 @@ void Player::update(double delta) {
 	pos.x += velocity.x * delta * speed;
 	pos.y += velocity.y * delta * speed;
 	// printf_s("%f, %f: %f\n", velocity.x, velocity.y, speed);
-	printf_s("%d, %d: %d, %d\n", getRect().x, getRect().y, getRect().w, getRect().h);
+	// print pos
+	// printf_s("%d, %d: %d, %d\n", getRect().x, getRect().y, getRect().w, getRect().h);
 }
 
 

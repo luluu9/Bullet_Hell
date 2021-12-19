@@ -29,6 +29,7 @@ class Entity {
 public:
 	int WIDTH;
 	int HEIGHT;
+	bool colliding;
 
 	Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera);
 
@@ -76,7 +77,7 @@ public:
 	double SPEED = 50;
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 500; //px per sec
-
+	
 	//Initializes the variablesA
 	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera);
 
