@@ -70,7 +70,6 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	SDL_Texture* acid = loadTextureFromBMP("./assets/acid.bmp");
 	Weapon* acidWeapon = new Weapon(renderer, acid, &camera, 0);
 	entities.addEntity(acidWeapon);
-
 }
 
 void Game::handleEvents() {
@@ -134,6 +133,9 @@ void Game::render() {
 	for (int i = 0; i < entities.currentEntity; i++) {
 		entities.entities[i]->render();
 	}
+	Vector2 bulletPos = entities.entities[1]->getPos();
+	Vector2 playerPos = player->getPos();
+	printf_s("(%f, %f): (%f, %f): angle: %f",playerPos.x, playerPos.y, bulletPos.x, bulletPos.y, playerPos.getAngleTo(bulletPos));
 	SDL_RenderPresent(renderer);
 }
 

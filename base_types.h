@@ -9,5 +9,6 @@ struct Vector2 {
 	Vector2();
 	Vector2(float _x, float _y);
 	Vector2 normalized();
-
+	float getLength();
+	float getAngleTo(Vector2 destVec);
 };

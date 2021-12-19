@@ -1,10 +1,9 @@
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include <cstdlib>
+#include <stdio.h>
 #include "character.h"
 #include "drawing.h"
-
-
 
 #define PI 3.14159265
 
