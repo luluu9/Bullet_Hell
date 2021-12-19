@@ -1,6 +1,5 @@
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
-#include <cstdlib>
 #include <stdio.h>
 #include "character.h"
 #include "drawing.h"
@@ -39,7 +38,7 @@ void Player::update(double delta) {
 }
 
 void Player::collide(Entity* collidingEntity) {
-	colliding = true;	
+	colliding = true;
 }
 
 void Player::collide(Weapon* collidingEntity) {
@@ -47,16 +46,19 @@ void Player::collide(Weapon* collidingEntity) {
 }
 
 
-Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera)
-	:Entity(_renderer, _texture, _camera) {
-	angle = rand() % 360;
-}
+Chemiczny::Chemiczny(SDL_Renderer* _renderer, SDL_Texture* _texture,
+	SDL_Rect* _camera, Player* _player)
+	: Enemy{ _renderer, _texture, _camera },
+	player{ _player } { };
 
-void Enemy::update(double delta) {
+
+void Chemiczny::update (double delta) {
+	Vector2 playerPos = player->getPos();
+	angle = pos.getAngleTo(playerPos);
 	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
+	int treshhold = player->WIDTH;
+	if (pos.getDistanceTo(playerPos) < treshhold) return;
 	velocity = velocity.normalized();
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 }
-
-

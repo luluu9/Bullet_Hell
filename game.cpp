@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <cstdlib>
 #include "game.h"
 #include "drawing.h"
 
@@ -61,11 +62,12 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	player = new Player(renderer, eti, &camera, keyboard);
 	entities.addEntity(player);
 	
-	//SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
-	//for (int i = 0; i < 15; i++) {
-	//	Enemy *enemy = new Enemy(renderer, chemiczny, &camera);
-	//	entities.addEntity(enemy);
-	//}
+	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
+	for (int i = 0; i < 15; i++) {
+		Chemiczny *enemy = new Chemiczny(renderer, chemiczny, &camera, player);
+		entities.addEntity(enemy);
+		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
+	}
 
 	SDL_Texture* acid = loadTextureFromBMP("./assets/acid.bmp");
 	Weapon* acidWeapon = new Weapon(renderer, acid, &camera, 0);
@@ -135,7 +137,7 @@ void Game::render() {
 	}
 	Vector2 bulletPos = entities.entities[1]->getPos();
 	Vector2 playerPos = player->getPos();
-	printf_s("(%f, %f): (%f, %f): angle: %f",playerPos.x, playerPos.y, bulletPos.x, bulletPos.y, playerPos.getAngleTo(bulletPos));
+	entities.entities[1]->setAngle(-playerPos.getAngleTo(bulletPos));
 	SDL_RenderPresent(renderer);
 }
 

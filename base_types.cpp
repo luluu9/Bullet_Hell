@@ -24,5 +24,9 @@ float Vector2::getLength() {
 }
 
 float Vector2::getAngleTo(Vector2 destVec) {
-	return atan2(y-destVec.y, destVec.x - x) * 180 / PI + 180;
+	return atan2(y-destVec.y,  x-destVec.x) * 180 / PI + 180;
+}
+
+float Vector2::getDistanceTo(Vector2 destVec) {
+	return sqrtf(pow(x - destVec.x, 2) + pow(y - destVec.y, 2));
 }

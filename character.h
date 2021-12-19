@@ -10,8 +10,6 @@
 
 class Player : public Entity {
 public:
-	int WIDTH = 40;
-	int HEIGHT = 40;
 	double ACCEL = 30;
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 500; //px per sec
@@ -30,17 +28,13 @@ private:
 };
 
 
-class Enemy : public Entity {
+class Chemiczny : public Enemy {
 public:
-	int WIDTH = 40;
-	int HEIGHT = 40;
-	double ACCEL = 30;
-	double SPEED = 50;
-	double ROT_SPEED = 2;
-	double MAX_SPEED = 500; //px per sec
-	
-	//Initializes the variablesA
-	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera);
+	Chemiczny(SDL_Renderer* _renderer, SDL_Texture* _texture, 
+		SDL_Rect* _camera, Player* player);
 
-	void update(double delta);
+	void Chemiczny::update(double delta);
+
+private:
+	Player* player;
 };

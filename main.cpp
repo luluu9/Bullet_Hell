@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 		
 		// limit framerate to MAX_FPS
 		float desired_delta = 1.0 / MAX_FPS;
-		// printf_s("%f, %f, %d\n", delta, desired_delta, delta < desired_delta);
+		//printf_s("%f, %f, %d\n", delta, desired_delta, delta < desired_delta);
 		if (delta < desired_delta) {
 			SDL_Delay((desired_delta-delta)*2000);
 		}
