@@ -10,7 +10,7 @@
 extern const int SCREEN_WIDTH = 1080;
 extern const int SCREEN_HEIGHT = 640;
 bool FULLSCREEN = false;
-
+const int MAX_FPS = 144;
 
 int main(int argc, char** argv) {
 	double frames, t1, t2, delta, worldTime, fpsTimer, fps;
@@ -37,11 +37,19 @@ int main(int argc, char** argv) {
 			frames = 0;
 			fpsTimer -= 0.5;
 		};
-		//printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
+		printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
 
 		game->handleEvents();
 		game->update(delta);
 		game->render();
+
+		
+		// limit framerate to MAX_FPS
+		float desired_delta = 1.0 / MAX_FPS;
+		printf_s("%f, %f, %d\n", delta, desired_delta, delta < desired_delta);
+		if (delta < desired_delta) {
+			SDL_Delay((desired_delta-delta)*2000);
+		}
 		
 		frames++;
 	};
