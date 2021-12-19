@@ -30,6 +30,48 @@ protected:
 };
 
 
+struct GameEntities {
+	unsigned int amount = 10;
+	unsigned int currentEntity = 0;
+	Entity** entities = new Entity * [amount];
+
+	void addEntity(Entity* entity) {
+		if (currentEntity >= amount) {
+			// resize array
+			amount *= 2;
+			Entity** extendedArray = new Entity * [amount];
+			for (int i = 0; i < currentEntity; i++)
+				extendedArray[i] = entities[i];
+			delete[] entities;
+			entities = extendedArray;
+		}
+		entities[currentEntity] = entity;
+		currentEntity++;
+	}
+
+	void removeEntity(Entity* entityToRemove) {
+		Entity* firstEncounteredEntity = nullptr;
+		unsigned int firstEncounteredEntityId = amount;
+		for (int i = amount - 1; i > 0; i--) {
+			if (entities[i] != nullptr) {
+				if (entities[i] == entityToRemove) {
+					entities[i]->~Entity(); // call destructor
+					entities[i] = nullptr;
+					if (firstEncounteredEntity) { // fill gap in array
+						entities[i] = firstEncounteredEntity;
+						entities[firstEncounteredEntityId] = nullptr;
+					}
+					break;
+				}
+				if (firstEncounteredEntity == nullptr) {
+					firstEncounteredEntity = entities[i];
+					firstEncounteredEntityId = i;
+				}
+			}
+		}
+	}
+};
+
 
 class Enemy : public Entity {
 public:
@@ -39,7 +81,11 @@ public:
 	double MAX_SPEED = 500; //px per sec
 
 	//Initializes the variablesA
-	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera);
+	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
+		  SDL_Rect* _camera, GameEntities* entities);
 
 	void update(double delta);
+
+protected:
+	GameEntities* entities;
 };

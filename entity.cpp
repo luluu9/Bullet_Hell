@@ -6,7 +6,8 @@
 #define PI 3.14159265
 
 
-Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera) {
+Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, 
+			   SDL_Rect* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	texture = _texture;
@@ -68,9 +69,11 @@ void Entity::setAngle(int _angle) {
 }
 
 
-Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera)
+Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
+			 SDL_Rect* _camera, GameEntities* _entities)
 	:Entity(_renderer, _texture, _camera) {
 	angle = rand() % 360;
+	entities = _entities;
 }
 
 void Enemy::update(double delta) {

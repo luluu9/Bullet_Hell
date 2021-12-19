@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include "game.h"
 #include "drawing.h"
+#include "entity.h"
 
 
 Game::Game() {
@@ -63,15 +64,12 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	entities.addEntity(player);
 	
 	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
+	SDL_Texture* acid = loadTextureFromBMP("./assets/acid.bmp");
 	for (int i = 0; i < 15; i++) {
-		Chemiczny *enemy = new Chemiczny(renderer, chemiczny, &camera, player);
+		Chemiczny *enemy = new Chemiczny(renderer, chemiczny, &camera, &entities, player, acid);
 		entities.addEntity(enemy);
 		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
 	}
-
-	SDL_Texture* acid = loadTextureFromBMP("./assets/acid.bmp");
-	Weapon* acidWeapon = new Weapon(renderer, acid, &camera, 0);
-	entities.addEntity(acidWeapon);
 }
 
 void Game::handleEvents() {
