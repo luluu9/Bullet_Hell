@@ -62,6 +62,8 @@ struct GameEntities {
 			Entity** extendedArray = new Entity * [amount];
 			for (int i = 0; i < currentEntity; i++)
 				extendedArray[i] = entities[i];
+			for (int i = currentEntity; i < amount; i++)
+				extendedArray[i] = nullptr;
 			delete[] entities;
 			entities = extendedArray;
 		}
@@ -76,6 +78,8 @@ struct GameEntities {
 			Entity** extendedArray = new Entity * [queueAmount];
 			for (int i = 0; i < currentQueueEntity; i++)
 				extendedArray[i] = removeQueue[i];
+			for (int i = currentQueueEntity; i < queueAmount; i++)
+				extendedArray[i] = nullptr;
 			delete[] removeQueue;
 			removeQueue = extendedArray;
 		}
