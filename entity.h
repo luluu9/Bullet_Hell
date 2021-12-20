@@ -35,15 +35,15 @@ struct GameEntities {
 	unsigned int currentEntity = 0;
 
 	GameEntities() {
-		for (int i = 0; i < amount; i++)
+		for (unsigned int i = 0; i < amount; i++)
 			entities[i] = nullptr;
-		for (int i = 0; i < queueAmount; i++)
+		for (unsigned int i = 0; i < queueAmount; i++)
 			removeQueue[i] = nullptr;
 	}
 
 	void removeQueuedEntities() {
 		// remove all entities queued to remove
-		for (int i = 0; i < currentQueueEntity; i++) {
+		for (unsigned int i = 0; i < currentQueueEntity; i++) {
 			removeEntity(removeQueue[i]);
 			removeQueue[i] = nullptr;
 		}
@@ -60,9 +60,9 @@ struct GameEntities {
 			// resize array
 			amount *= 2;
 			Entity** extendedArray = new Entity * [amount];
-			for (int i = 0; i < currentEntity; i++)
+			for (unsigned int i = 0; i < currentEntity; i++)
 				extendedArray[i] = entities[i];
-			for (int i = currentEntity; i < amount; i++)
+			for (unsigned int i = currentEntity; i < amount; i++)
 				extendedArray[i] = nullptr;
 			delete[] entities;
 			entities = extendedArray;
@@ -76,9 +76,9 @@ struct GameEntities {
 			// resize array
 			queueAmount *= 2;
 			Entity** extendedArray = new Entity * [queueAmount];
-			for (int i = 0; i < currentQueueEntity; i++)
+			for (unsigned int i = 0; i < currentQueueEntity; i++)
 				extendedArray[i] = removeQueue[i];
-			for (int i = currentQueueEntity; i < queueAmount; i++)
+			for (unsigned int i = currentQueueEntity; i < queueAmount; i++)
 				extendedArray[i] = nullptr;
 			delete[] removeQueue;
 			removeQueue = extendedArray;

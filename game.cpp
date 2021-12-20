@@ -39,7 +39,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	int rc = SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, flags, &window, &renderer);
 	if (rc != 0) {
 		SDL_Quit();
-		sprintf("SDL_CreateWindowAndRenderer error: %s\n", SDL_GetError());
+		sprintf_s("SDL_CreateWindowAndRenderer error: %s\n", 39*sizeof(char), SDL_GetError());
 		isRunning = false;
 		return;
 	};
@@ -86,7 +86,7 @@ void Game::handleEvents() {
 			break;
 		};
 		keyboard->handleEvent(event);
-		for (int i = 0; i < entities.currentEntity; i++) {
+		for (unsigned int i = 0; i < entities.currentEntity; i++) {
 			entities.getEntity(i)->handleEvent(event);
 		}
 	};
@@ -108,7 +108,7 @@ bool isColliding(Entity* a, Entity* b) {
 void Game::update(double delta) {
 	entities.removeQueuedEntities();
 	SDL_Event x;
-	for (int i = 0; i < entities.currentEntity; i++) {
+	for (unsigned int i = 0; i < entities.currentEntity; i++) {
 		Entity* currentEntity = entities.getEntity(i);
 		currentEntity->handleEvent(x);
 		currentEntity->update(delta);
@@ -117,7 +117,7 @@ void Game::update(double delta) {
 	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
 
 	player->colliding = false;
-	for (int i = 0; i < entities.currentEntity; i++) {
+	for (unsigned int i = 0; i < entities.currentEntity; i++) {
 		Entity* currentEntity = entities.getEntity(i);
 		if (currentEntity != player) {
 			if (isColliding(player, currentEntity)) {
@@ -132,7 +132,7 @@ void Game::render() {
 	DrawTexture(renderer, background, -camera.x, -camera.y);
 	DrawTexture(renderer, background, -camera.x + 1024, -camera.y);
 	DrawTexture(renderer, background, -camera.x + 1024 * 2, -camera.y);
-	for (int i = 0; i < entities.currentEntity; i++) {
+	for (unsigned int i = 0; i < entities.currentEntity; i++) {
 		Entity* currentEntity = entities.getEntity(i);
 		entities.getEntity(i)->render();
 	}

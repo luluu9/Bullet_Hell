@@ -9,7 +9,8 @@ bool FULLSCREEN = false;
 const int MAX_FPS = 144;
 
 int main(int argc, char** argv) {
-	double frames, t1, t2, delta, worldTime, fpsTimer, fps;
+	int delta;
+	double frames, t1, t2, worldTime, fpsTimer, fps, deltaDivided;
 
 	Game* game = new Game();
 	game->init("Bullet Hell", SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN);
@@ -23,11 +24,12 @@ int main(int argc, char** argv) {
 
 	while (game->running()) {
 		t2 = SDL_GetTicks();
-		delta = (double(t2) - t1) * 0.001;
+		delta = t2 - t1;
+		deltaDivided = (double(t2) - t1) * 0.001;
 		t1 = t2;
 
-		worldTime += delta;
-		fpsTimer += delta;
+		worldTime += deltaDivided;
+		fpsTimer += deltaDivided;
 		if (fpsTimer > 0.5) {
 			fps = frames * 2;
 			frames = 0;
@@ -36,15 +38,15 @@ int main(int argc, char** argv) {
 		// printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
 
 		game->handleEvents();
-		game->update(delta);
+		game->update(deltaDivided);
 		game->render();
 
 		
 		// limit framerate to MAX_FPS
-		float desired_delta = 1.0 / MAX_FPS;
+		int desired_delta = 1000 / MAX_FPS;
 		// printf_s("%f, %f, %d\n", delta, desired_delta, delta < desired_delta);
 		if (delta < desired_delta) {
-			SDL_Delay((desired_delta-delta)*1000);
+			SDL_Delay(desired_delta-delta);
 		}
 		
 		frames++;
