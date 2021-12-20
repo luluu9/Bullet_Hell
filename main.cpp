@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 			frames = 0;
 			fpsTimer -= 0.5;
 		};
-		printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
+		// printf_s("czas trwania = %.1lf s  %.0lf klatek / s\n", worldTime, fps);
 
 		game->handleEvents();
 		game->update(delta);
@@ -42,9 +42,9 @@ int main(int argc, char** argv) {
 		
 		// limit framerate to MAX_FPS
 		float desired_delta = 1.0 / MAX_FPS;
-		//printf_s("%f, %f, %d\n", delta, desired_delta, delta < desired_delta);
+		// printf_s("%f, %f, %d\n", delta, desired_delta, delta < desired_delta);
 		if (delta < desired_delta) {
-			SDL_Delay((desired_delta-delta)*2000);
+			SDL_Delay((desired_delta-delta)*1000);
 		}
 		
 		frames++;

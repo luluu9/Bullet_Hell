@@ -2,13 +2,14 @@
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "base_types.h"
-
+enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
 
 class Entity {
 public:
 	int WIDTH;
 	int HEIGHT;
 	bool colliding;
+	int entityType;
 
 	Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera);
 
@@ -31,9 +32,20 @@ protected:
 
 
 struct GameEntities {
-	unsigned int amount = 10;
 	unsigned int currentEntity = 0;
-	Entity** entities = new Entity * [amount];
+
+	void removeQueuedEntities() {
+		// remove all entities queued to remove
+		for (int i = 0; i < currentQueueEntity; i++) {
+			removeEntity(removeQueue[i]);
+		}
+		currentQueueEntity = 0;
+	}
+
+	Entity* getEntity(unsigned int entityId) {
+		if (entityId >= amount) return nullptr;
+		return entities[entityId];
+	}
 
 	void addEntity(Entity* entity) {
 		if (currentEntity >= amount) {
@@ -49,6 +61,28 @@ struct GameEntities {
 		currentEntity++;
 	}
 
+	void queueRemove(Entity* entityToRemove) {
+		if (currentQueueEntity >= queueAmount) {
+			// resize array
+			queueAmount *= 2;
+			Entity** extendedArray = new Entity * [amount];
+			for (int i = 0; i < currentQueueEntity; i++)
+				extendedArray[i] = removeQueue[i];
+			delete[] removeQueue;
+			removeQueue = extendedArray;
+		}
+		removeQueue[currentQueueEntity] = entityToRemove;
+		currentQueueEntity++;
+	}
+
+
+private:
+	unsigned int amount = 10;
+	unsigned int queueAmount = 10;
+	unsigned int currentQueueEntity = 0;
+	Entity** entities = new Entity * [amount];
+	Entity** removeQueue = new Entity * [amount];
+
 	void removeEntity(Entity* entityToRemove) {
 		Entity* firstEncounteredEntity = nullptr;
 		unsigned int firstEncounteredEntityId = amount;
@@ -61,6 +95,7 @@ struct GameEntities {
 						entities[i] = firstEncounteredEntity;
 						entities[firstEncounteredEntityId] = nullptr;
 					}
+					currentEntity--;
 					break;
 				}
 				if (firstEncounteredEntity == nullptr) {
@@ -73,6 +108,8 @@ struct GameEntities {
 };
 
 
+class Player; // forward declaration
+
 class Enemy : public Entity {
 public:
 	double ACCEL = 30;
@@ -82,10 +119,13 @@ public:
 
 	//Initializes the variablesA
 	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
-		  SDL_Rect* _camera, GameEntities* entities);
+		SDL_Rect* _camera, GameEntities* entities,
+		Player* _player, SDL_Texture* _weaponTexture);
 
 	void update(double delta);
 
 protected:
 	GameEntities* entities;
+	Player* player;
+	SDL_Texture* weaponTexture;
 };

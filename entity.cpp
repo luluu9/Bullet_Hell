@@ -14,6 +14,7 @@ Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture,
 	renderer = _renderer;
 	camera = _camera;
 	colliding = false;
+	entityType = UNKNOWN;
 	SDL_QueryTexture(texture, NULL, NULL, &WIDTH, &HEIGHT);
 }
 
@@ -70,10 +71,14 @@ void Entity::setAngle(int _angle) {
 
 
 Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
-			 SDL_Rect* _camera, GameEntities* _entities)
+			 SDL_Rect* _camera, GameEntities* _entities,
+			 Player* _player, SDL_Texture* _weaponTexture)
 	:Entity(_renderer, _texture, _camera) {
 	angle = rand() % 360;
 	entities = _entities;
+	entityType = ENEMY;
+	player = _player;
+	weaponTexture = _weaponTexture;
 }
 
 void Enemy::update(double delta) {

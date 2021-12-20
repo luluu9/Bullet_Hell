@@ -12,11 +12,14 @@ const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 640;
 
 
-Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera, KeyboardHandler* _keyboard)
-	: Entity{ _renderer, _texture, _camera }, keyboard{ _keyboard } {}
+Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
+	SDL_Rect* _camera, KeyboardHandler* _keyboard,
+	GameEntities* _entities)
+	: Entity{ _renderer, _texture, _camera }, keyboard{ _keyboard }, entities{ _entities } {
+	entityType = PLAYER;
+}
 
 void Player::handleEvent(SDL_Event& event) {
-	//printf("%d", keyboard->isPressed(SDLK_UP));
 	if (keyboard->isPressed(SDLK_UP)) speed += ACCEL;
 	if (keyboard->isPressed(SDLK_DOWN)) speed -= ACCEL;
 	if (keyboard->isPressed(SDLK_LEFT)) angle -= ROT_SPEED;
@@ -33,25 +36,19 @@ void Player::update(double delta) {
 	velocity = velocity.normalized();
 	pos.x += velocity.x * delta * speed;
 	pos.y += velocity.y * delta * speed;
-	// printf_s("%f, %f: %f\n", velocity.x, velocity.y, speed);
-	// print pos
-	// printf_s("%d, %d: %d, %d\n", getRect().x, getRect().y, getRect().w, getRect().h);
 }
 
 void Player::collide(Entity* collidingEntity) {
 	colliding = true;
-}
-
-void Player::collide(Weapon* collidingEntity) {
-	colliding = true;
+	if (collidingEntity->entityType == WEAPON) {
+		entities->queueRemove(collidingEntity);
+	}
 }
 
 
 Chemiczny::Chemiczny(SDL_Renderer* _renderer, SDL_Texture* _texture,
 	SDL_Rect* _camera, GameEntities* _entities, Player* _player, SDL_Texture* _acidTxt)
-	: Enemy{ _renderer, _texture, _camera, _entities },
-	player{ _player } { 
-	acidTexture = _acidTxt;
+	: Enemy{ _renderer, _texture, _camera, _entities, _player, _acidTxt } {
 	shootingTimer = rand() % shootingDelay;
 };
 
@@ -68,8 +65,8 @@ void Chemiczny::updatePosition(double delta) {
 }
 
 void Chemiczny::tryToShoot(double delta) {
-	if (shootingTimer <= 0){ 
-		Weapon* acidWeapon = new Weapon(renderer, acidTexture, camera, angle);
+	if (shootingTimer <= 0) {
+		Weapon* acidWeapon = new Weapon(renderer, weaponTexture, camera, angle);
 		acidWeapon->setPos(pos);
 		entities->addEntity(acidWeapon);
 		shootingTimer = shootingDelay;
@@ -77,7 +74,7 @@ void Chemiczny::tryToShoot(double delta) {
 	shootingTimer -= delta * 1000;
 }
 
-void Chemiczny::update (double delta) {
+void Chemiczny::update(double delta) {
 	updatePosition(delta);
 	tryToShoot(delta);
 }

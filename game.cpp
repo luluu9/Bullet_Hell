@@ -60,12 +60,12 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	camera.h = SCREEN_HEIGHT;
 	eti = loadTextureFromBMP("./assets/etispinner_small.bmp");
 	background = loadTextureFromBMP("./assets/sky.bmp");
-	player = new Player(renderer, eti, &camera, keyboard);
+	player = new Player(renderer, eti, &camera, keyboard, &entities);
 	entities.addEntity(player);
 	
 	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
 	SDL_Texture* acid = loadTextureFromBMP("./assets/acid.bmp");
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < 1; i++) {
 		Chemiczny *enemy = new Chemiczny(renderer, chemiczny, &camera, &entities, player, acid);
 		entities.addEntity(enemy);
 		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
@@ -87,7 +87,7 @@ void Game::handleEvents() {
 		};
 		keyboard->handleEvent(event);
 		for (int i = 0; i < entities.currentEntity; i++) {
-			entities.entities[i]->handleEvent(event);
+			entities.getEntity(i)->handleEvent(event);
 		}
 	};
 }
@@ -106,21 +106,23 @@ bool isColliding(Entity* a, Entity* b) {
 }
 
 void Game::update(double delta) {
+	entities.removeQueuedEntities();
 	SDL_Event x;
 	for (int i = 0; i < entities.currentEntity; i++) {
-		entities.entities[i]->handleEvent(x);
-		entities.entities[i]->update(delta);
+		Entity* currentEntity = entities.getEntity(i);
+		currentEntity->handleEvent(x);
+		currentEntity->update(delta);
 	}
 	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
 	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
 
 	player->colliding = false;
 	for (int i = 0; i < entities.currentEntity; i++) {
-		if (entities.entities[i] != player) {
-			if (isColliding(player, entities.entities[i])) {
-				player->collide(entities.entities[i]);
-			}
-				
+		Entity* currentEntity = entities.getEntity(i);
+		if (currentEntity != player) {
+			if (isColliding(player, currentEntity)) {
+				player->collide(currentEntity);
+			}	
 		}
 	}
 }
@@ -131,11 +133,13 @@ void Game::render() {
 	DrawTexture(renderer, background, -camera.x + 1024, -camera.y);
 	DrawTexture(renderer, background, -camera.x + 1024 * 2, -camera.y);
 	for (int i = 0; i < entities.currentEntity; i++) {
-		entities.entities[i]->render();
+		Entity* currentEntity = entities.getEntity(i);
+		entities.getEntity(i)->render();
 	}
-	Vector2 bulletPos = entities.entities[1]->getPos();
+	Entity* playerEntity = entities.getEntity(1);
+	Vector2 bulletPos = playerEntity->getPos();
 	Vector2 playerPos = player->getPos();
-	entities.entities[1]->setAngle(-playerPos.getAngleTo(bulletPos));
+	playerEntity->setAngle(-playerPos.getAngleTo(bulletPos));
 	SDL_RenderPresent(renderer);
 }
 

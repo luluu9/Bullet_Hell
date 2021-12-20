@@ -17,15 +17,17 @@ public:
 
 	//Initializes the variablesA
 	Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
-		   SDL_Rect* _camera, KeyboardHandler* _keyboard);
+		   SDL_Rect* _camera, KeyboardHandler* _keyboard,
+		   GameEntities* _entities);
 
 	void handleEvent(SDL_Event& event);
 	void update(double delta);
 	void collide(Entity* collidingEntity);
-	void collide(Weapon* collidingEntity);
+	
 
 private:
 	KeyboardHandler* keyboard;
+	GameEntities* entities;
 };
 
 
@@ -40,9 +42,7 @@ public:
 	void Chemiczny::update(double delta);
 
 private:
-	int shootingThreshold = 400;
+	int shootingThreshold = 600; // px
 	int shootingDelay = 1500; // in msec
 	int shootingTimer = shootingDelay;
-	Player* player;
-	SDL_Texture* acidTexture;
 };
