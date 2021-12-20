@@ -34,10 +34,18 @@ protected:
 struct GameEntities {
 	unsigned int currentEntity = 0;
 
+	GameEntities() {
+		for (int i = 0; i < amount; i++)
+			entities[i] = nullptr;
+		for (int i = 0; i < queueAmount; i++)
+			removeQueue[i] = nullptr;
+	}
+
 	void removeQueuedEntities() {
 		// remove all entities queued to remove
 		for (int i = 0; i < currentQueueEntity; i++) {
 			removeEntity(removeQueue[i]);
+			removeQueue[i] = nullptr;
 		}
 		currentQueueEntity = 0;
 	}
@@ -65,7 +73,7 @@ struct GameEntities {
 		if (currentQueueEntity >= queueAmount) {
 			// resize array
 			queueAmount *= 2;
-			Entity** extendedArray = new Entity * [amount];
+			Entity** extendedArray = new Entity * [queueAmount];
 			for (int i = 0; i < currentQueueEntity; i++)
 				extendedArray[i] = removeQueue[i];
 			delete[] removeQueue;
@@ -86,12 +94,12 @@ private:
 	void removeEntity(Entity* entityToRemove) {
 		Entity* firstEncounteredEntity = nullptr;
 		unsigned int firstEncounteredEntityId = amount;
-		for (int i = amount - 1; i > 0; i--) {
+		for (int i = amount - 1; i >= 0; i--) {
 			if (entities[i] != nullptr) {
 				if (entities[i] == entityToRemove) {
 					entities[i]->~Entity(); // call destructor
 					entities[i] = nullptr;
-					if (firstEncounteredEntity) { // fill gap in array
+					if (firstEncounteredEntity != nullptr) { // fill gap in array
 						entities[i] = firstEncounteredEntity;
 						entities[firstEncounteredEntityId] = nullptr;
 					}
