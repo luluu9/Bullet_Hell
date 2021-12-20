@@ -8,6 +8,7 @@
 // draw a text txt on surface screen, starting from the point (x, y)
 // charset is a 128x128 bitmap containing character images
 void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset) {
+	SDL_FillRect(screen, NULL, 0x000000);
 	int px, py, c;
 	SDL_Rect s, d;
 	s.w = 8;
@@ -26,20 +27,6 @@ void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface
 		x += 8;
 		text++;
 	};
-};
-
-
-// narysowanie na ekranie screen powierzchni sprite w punkcie (x, y)
-// (x, y) to punkt úrodka obrazka sprite na ekranie
-// draw a surface sprite on a surface screen in point (x, y)
-// (x, y) is the center of sprite on screen
-void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y) {
-	SDL_Rect dest;
-	dest.x = x - sprite->w / 2;
-	dest.y = y - sprite->h / 2;
-	dest.w = sprite->w;
-	dest.h = sprite->h;
-	SDL_BlitSurface(sprite, NULL, screen, &dest);
 };
 
 
@@ -64,27 +51,6 @@ void DrawTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y, 
 	dest.w = width;
 	dest.h = height;
 	SDL_RenderCopyEx(renderer, tex, NULL, &dest, angle, NULL, SDL_FLIP_NONE);
-};
-
-
-// rysowanie pojedynczego pixela
-// draw a single pixel
-void DrawPixel(SDL_Surface* surface, int x, int y, Uint32 color) {
-	int bpp = surface->format->BytesPerPixel;
-	Uint8* p = (Uint8*)surface->pixels + y * surface->pitch + x * bpp;
-	*(Uint32*)p = color;
-};
-
-
-// rysowanie linii o d≥ugoúci l w pionie (gdy dx = 0, dy = 1) 
-// bπdü poziomie (gdy dx = 1, dy = 0)
-// draw a vertical (when dx = 0, dy = 1) or horizontal (when dx = 1, dy = 0) line
-void DrawLine(SDL_Surface* screen, int x, int y, int l, int dx, int dy, Uint32 color) {
-	for (int i = 0; i < l; i++) {
-		DrawPixel(screen, x, y, color);
-		x += dx;
-		y += dy;
-	};
 };
 
 

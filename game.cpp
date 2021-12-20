@@ -3,6 +3,7 @@
 #include "game.h"
 #include "drawing.h"
 #include "entity.h"
+#include "string.h"
 
 
 Game::Game() {
@@ -11,7 +12,9 @@ Game::Game() {
 	renderer = nullptr;
 	SCREEN_WIDTH = 0;
 	SCREEN_HEIGHT = 0;
-	eti = nullptr;
+	textTexture = nullptr;
+	textSurface = nullptr;
+	charset = nullptr;
 	keyboard = nullptr;
 	background = nullptr;
 	player = nullptr;
@@ -44,6 +47,15 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 		return;
 	};
 
+	textSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32,
+		0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+
+	textTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+		SDL_TEXTUREACCESS_STREAMING,
+		SCREEN_WIDTH, SCREEN_HEIGHT);
+	SDL_SetTextureBlendMode(textTexture, SDL_BLENDMODE_BLEND);
+
+
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -58,7 +70,10 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	camera.y = 0;
 	camera.w = SCREEN_WIDTH;
 	camera.h = SCREEN_HEIGHT;
-	eti = loadTextureFromBMP("./assets/etispinner_small.bmp");
+
+	SDL_Texture* eti = loadTextureFromBMP("./assets/etispinner_small.bmp");
+	charset = SDL_LoadBMP("./cs8x8.bmp");
+	SDL_SetColorKey(charset, true, 0xFF000000);
 	background = loadTextureFromBMP("./assets/sky.bmp");
 	player = new Player(renderer, eti, &camera, keyboard, &entities);
 	entities.addEntity(player);
@@ -105,7 +120,7 @@ bool isColliding(Entity* a, Entity* b) {
 	return false;
 }
 
-void Game::update(double delta) {
+void Game::update(double delta, double worldTime) {
 	entities.removeQueuedEntities();
 	SDL_Event x;
 	for (unsigned int i = 0; i < entities.currentEntity; i++) {
@@ -125,6 +140,9 @@ void Game::update(double delta) {
 			}	
 		}
 	}
+
+	sprintf_s(text, "% .1lf s ", worldTime);
+	DrawString(textSurface, SCREEN_WIDTH / 2 , 10, text, charset);
 }
 
 void Game::render() {
@@ -132,14 +150,10 @@ void Game::render() {
 	DrawTexture(renderer, background, -camera.x, -camera.y);
 	DrawTexture(renderer, background, -camera.x + 1024, -camera.y);
 	DrawTexture(renderer, background, -camera.x + 1024 * 2, -camera.y);
-	for (unsigned int i = 0; i < entities.currentEntity; i++) {
-		Entity* currentEntity = entities.getEntity(i);
+	for (unsigned int i = 0; i < entities.currentEntity; i++)
 		entities.getEntity(i)->render();
-	}
-	Entity* playerEntity = entities.getEntity(1);
-	Vector2 bulletPos = playerEntity->getPos();
-	Vector2 playerPos = player->getPos();
-	playerEntity->setAngle(-playerPos.getAngleTo(bulletPos));
+	SDL_UpdateTexture(textTexture, NULL, textSurface->pixels, textSurface->pitch);
+	SDL_RenderCopy(renderer, textTexture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 

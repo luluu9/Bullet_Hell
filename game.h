@@ -14,7 +14,7 @@ public:
 	void init(const char* title, int width, int height, bool fullscreen);
 	
 	void handleEvents();
-	void update(double delta);
+	void update(double delta, double worldTime);
 	void render();
 	void clean();
 
@@ -29,8 +29,12 @@ private:
 	SDL_Renderer* renderer;
 	int SCREEN_WIDTH;
 	int SCREEN_HEIGHT;
-	
-	SDL_Texture* eti;
+
+	SDL_Texture* textTexture;
+	SDL_Surface* textSurface;
+	SDL_Surface* charset;
+	char text[128];
+
 	SDL_Texture* background;
 	GameEntities entities;
 	Player* player;
