@@ -133,7 +133,7 @@ void Game::update(double delta, double worldTime) {
 
 	player->colliding = false;
 	for (unsigned int i = 0; i < entities.currentEntity; i++) {
-		Entity* currentEntity = entities.getEntity(i);
+		Entity* currentEntity = entities.getEntity(i);	
 		if (currentEntity != player) {
 			if (isColliding(player, currentEntity)) {
 				player->collide(currentEntity);

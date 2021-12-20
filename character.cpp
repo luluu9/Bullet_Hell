@@ -36,13 +36,37 @@ void Player::update(double delta) {
 	velocity = velocity.normalized();
 	pos.x += velocity.x * delta * speed;
 	pos.y += velocity.y * delta * speed;
+	
+	if (invincible) {
+		
+		invincibleTimer += delta * 1000;
+		if (invincibleTimer >= invincibleTime) {
+			stopInvincibility();
+		}
+	}
 }
 
 void Player::collide(Entity* collidingEntity) {
 	colliding = true;
 	if (collidingEntity->entityType == WEAPON) {
-		entities->queueRemove(collidingEntity);
+		Weapon* weapon = dynamic_cast<Weapon*>(collidingEntity);
+		if (!invincible) {
+			healthPoints -= weapon->DAMAGE;
+			startInvincibility();
+		}
+		entities->queueRemove(weapon);	
 	}
+}
+
+void Player::startInvincibility() {
+	invincibleTimer = 0;
+	invincible = true;
+	SDL_SetTextureColorMod(texture, 255, 103, 129);
+}
+
+void Player::stopInvincibility() {
+	invincible = false;
+	SDL_SetTextureColorMod(texture, 255, 255, 255);
 }
 
 

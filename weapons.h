@@ -7,6 +7,7 @@ public:
 	int HEIGHT = 40;
 	double ACCEL = 30;
 	double SPEED = 300;
+	int DAMAGE = 10;
 
 	Weapon(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera, int _angle);
 	void update(double delta);
