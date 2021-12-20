@@ -30,3 +30,7 @@ float Vector2::getAngleTo(Vector2 destVec) {
 float Vector2::getDistanceTo(Vector2 destVec) {
 	return sqrtf(pow(x - destVec.x, 2) + pow(y - destVec.y, 2));
 }
+
+
+Color::Color(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a)
+	: r{ _r }, g{ _g }, b{ _b }, a{ _a } { };

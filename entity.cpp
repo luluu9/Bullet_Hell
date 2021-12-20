@@ -31,13 +31,10 @@ void Entity::render() {
 	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle);
 	if (DRAW_COLLISION_BOX) {
 		SDL_Rect rect = getGlobalRect();
-		uint8_t r, g, b, a;
-		SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
 		if (colliding)
-			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0); // change drawing color to red
-		SDL_RenderDrawRect(renderer, &rect);
-		SDL_SetRenderDrawColor(renderer, r, g, b, a); // return to original color
-
+			drawRectangle(renderer, &rect, Color(255, 0, 0, 0));
+		else
+			drawRectangle(renderer, &rect, Color(0, 0, 0, 0));
 	}
 }
 

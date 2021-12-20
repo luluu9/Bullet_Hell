@@ -1,5 +1,7 @@
-#include"./SDL2-2.0.10/include/SDL.h"
-#include"./SDL2-2.0.10/include/SDL_main.h"
+#include "./SDL2-2.0.10/include/SDL.h"
+#include "./SDL2-2.0.10/include/SDL_main.h"
+#include "base_types.h"
+
 
 // narysowanie napisu txt na powierzchni screen, zaczynaj¹c od punktu (x, y)
 // charset to bitmapa 128x128 zawieraj¹ca znaki
@@ -86,15 +88,13 @@ void DrawLine(SDL_Surface* screen, int x, int y, int l, int dx, int dy, Uint32 c
 };
 
 
-// rysowanie prostok¹ta o d³ugoœci boków l i k
-// draw a rectangle of size l by k
-void DrawRectangle(SDL_Surface* screen, int x, int y, int l, int k,
-	Uint32 outlineColor, Uint32 fillColor) {
-	int i;
-	DrawLine(screen, x, y, k, 0, 1, outlineColor);
-	DrawLine(screen, x + l - 1, y, k, 0, 1, outlineColor);
-	DrawLine(screen, x, y, l, 1, 0, outlineColor);
-	DrawLine(screen, x, y + k - 1, l, 1, 0, outlineColor);
-	for (i = y + 1; i < y + k - 1; i++)
-		DrawLine(screen, x + 1, i, l - 2, 1, 0, fillColor);
-};
+void drawRectangle(SDL_Renderer* renderer, SDL_Rect* rect, Color outlineColor, Color fillColor=Color()) {
+	uint8_t r, g, b, a; // original colors
+	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+	SDL_SetRenderDrawColor(renderer, fillColor.r, fillColor.g, fillColor.b, fillColor.a);
+	if (fillColor) 
+		SDL_RenderFillRect(renderer, rect);
+	SDL_SetRenderDrawColor(renderer, outlineColor.r, outlineColor.g, outlineColor.b, outlineColor.a);
+	SDL_RenderDrawRect(renderer, rect);
+	SDL_SetRenderDrawColor(renderer, r, g, b, a); // return to original color
+}

@@ -8,5 +8,4 @@ void DrawTexture(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y);
 void DrawTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y, double angle);
 void DrawPixel(SDL_Surface* surface, int x, int y, Uint32 color);
 void DrawLine(SDL_Surface* screen, int x, int y, int l, int dx, int dy, Uint32 color);
-void DrawRectangle(SDL_Surface* screen, int x, int y, int l, int k,
-	Uint32 outlineColor, Uint32 fillColor);
+void drawRectangle(SDL_Renderer* renderer, SDL_Rect* rect, Color outlineColor, Color fillColor=Color());
