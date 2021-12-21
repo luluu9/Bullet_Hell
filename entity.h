@@ -15,7 +15,7 @@ public:
 
 	virtual void handleEvent(SDL_Event& event);
 	virtual void update(double delta);
-	void render();
+	virtual void render();
 	Vector2 getPos();
 	void setPos(Vector2 newPos);
 	SDL_Rect getRect();
@@ -142,4 +142,24 @@ protected:
 	Player* player;
 	SDL_Texture* weaponTexture;
 	float healthPoints = 100;
+};
+
+
+class Spark : public Entity {
+public:
+	Spark(SDL_Renderer* _renderer, SDL_Texture* _texture,
+		SDL_Rect* _camera, GameEntities* entities, Vector2 startPos);
+	void update(double delta);
+	void render();
+
+private:
+	GameEntities* entities;
+	int MAX_SPEED = 500;
+	int MIN_SPEED = 200;
+	int MAX_ANGLE = 360;
+	int MAX_RAND_POS = 30;
+	float SCALE_DECREASE = 0.02;
+	double speed;
+	float scale;
+	
 };

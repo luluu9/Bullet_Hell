@@ -12,14 +12,14 @@ class Player : public Entity {
 public:
 	double ACCEL = 30;
 	double ROT_SPEED = 2;
-	double MAX_SPEED = 500; //px per sec
+	double MAX_SPEED = 1000; //px per sec
 	int ATTACK_ROT_MULTIPLIER = 10;
 
 
 	//Initializes the variablesA
 	Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
 		   SDL_Rect* _camera, KeyboardHandler* _keyboard,
-		   GameEntities* _entities);
+		   GameEntities* _entities, SDL_Texture* _collisionTexture);
 
 	void handleEvent(SDL_Event& event);
 	void update(double delta);
@@ -30,6 +30,7 @@ public:
 private:
 	KeyboardHandler* keyboard;
 	GameEntities* entities;
+	SDL_Texture* collisionTexture;
 	float invincibleTimer = 0;
 	int invincibleTime = 2500; //msec
 	bool invincible = false;

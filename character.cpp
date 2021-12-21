@@ -14,8 +14,10 @@ const int SCREEN_HEIGHT = 640;
 
 Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
 	SDL_Rect* _camera, KeyboardHandler* _keyboard,
-	GameEntities* _entities)
-	: Entity{ _renderer, _texture, _camera }, keyboard{ _keyboard }, entities{ _entities } {
+	GameEntities* _entities, SDL_Texture* _collisionTexture)
+	: Entity{ _renderer, _texture, _camera }, 
+	keyboard{ _keyboard }, entities{ _entities },
+	collisionTexture{ _collisionTexture } {
 	entityType = PLAYER;
 }
 
@@ -66,6 +68,8 @@ void Player::collide(Entity* collidingEntity, double delta) {
 		Enemy* enemy = dynamic_cast<Enemy*>(collidingEntity);
 		if (attacking) {
 			enemy->hit(damage*delta);
+			Spark* spark = new Spark(renderer, collisionTexture, camera, entities, enemy->getPos());
+			entities->addEntity(spark);
 		}
 	}
 }

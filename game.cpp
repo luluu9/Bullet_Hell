@@ -71,19 +71,22 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	camera.w = SCREEN_WIDTH;
 	camera.h = SCREEN_HEIGHT;
 
-	SDL_Texture* eti = loadTextureFromBMP("./assets/etispinner_small.bmp");
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	SDL_SetColorKey(charset, true, 0xFF000000);
-	background = loadTextureFromBMP("./assets/sky.bmp");
-	player = new Player(renderer, eti, &camera, keyboard, &entities);
+
+	SDL_Texture* eti = loadTextureFromBMP("./assets/etispinner_small.bmp");
+	SDL_Texture* spark = loadTextureFromBMP("./assets/spark.bmp");
+	player = new Player(renderer, eti, &camera, keyboard, &entities, spark);
 	entities.addEntity(player);
-	
+
+	background = loadTextureFromBMP("./assets/sky.bmp");
+
 	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
 	SDL_Texture* acid = loadTextureFromBMP("./assets/acid.bmp");
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 30; i++) {
 		Chemiczny *enemy = new Chemiczny(renderer, chemiczny, &camera, &entities, player, acid);
 		entities.addEntity(enemy);
-		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
+		enemy->setPos(Vector2(rand() % SCREEN_WIDTH*2, rand() % SCREEN_HEIGHT*2));
 	}
 }
 
@@ -147,9 +150,10 @@ void Game::update(double delta, double worldTime) {
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-	DrawTexture(renderer, background, -camera.x, -camera.y);
-	DrawTexture(renderer, background, -camera.x + 1024, -camera.y);
-	DrawTexture(renderer, background, -camera.x + 1024 * 2, -camera.y);
+	for (int i = -3; i < 3; i++) {
+		DrawTexture(renderer, background, -camera.x + i*1024, -camera.y);
+	}
+	
 	for (unsigned int i = 0; i < entities.currentEntity; i++)
 		entities.getEntity(i)->render();
 	SDL_UpdateTexture(textTexture, NULL, textSurface->pixels, textSurface->pitch);

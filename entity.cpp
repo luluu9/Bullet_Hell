@@ -6,8 +6,8 @@
 #define PI 3.14159265
 
 
-Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, 
-			   SDL_Rect* _camera) {
+Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture,
+	SDL_Rect* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	texture = _texture;
@@ -68,8 +68,8 @@ void Entity::setAngle(int _angle) {
 
 
 Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
-			 SDL_Rect* _camera, GameEntities* _entities,
-			 Player* _player, SDL_Texture* _weaponTexture)
+	SDL_Rect* _camera, GameEntities* _entities,
+	Player* _player, SDL_Texture* _weaponTexture)
 	:Entity(_renderer, _texture, _camera) {
 	angle = rand() % 360;
 	entities = _entities;
@@ -81,7 +81,6 @@ Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
 void Enemy::update(double delta) {
 }
 
-#include <stdio.h>
 void Enemy::hit(float damage) {
 	healthPoints -= damage;
 	if (healthPoints <= 0)
@@ -89,3 +88,28 @@ void Enemy::hit(float damage) {
 }
 
 
+Spark::Spark(SDL_Renderer* _renderer, SDL_Texture* _texture,
+	SDL_Rect* _camera, GameEntities* _entities, Vector2 startPos)
+	:Entity(_renderer, _texture, _camera) {
+	pos = startPos;
+	pos.x += -MAX_RAND_POS + rand() % (MAX_RAND_POS * 2);
+	pos.y += -MAX_RAND_POS + rand() % (MAX_RAND_POS * 2);
+	entities = _entities;
+	speed = MIN_SPEED + rand() % (MAX_SPEED - MIN_SPEED);
+	angle = rand() % MAX_ANGLE;
+	scale = (float)rand() / (float)RAND_MAX;
+}
+
+void Spark::update(double delta) {
+	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
+	velocity = velocity.normalized();
+	pos.x += velocity.x * delta * speed;
+	pos.y += velocity.y * delta * speed;
+	scale -= SCALE_DECREASE;
+	if (scale <= 0)
+		entities->queueRemove(this);
+}
+
+void Spark::render() {
+	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
+}

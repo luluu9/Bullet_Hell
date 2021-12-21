@@ -42,14 +42,14 @@ void DrawTexture(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y) {
 };
 
 
-void DrawTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y, double angle = 0.0) {
+void DrawTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y, double angle = 0.0, float scale=1.0) {
 	SDL_Rect dest;
 	int width, height;
 	SDL_QueryTexture(tex, NULL, NULL, &width, &height);
-	dest.x = x - width / 2;
-	dest.y = y - height / 2;
-	dest.w = width;
-	dest.h = height;
+	dest.x = x - width*scale / 2;
+	dest.y = y - height*scale / 2;
+	dest.w = width*scale;
+	dest.h = height*scale;
 	SDL_RenderCopyEx(renderer, tex, NULL, &dest, angle, NULL, SDL_FLIP_NONE);
 };
 
