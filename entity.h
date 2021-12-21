@@ -135,9 +135,11 @@ public:
 		Player* _player, SDL_Texture* _weaponTexture);
 
 	void update(double delta);
+	void hit(float damage);
 
 protected:
 	GameEntities* entities;
 	Player* player;
 	SDL_Texture* weaponTexture;
+	float healthPoints = 100;
 };

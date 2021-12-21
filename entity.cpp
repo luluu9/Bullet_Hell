@@ -81,4 +81,11 @@ Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
 void Enemy::update(double delta) {
 }
 
+#include <stdio.h>
+void Enemy::hit(float damage) {
+	healthPoints -= damage;
+	if (healthPoints <= 0)
+		entities->queueRemove(this);
+}
+
 

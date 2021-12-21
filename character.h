@@ -14,7 +14,7 @@ public:
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 500; //px per sec
 	int ATTACK_ROT_MULTIPLIER = 10;
-	int healthPoints = 100;
+
 
 	//Initializes the variablesA
 	Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
@@ -23,7 +23,7 @@ public:
 
 	void handleEvent(SDL_Event& event);
 	void update(double delta);
-	void collide(Entity* collidingEntity);
+	void collide(Entity* collidingEntity, double delta);
 	void startInvincibility();
 	void stopInvincibility();
 
@@ -33,6 +33,9 @@ private:
 	float invincibleTimer = 0;
 	int invincibleTime = 2500; //msec
 	bool invincible = false;
+	bool attacking = false;
+	float healthPoints = 100;
+	float damage = 100; // dmg per second
 
 };
 

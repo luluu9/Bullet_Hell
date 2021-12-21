@@ -24,7 +24,13 @@ void Player::handleEvent(SDL_Event& event) {
 	if (keyboard->isPressed(SDLK_DOWN)) speed -= ACCEL;
 	if (keyboard->isPressed(SDLK_LEFT)) angle -= ROT_SPEED;
 	if (keyboard->isPressed(SDLK_RIGHT)) angle += ROT_SPEED;
-	if (keyboard->isPressed(SDLK_SPACE)) angle += ROT_SPEED * ATTACK_ROT_MULTIPLIER;
+	if (keyboard->isPressed(SDLK_SPACE)) {
+		angle += ROT_SPEED * ATTACK_ROT_MULTIPLIER;
+		attacking = true;
+	}
+	else {
+		attacking = false;
+	}
 	if (speed > MAX_SPEED)
 		speed = MAX_SPEED;
 	else if (speed < 0)
@@ -46,7 +52,7 @@ void Player::update(double delta) {
 	}
 }
 
-void Player::collide(Entity* collidingEntity) {
+void Player::collide(Entity* collidingEntity, double delta) {
 	colliding = true;
 	if (collidingEntity->entityType == WEAPON) {
 		Weapon* weapon = dynamic_cast<Weapon*>(collidingEntity);
@@ -55,6 +61,12 @@ void Player::collide(Entity* collidingEntity) {
 			startInvincibility();
 		}
 		entities->queueRemove(weapon);	
+	}
+	else if (collidingEntity->entityType == ENEMY) {
+		Enemy* enemy = dynamic_cast<Enemy*>(collidingEntity);
+		if (attacking) {
+			enemy->hit(damage*delta);
+		}
 	}
 }
 
