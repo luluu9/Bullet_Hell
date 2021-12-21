@@ -105,7 +105,7 @@ void Chemiczny::updatePosition(double delta) {
 }
 
 void Chemiczny::tryToShoot(double delta) {
-	if (shootingTimer <= 0) {
+	if (shootingTimer <= 0 && pos.getDistanceTo(player->getPos()) <= shootingThreshold) {
 		Weapon* acidWeapon = new Weapon(renderer, weaponTexture, camera, angle);
 		acidWeapon->setPos(pos);
 		entities->addEntity(acidWeapon);
