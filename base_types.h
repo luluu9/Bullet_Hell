@@ -26,3 +26,16 @@ struct Color {
 	
 	operator bool() { return r || g || b; }
 };
+
+
+struct Timer {
+	double elapsedTime;
+	double time;
+	bool started;
+
+	Timer(double _time);
+	void start();
+	void end();
+	bool update(double delta);
+
+};

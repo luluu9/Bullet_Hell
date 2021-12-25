@@ -13,6 +13,7 @@ public:
 	double ACCEL = 30;
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 700; //px per sec
+	int INVINCIBLE_TIME = 2500;
 	int ATTACK_ROT_MULTIPLIER = 10;
 
 
@@ -31,8 +32,7 @@ private:
 	KeyboardHandler* keyboard;
 	GameEntities* entities;
 	SDL_Texture* collisionTexture;
-	float invincibleTimer = 0;
-	int invincibleTime = 2500; //msec
+	Timer* invincibleTimer;
 	bool invincible = false;
 	bool attacking = false;
 	float damage = 100; // dmg per second

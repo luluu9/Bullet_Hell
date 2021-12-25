@@ -19,6 +19,7 @@ Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
 	keyboard{ _keyboard }, entities{ _entities },
 	collisionTexture{ _collisionTexture } {
 	entityType = PLAYER;
+	invincibleTimer = new Timer(INVINCIBLE_TIME);
 }
 
 void Player::handleEvent(SDL_Event& event) {
@@ -46,9 +47,7 @@ void Player::update(double delta) {
 	pos.y += velocity.y * delta * speed;
 	
 	if (invincible) {
-		
-		invincibleTimer += delta * 1000;
-		if (invincibleTimer >= invincibleTime) {
+		if (invincibleTimer->update(delta)) {
 			stopInvincibility();
 		}
 	}
@@ -69,7 +68,6 @@ void Player::collide(Entity* collidingEntity, double delta) {
 			}
 			entities->queueRemove(weapon);
 		}
-		
 	}
 	else if (collidingEntity->entityType == ENEMY) {
 		Enemy* enemy = dynamic_cast<Enemy*>(collidingEntity);
@@ -82,7 +80,7 @@ void Player::collide(Entity* collidingEntity, double delta) {
 }
 
 void Player::startInvincibility() {
-	invincibleTimer = 0;
+	invincibleTimer->start();
 	invincible = true;
 	SDL_SetTextureColorMod(texture, 255, 103, 129);
 }

@@ -37,3 +37,29 @@ Color::Color(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a)
 
 Color::Color(uint8_t _r, uint8_t _g, uint8_t _b)
 	: r{ _r }, g{ _g }, b{ _b }, a{ 0 } { };
+
+
+Timer::Timer(double _time) {
+	time = _time;
+}
+
+void Timer::start() {
+	elapsedTime = 0;
+	started = true;
+}
+
+void Timer::end() {
+	started = false;
+}
+
+// returns true on end
+bool Timer::update(double delta) {
+	if (started) {
+		elapsedTime += delta*1000;
+		if (elapsedTime >= time) {
+			end();
+			return true;
+		}
+	}
+	return false;
+}
