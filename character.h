@@ -8,7 +8,7 @@
 #include "character.h"
 
 
-class Player : public Entity {
+class Player : public DestroyableEntity {
 public:
 	double ACCEL = 30;
 	double ROT_SPEED = 2;
@@ -35,7 +35,6 @@ private:
 	int invincibleTime = 2500; //msec
 	bool invincible = false;
 	bool attacking = false;
-	float healthPoints = 100;
 	float damage = 100; // dmg per second
 
 };

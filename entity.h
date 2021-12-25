@@ -4,6 +4,10 @@
 #include "base_types.h"
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
 
+
+class GameEntities; // forward declaration
+class Player; // forward declaration
+
 class Entity {
 public:
 	int WIDTH;
@@ -18,6 +22,7 @@ public:
 	virtual void render();
 	Vector2 getPos();
 	void setPos(Vector2 newPos);
+	Vector2 getGlobalPos();
 	SDL_Rect getRect();
 	SDL_Rect getGlobalRect();
 	void setAngle(int angle);
@@ -29,6 +34,62 @@ protected:
 	SDL_Texture* texture;
 	SDL_Rect* camera;
 };
+
+
+class DestroyableEntity : public Entity {
+public:
+	DestroyableEntity(SDL_Renderer* _renderer, SDL_Texture* _texture,
+		SDL_Rect* _camera);
+	void render();
+	void drawHPBar();
+protected:
+	float MAX_HP = 100;
+	float healthPoints = MAX_HP;
+};
+
+
+class Enemy : public DestroyableEntity {
+public:
+	double ACCEL = 30;
+	double SPEED = 50;
+	double ROT_SPEED = 2;
+	double MAX_SPEED = 500; //px per sec
+
+	//Initializes the variablesA
+	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
+		SDL_Rect* _camera, GameEntities* entities,
+		Player* _player, SDL_Texture* _weaponTexture);
+
+	void hit(float damage);
+
+protected:
+	GameEntities* entities;
+	Player* player;
+	SDL_Texture* weaponTexture;
+};
+
+
+
+
+class Spark : public Entity {
+public:
+	Spark(SDL_Renderer* _renderer, SDL_Texture* _texture,
+		SDL_Rect* _camera, GameEntities* entities, Vector2 startPos);
+	void update(double delta);
+	void render();
+
+private:
+	GameEntities* entities;
+	int MAX_SPEED = 500;
+	int MIN_SPEED = 200;
+	int MAX_ANGLE = 360;
+	int MAX_RAND_POS = 30;
+	float SCALE_DECREASE = 0.02;
+	double speed;
+	float scale;
+	
+};
+
 
 
 struct GameEntities {
@@ -87,7 +148,6 @@ struct GameEntities {
 		currentQueueEntity++;
 	}
 
-
 private:
 	unsigned int amount = 10;
 	unsigned int queueAmount = 10;
@@ -119,47 +179,3 @@ private:
 	}
 };
 
-
-class Player; // forward declaration
-
-class Enemy : public Entity {
-public:
-	double ACCEL = 30;
-	double SPEED = 50;
-	double ROT_SPEED = 2;
-	double MAX_SPEED = 500; //px per sec
-
-	//Initializes the variablesA
-	Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
-		SDL_Rect* _camera, GameEntities* entities,
-		Player* _player, SDL_Texture* _weaponTexture);
-
-	void update(double delta);
-	void hit(float damage);
-
-protected:
-	GameEntities* entities;
-	Player* player;
-	SDL_Texture* weaponTexture;
-	float healthPoints = 100;
-};
-
-
-class Spark : public Entity {
-public:
-	Spark(SDL_Renderer* _renderer, SDL_Texture* _texture,
-		SDL_Rect* _camera, GameEntities* entities, Vector2 startPos);
-	void update(double delta);
-	void render();
-
-private:
-	GameEntities* entities;
-	int MAX_SPEED = 500;
-	int MIN_SPEED = 200;
-	int MAX_ANGLE = 360;
-	int MAX_RAND_POS = 30;
-	float SCALE_DECREASE = 0.02;
-	double speed;
-	float scale;
-	
-};

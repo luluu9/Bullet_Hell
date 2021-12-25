@@ -46,6 +46,11 @@ void Entity::setPos(Vector2 newPos) {
 	pos = newPos;
 }
 
+Vector2 Entity::getGlobalPos() {
+	Vector2 globalPos = Vector2(pos.x - camera->x, pos.y - camera->y);
+	return globalPos;
+}
+
 SDL_Rect Entity::getRect() {
 	SDL_Rect rect;
 	rect.x = pos.x - WIDTH / 2;
@@ -67,18 +72,43 @@ void Entity::setAngle(int _angle) {
 }
 
 
+DestroyableEntity::DestroyableEntity(
+	SDL_Renderer* _renderer,
+	SDL_Texture* _texture,
+	SDL_Rect* _camera)
+	:Entity(_renderer, _texture, _camera) { }
+
+void DestroyableEntity::render() {
+	Entity::render();
+	drawHPBar();
+}
+
+void DestroyableEntity::drawHPBar() {
+	int MARGIN = 2;
+	SDL_Rect* barRect = new SDL_Rect;
+	barRect->w = WIDTH;
+	barRect->h = WIDTH / 10;
+	barRect->x = getGlobalPos().x - WIDTH / 2;
+	barRect->y = getGlobalPos().y - WIDTH / 2;
+	Color bgColor = Color(143, 14, 0);
+	Color hpColor = Color(207, 21, 0);
+	drawRectangle(renderer, barRect, bgColor, bgColor);
+	barRect->w = (barRect->w) / MAX_HP * healthPoints - MARGIN * 2;
+	barRect->h -= MARGIN * 2;
+	barRect->x += MARGIN;
+	barRect->y += MARGIN;
+	drawRectangle(renderer, barRect, hpColor, hpColor);
+}
+
 Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
 	SDL_Rect* _camera, GameEntities* _entities,
 	Player* _player, SDL_Texture* _weaponTexture)
-	:Entity(_renderer, _texture, _camera) {
+	:DestroyableEntity(_renderer, _texture, _camera) {
 	angle = rand() % 360;
 	entities = _entities;
 	entityType = ENEMY;
 	player = _player;
 	weaponTexture = _weaponTexture;
-}
-
-void Enemy::update(double delta) {
 }
 
 void Enemy::hit(float damage) {

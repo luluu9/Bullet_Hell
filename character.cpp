@@ -15,7 +15,7 @@ const int SCREEN_HEIGHT = 640;
 Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
 	SDL_Rect* _camera, KeyboardHandler* _keyboard,
 	GameEntities* _entities, SDL_Texture* _collisionTexture)
-	: Entity{ _renderer, _texture, _camera }, 
+	: DestroyableEntity{ _renderer, _texture, _camera }, 
 	keyboard{ _keyboard }, entities{ _entities },
 	collisionTexture{ _collisionTexture } {
 	entityType = PLAYER;
