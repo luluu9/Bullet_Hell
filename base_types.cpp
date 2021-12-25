@@ -39,16 +39,28 @@ Color::Color(uint8_t _r, uint8_t _g, uint8_t _b)
 	: r{ _r }, g{ _g }, b{ _b }, a{ 0 } { };
 
 
-Timer::Timer(double _time) {
+Timer::Timer(double _time, bool _autoReset) {
 	time = _time;
+	autoReset = _autoReset;
+	elapsedTime = 0.0;
+	started = false;
 }
 
 void Timer::start() {
-	elapsedTime = 0;
-	started = true;
+	if (!started) {
+		elapsedTime = 0;
+		started = true;
+	}
 }
 
 void Timer::end() {
+	started = false;
+}
+
+void Timer::resume() {
+	started = true;
+}
+void Timer::stop() {
 	started = false;
 }
 
@@ -57,9 +69,16 @@ bool Timer::update(double delta) {
 	if (started) {
 		elapsedTime += delta*1000;
 		if (elapsedTime >= time) {
+			elapsedTime = time;
 			end();
 			return true;
 		}
+	}
+	else if (autoReset) {
+		if (elapsedTime > 0)
+			elapsedTime -= delta * 1000;
+		else
+			elapsedTime = 0;
 	}
 	return false;
 }

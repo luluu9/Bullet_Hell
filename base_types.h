@@ -32,10 +32,13 @@ struct Timer {
 	double elapsedTime;
 	double time;
 	bool started;
+	bool autoReset; // if stopped substract delta time
 
-	Timer(double _time);
+	Timer(double _time, bool _autoReset = false);
 	void start();
 	void end();
+	void resume();
+	void stop();
 	bool update(double delta);
 
 };

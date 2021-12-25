@@ -14,6 +14,7 @@ public:
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 700; //px per sec
 	int INVINCIBLE_TIME = 2500;
+	int MAX_ATTACK_TIME = 2000;
 	int ATTACK_ROT_MULTIPLIER = 10;
 
 
@@ -23,7 +24,9 @@ public:
 		   GameEntities* _entities, SDL_Texture* _collisionTexture);
 
 	void handleEvent(SDL_Event& event);
+	void attack();
 	void update(double delta);
+	void render();
 	void collide(Entity* collidingEntity, double delta);
 	void startInvincibility();
 	void stopInvincibility();
@@ -33,8 +36,11 @@ private:
 	GameEntities* entities;
 	SDL_Texture* collisionTexture;
 	Timer* invincibleTimer;
+	Timer* attackTimer;
+	Timer* attackCountdown;
 	bool invincible = false;
 	bool attacking = false;
+	
 	float damage = 100; // dmg per second
 
 };
