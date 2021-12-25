@@ -25,7 +25,8 @@ public:
 	Vector2 getGlobalPos();
 	SDL_Rect getRect();
 	SDL_Rect getGlobalRect();
-	void setAngle(int angle);
+	int getAngle();
+	void setAngle(int _angle);
 
 protected:
 	Vector2 pos;

@@ -58,11 +58,18 @@ void Player::collide(Entity* collidingEntity, double delta) {
 	colliding = true;
 	if (collidingEntity->entityType == WEAPON) {
 		Weapon* weapon = dynamic_cast<Weapon*>(collidingEntity);
-		if (!invincible) {
-			healthPoints -= weapon->DAMAGE;
-			startInvincibility();
+		if (attacking) {
+			weapon->setAngle(weapon->getAngle()+180); // bounce bullet
+			weapon->update(0.05); // prevent infinite loop inside player rect
 		}
-		entities->queueRemove(weapon);	
+		else {
+			if (!invincible) {
+				healthPoints -= weapon->DAMAGE;
+				startInvincibility();
+			}
+			entities->queueRemove(weapon);
+		}
+		
 	}
 	else if (collidingEntity->entityType == ENEMY) {
 		Enemy* enemy = dynamic_cast<Enemy*>(collidingEntity);

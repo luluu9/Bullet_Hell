@@ -67,6 +67,10 @@ SDL_Rect Entity::getGlobalRect() {
 	return rect;
 }
 
+int Entity::getAngle() {
+	return angle;
+}
+
 void Entity::setAngle(int _angle) {
 	angle = _angle;
 }
@@ -85,13 +89,13 @@ void DestroyableEntity::render() {
 
 void DestroyableEntity::drawHPBar() {
 	int MARGIN = 2;
+	Color bgColor = Color(143, 14, 0);
+	Color hpColor = Color(207, 21, 0);
 	SDL_Rect* barRect = new SDL_Rect;
 	barRect->w = WIDTH;
 	barRect->h = WIDTH / 10;
 	barRect->x = getGlobalPos().x - WIDTH / 2;
 	barRect->y = getGlobalPos().y - WIDTH / 2;
-	Color bgColor = Color(143, 14, 0);
-	Color hpColor = Color(207, 21, 0);
 	drawRectangle(renderer, barRect, bgColor, bgColor);
 	barRect->w = (barRect->w) / MAX_HP * healthPoints - MARGIN * 2;
 	barRect->h -= MARGIN * 2;

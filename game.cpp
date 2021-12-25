@@ -83,7 +83,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 
 	SDL_Texture* chemiczny = loadTextureFromBMP("./assets/chemiczny.bmp");
 	SDL_Texture* acid = loadTextureFromBMP("./assets/acid.bmp");
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 2; i++) {
 		Chemiczny *enemy = new Chemiczny(renderer, chemiczny, &camera, &entities, player, acid);
 		entities.addEntity(enemy);
 		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));

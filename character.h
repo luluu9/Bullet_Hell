@@ -12,7 +12,7 @@ class Player : public DestroyableEntity {
 public:
 	double ACCEL = 30;
 	double ROT_SPEED = 2;
-	double MAX_SPEED = 1000; //px per sec
+	double MAX_SPEED = 700; //px per sec
 	int ATTACK_ROT_MULTIPLIER = 10;
 
 
