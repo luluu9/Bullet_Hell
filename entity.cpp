@@ -32,9 +32,9 @@ void Entity::render() {
 	if (DRAW_COLLISION_BOX) {
 		SDL_Rect rect = getGlobalRect();
 		if (colliding)
-			drawRectangle(renderer, &rect, Color(255, 0, 0, 0));
+			drawRectangle(renderer, rect, Color(255, 0, 0, 0));
 		else
-			drawRectangle(renderer, &rect, Color(0, 0, 0, 0));
+			drawRectangle(renderer, rect, Color(0, 0, 0, 0));
 	}
 }
 
@@ -91,16 +91,16 @@ void DestroyableEntity::drawHPBar() {
 	int MARGIN = 2;
 	Color bgColor = Color(143, 14, 0);
 	Color hpColor = Color(207, 21, 0);
-	SDL_Rect* barRect = new SDL_Rect;
-	barRect->w = WIDTH;
-	barRect->h = WIDTH / 10;
-	barRect->x = getGlobalPos().x - WIDTH / 2;
-	barRect->y = getGlobalPos().y - WIDTH / 2;
+	SDL_Rect barRect = SDL_Rect();
+	barRect.w = WIDTH;
+	barRect.h = WIDTH / 10;
+	barRect.x = getGlobalPos().x - WIDTH / 2;
+	barRect.y = getGlobalPos().y - WIDTH / 2;
 	drawRectangle(renderer, barRect, bgColor, bgColor);
-	barRect->w = (barRect->w) / MAX_HP * healthPoints - MARGIN * 2;
-	barRect->h -= MARGIN * 2;
-	barRect->x += MARGIN;
-	barRect->y += MARGIN;
+	barRect.w = (barRect.w) / MAX_HP * healthPoints - MARGIN * 2;
+	barRect.h -= MARGIN * 2;
+	barRect.x += MARGIN;
+	barRect.y += MARGIN;
 	drawRectangle(renderer, barRect, hpColor, hpColor);
 }
 

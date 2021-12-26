@@ -39,8 +39,17 @@ public:
 		int _SCREEN_WIDTH,
 		int _SCREEN_HEIGHT);
 private:
+	char* titlePath = "./assets/title.bmp";
+	const int buttonsNumber = 4;
+	char* buttonPaths[4] = {
+		"./assets/level-1.bmp", "./assets/level-2.bmp",
+		"./assets/level-3.bmp", "./assets/quit.bmp" };
 	const int titleHeight = 20; // percentage of screen from top
+	const int firstButtonHeight = 50;
+	const int buttonWidth = 400;
+	const int buttonHeight = 100;
 };
+
 
 class GameScreen : public Screen {
 public:
@@ -76,13 +85,25 @@ private:
 	char* text;
 };
 
+class Image : public GUIElement {
+public:
+	Image(
+		SDL_Renderer* _renderer, 
+		SDL_Rect _rect, 
+		char* texturePath);
+	void render();
+
+private:
+	SDL_Texture* image;
+};
+
 class Button : public GUIElement {
 public:
-	Button(SDL_Renderer* _renderer, SDL_Rect _rect, Color _outlineColor, Color _fillColor, char* text);
+	Button(SDL_Renderer* _renderer, SDL_Rect _rect, Color _outlineColor, Color _fillColor, char* texturePath);
 	void render();
 
 private:
 	Color outlineColor;
 	Color fillColor;
-	char* text;
+	Image* image;
 };

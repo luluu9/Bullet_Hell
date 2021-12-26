@@ -78,16 +78,16 @@ void Player::render() {
 	int MARGIN = 2;
 	Color bgColor = Color(191, 179, 0);
 	Color energyColor = Color(255, 247, 0);
-	SDL_Rect* barRect = new SDL_Rect;
-	barRect->w = WIDTH;
-	barRect->h = WIDTH / 10;
-	barRect->x = getGlobalPos().x - WIDTH / 2;
-	barRect->y = getGlobalPos().y - WIDTH / 2 - barRect->h;
+	SDL_Rect barRect = SDL_Rect();
+	barRect.w = WIDTH;
+	barRect.h = WIDTH / 10;
+	barRect.x = getGlobalPos().x - WIDTH / 2;
+	barRect.y = getGlobalPos().y - WIDTH / 2 - barRect.h;
 	drawRectangle(renderer, barRect, bgColor, bgColor);
-	barRect->w = barRect->w / (float)MAX_ATTACK_TIME * (MAX_ATTACK_TIME - (int)attackTimer->elapsedTime) - MARGIN * 2;
-	barRect->h -= MARGIN * 2;
-	barRect->x += MARGIN;
-	barRect->y += MARGIN;
+	barRect.w = barRect.w / (float)MAX_ATTACK_TIME * (MAX_ATTACK_TIME - (int)attackTimer->elapsedTime) - MARGIN * 2;
+	barRect.h -= MARGIN * 2;
+	barRect.x += MARGIN;
+	barRect.y += MARGIN;
 	drawRectangle(renderer, barRect, energyColor, energyColor);
 }
 
