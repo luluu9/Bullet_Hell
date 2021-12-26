@@ -5,7 +5,7 @@
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
 
 
-class GameEntities; // forward declaration
+struct GameEntities; // forward declaration
 class Player; // forward declaration
 
 class Entity {
@@ -92,7 +92,7 @@ private:
 };
 
 
-
+// todo: move functions to .cpp
 struct GameEntities {
 	unsigned int currentEntity = 0;
 

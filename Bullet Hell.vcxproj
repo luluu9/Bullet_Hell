@@ -23,6 +23,7 @@
     <ClCompile Include="drawing.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="keyboard.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="weapons.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="main.h" />

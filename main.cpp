@@ -3,8 +3,8 @@
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "game.h"
 
-extern const int SCREEN_WIDTH = 1080;
-extern const int SCREEN_HEIGHT = 640;
+extern const int SCREEN_WIDTH = 1920;
+extern const int SCREEN_HEIGHT = 1080;
 bool FULLSCREEN = false;
 const int MAX_FPS = 144;
 

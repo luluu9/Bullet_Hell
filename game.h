@@ -4,6 +4,7 @@
 #include "character.h"
 #include "keyboard.h"
 #include "entity.h"
+#include "GUI.h"
 
 
 class Game {
@@ -35,10 +36,7 @@ private:
 	SDL_Surface* charset;
 	char text[128];
 
-	SDL_Texture* background;
-	GameEntities entities;
-	Player* player;
-	SDL_Rect camera;
+	Screen* currentScreen;
 
 	KeyboardHandler* keyboard;
 };
