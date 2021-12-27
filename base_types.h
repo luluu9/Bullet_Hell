@@ -25,6 +25,7 @@ struct Color {
 	Color(uint8_t _r, uint8_t _g, uint8_t _b);
 	
 	operator bool() { return r || g || b; }
+	Color operator *(const double m) { return Color(r * m, g * m, b * m); }
 };
 
 

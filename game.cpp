@@ -51,7 +51,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	SDL_SetWindowTitle(window, "Bullet Hell");
-	SDL_ShowCursor(SDL_DISABLE);
+	//SDL_ShowCursor(SDL_DISABLE);
 
 	// prepare everything to draw text
 	textSurface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32,

@@ -63,7 +63,8 @@ private:
 class GUIElement {
 public:
 	GUIElement(SDL_Renderer* _renderer, SDL_Rect _rect);
-	virtual void render();
+	virtual void render() {};
+	virtual void handleEvent(SDL_Event& event) {};
 	void hide();
 	void show();
 	
@@ -101,9 +102,12 @@ class Button : public GUIElement {
 public:
 	Button(SDL_Renderer* _renderer, SDL_Rect _rect, Color _outlineColor, Color _fillColor, char* texturePath);
 	void render();
+	void handleEvent(SDL_Event& event);
 
 private:
 	Color outlineColor;
 	Color fillColor;
+	Color baseFillColor;
+	Color hoverColor;
 	Image* image;
 };
