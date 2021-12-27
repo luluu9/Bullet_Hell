@@ -122,7 +122,7 @@ void Game::clean() {
 
 void Game::changeScreen(SCREEN screenId) {
 	printf_s("Change screen to %d", screenId);
-	if (screenId = QUIT)
+	if (screenId == QUIT)
 		isRunning = false;
 }
 
