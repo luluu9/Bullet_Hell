@@ -3,6 +3,7 @@
 #include "GUI.h"
 #include "drawing.h"
 #include "stdio.h"
+#include <iostream>
 
 
 Screen::Screen(
@@ -21,7 +22,6 @@ Screen::Screen(
 
 Screen::~Screen() {
 	for (unsigned int i = 0; i < elementsCount; i++) {
-		printf("%d", i);
 		elements[i]->~GUIElement();
 	}
 	for (unsigned int i = 0; i < elementsCount; i++) {
@@ -94,12 +94,91 @@ MainMenu::MainMenu(
 	buttonRect.x = SCREEN_WIDTH / 2;
 	buttonRect.y = SCREEN_HEIGHT / 100 * firstButtonHeight;
 	for (int i = 0; i < buttonsNumber; i++) {
-		Button* button = new Button(renderer, buttonRect, Color(191, 180, 178), Color(40, 40, 40), buttonPaths[i], SCREEN(LEVEL_1 + i), game );
+		Button* button = new Button(renderer, buttonRect, Color(191, 180, 178), Color(40, 40, 40), buttonPaths[i], SCREEN(LEVEL_1 + i), game);
 		addElement(button);
 		buttonRect.y += buttonHeight * 1.25;
 	}
 }
 
+
+GameScreen::GameScreen(
+	SDL_Renderer* _renderer,
+	SDL_Surface* _textSurface,
+	SDL_Surface* _charset,
+	int _SCREEN_WIDTH,
+	int _SCREEN_HEIGHT,
+	Game* _game)
+	:Screen::Screen(
+		_renderer,
+		_textSurface,
+		_charset,
+		_SCREEN_WIDTH,
+		_SCREEN_HEIGHT) {
+	game = _game;
+
+	camera.x = 0;
+	camera.y = 0;
+	camera.w = SCREEN_WIDTH;
+	camera.h = SCREEN_HEIGHT;
+
+	charset = SDL_LoadBMP("./cs8x8.bmp");
+	SDL_SetColorKey(charset, true, 0xFF000000);
+
+	SDL_Texture* eti = loadTextureFromBMP(renderer, "./assets/etispinner_small.bmp");
+	SDL_Texture* spark = loadTextureFromBMP(renderer, "./assets/spark.bmp");
+	player = new Player(renderer, eti, &camera, game->getKeyboard(), &entities, spark);
+	entities.addEntity(player);
+
+	background = loadTextureFromBMP(renderer, "./assets/sky.bmp");
+
+	SDL_Texture* chemiczny = loadTextureFromBMP(renderer, "./assets/chemiczny.bmp");
+	SDL_Texture* acid = loadTextureFromBMP(renderer, "./assets/acid.bmp");
+	for (int i = 0; i < 2; i++) {
+		Chemiczny* enemy = new Chemiczny(renderer, chemiczny, &camera, &entities, player, acid);
+		entities.addEntity(enemy);
+		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
+	}
+}
+
+void GameScreen::handleEvent(SDL_Event& event) {
+	Screen::handleEvent(event);
+	for (unsigned int i = 0; i < entities.currentEntity; i++) {
+		entities.getEntity(i)->handleEvent(event);
+	}
+}
+
+void GameScreen::update(double delta, double worldTime) {
+	entities.removeQueuedEntities();
+	SDL_Event x;
+	for (unsigned int i = 0; i < entities.currentEntity; i++) {
+		Entity* currentEntity = entities.getEntity(i);
+		currentEntity->handleEvent(x);
+		currentEntity->update(delta);
+	}
+	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
+	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
+
+	player->colliding = false;
+	for (unsigned int i = 0; i < entities.currentEntity; i++) {
+		Entity* currentEntity = entities.getEntity(i);
+		if (currentEntity != player) {
+			if (isColliding(player, currentEntity)) {
+				player->collide(currentEntity, delta);
+			}
+		}
+	}
+
+	sprintf_s(text, "% .1lf s ", worldTime);
+	DrawString(textSurface, SCREEN_WIDTH / 2, 10, text, charset);
+}
+
+void GameScreen::render() {
+	for (int i = -3; i < 3; i++)
+		DrawTexture(renderer, background, -camera.x + i * 1024, -camera.y);
+	for (unsigned int i = 0; i < entities.currentEntity; i++)
+		entities.getEntity(i)->render();
+	Screen::render(); // draw last to always be visible
+}
 
 GUIElement::GUIElement(SDL_Renderer* _renderer, SDL_Rect _rect) {
 	renderer = _renderer;
@@ -165,7 +244,7 @@ Button::Button(
 	:GUIElement(_renderer, _rect) {
 	outlineColor = _outlineColor;
 	fillColor = baseFillColor = _fillColor;
-	hoverColor = _fillColor*2.0;
+	hoverColor = _fillColor * 2.0;
 	image = new Image(renderer, rect, texturePath);
 	nextScreenId = _nextScreenId;
 	game = _game;

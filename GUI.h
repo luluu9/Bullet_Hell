@@ -17,14 +17,15 @@ class Game; // forward declaration
 class Screen {
 public:
 	Screen::Screen(
-		SDL_Renderer* _renderer, 
-		SDL_Surface* _textSurface, 
+		SDL_Renderer* _renderer,
+		SDL_Surface* _textSurface,
 		SDL_Surface* _charset,
 		int _SCREEN_WIDTH,
 		int _SCREEN_HEIGHT);
 	Screen::~Screen();
-	void render();
-	void handleEvent(SDL_Event& event); 
+	virtual void render();
+	virtual void update(double delta, double worldTime) {};
+	virtual void handleEvent(SDL_Event& event);
 	void addElement(GUIElement* element);
 	void hide();
 	void show();
@@ -67,10 +68,23 @@ private:
 
 class GameScreen : public Screen {
 public:
-	GameScreen::GameScreen();
-
+	GameScreen(
+		SDL_Renderer* _renderer,
+		SDL_Surface* _textSurface,
+		SDL_Surface* _charset,
+		int _SCREEN_WIDTH,
+		int _SCREEN_HEIGHT,
+		Game* _game);
+	void handleEvent(SDL_Event& event);
+	void update(double delta, double worldTime);
+	void render();
 private:
-	GameEntities** entities;
+	SDL_Texture* background;
+	GameEntities entities;
+	Player* player;
+	SDL_Rect camera;
+	Game* game;
+	char text[128];
 };
 
 
@@ -82,7 +96,7 @@ public:
 	virtual void handleEvent(SDL_Event& event) {};
 	void hide();
 	void show();
-	
+
 protected:
 	SDL_Renderer* renderer;
 	SDL_Rect rect;
@@ -95,7 +109,7 @@ public:
 	Text(SDL_Renderer* _renderer, SDL_Rect _rect, SDL_Surface* _textSurface, SDL_Surface* _charset, char* _text);
 	void render();
 
-private: 
+private:
 	SDL_Surface* textSurface;
 	SDL_Surface* charset;
 	char* text;
@@ -104,8 +118,8 @@ private:
 class Image : public GUIElement {
 public:
 	Image(
-		SDL_Renderer* _renderer, 
-		SDL_Rect _rect, 
+		SDL_Renderer* _renderer,
+		SDL_Rect _rect,
 		char* texturePath);
 	Image::~Image();
 	void render();
@@ -117,10 +131,10 @@ private:
 class Button : public GUIElement {
 public:
 	Button(
-		SDL_Renderer* _renderer, 
-		SDL_Rect _rect, 
-		Color _outlineColor, 
-		Color _fillColor, 
+		SDL_Renderer* _renderer,
+		SDL_Rect _rect,
+		Color _outlineColor,
+		Color _fillColor,
 		char* texturePath,
 		SCREEN _nextScreenId,
 		Game* _game);

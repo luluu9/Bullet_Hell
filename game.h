@@ -31,6 +31,7 @@ public:
 
 	SDL_Renderer* Game::getRenderer();
 	SDL_Texture* loadTextureFromBMP(const char* filepath);
+	KeyboardHandler* getKeyboard();
 
 private:
 	bool isRunning;

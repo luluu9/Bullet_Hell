@@ -179,3 +179,4 @@ private:
 	}
 };
 
+bool isColliding(Entity* a, Entity* b);

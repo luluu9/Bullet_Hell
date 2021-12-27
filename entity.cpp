@@ -147,3 +147,17 @@ void Spark::update(double delta) {
 void Spark::render() {
 	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
 }
+
+
+bool isColliding(Entity* a, Entity* b) {
+	// AABB algorithm
+	SDL_Rect rect1 = a->getGlobalRect();
+	SDL_Rect rect2 = b->getGlobalRect();
+	if (rect1.x < rect2.x + rect2.w &&
+		rect1.x + rect1.w > rect2.x &&
+		rect1.y < rect2.y + rect2.h &&
+		rect1.h + rect1.y > rect2.y) {
+		return true;
+	}
+	return false;
+}
