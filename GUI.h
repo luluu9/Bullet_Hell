@@ -3,9 +3,16 @@
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "base_types.h"
 #include "entity.h"
+#include "game.h"
 
+#ifndef SCREEN_ENUM
+#define SCREEN_ENUM
+enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, QUIT };
+#endif
 
 class GUIElement; // forward declaration
+class Game; // forward declaration
+
 
 class Screen {
 public:
@@ -37,7 +44,8 @@ public:
 		SDL_Surface* _textSurface,
 		SDL_Surface* _charset,
 		int _SCREEN_WIDTH,
-		int _SCREEN_HEIGHT);
+		int _SCREEN_HEIGHT,
+		Game* _game);
 private:
 	char* titlePath = "./assets/title.bmp";
 	const int buttonsNumber = 4;
@@ -48,6 +56,7 @@ private:
 	const int firstButtonHeight = 50;
 	const int buttonWidth = 400;
 	const int buttonHeight = 100;
+	Game* game;
 };
 
 
@@ -100,7 +109,14 @@ private:
 
 class Button : public GUIElement {
 public:
-	Button(SDL_Renderer* _renderer, SDL_Rect _rect, Color _outlineColor, Color _fillColor, char* texturePath);
+	Button(
+		SDL_Renderer* _renderer, 
+		SDL_Rect _rect, 
+		Color _outlineColor, 
+		Color _fillColor, 
+		char* texturePath,
+		SCREEN _nextScreenId,
+		Game* _game);
 	void render();
 	void handleEvent(SDL_Event& event);
 
@@ -110,4 +126,6 @@ private:
 	Color baseFillColor;
 	Color hoverColor;
 	Image* image;
+	SCREEN nextScreenId;
+	Game* game;
 };

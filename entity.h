@@ -4,7 +4,6 @@
 #include "base_types.h"
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
 
-
 struct GameEntities; // forward declaration
 class Player; // forward declaration
 

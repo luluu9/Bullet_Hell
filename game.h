@@ -6,6 +6,13 @@
 #include "entity.h"
 #include "GUI.h"
 
+#ifndef SCREEN_ENUM
+#define SCREEN_ENUM
+enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, QUIT };
+#endif
+
+class Screen; // forward declaration
+
 
 class Game {
 public:
@@ -13,11 +20,12 @@ public:
 	~Game();
 
 	void init(const char* title, int width, int height, bool fullscreen);
-	
+
 	void handleEvents();
 	void update(double delta, double worldTime);
 	void render();
 	void clean();
+	void changeScreen(SCREEN screenId);
 
 	bool running();
 

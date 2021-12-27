@@ -66,7 +66,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	SDL_SetColorKey(charset, true, 0xFF000000);
 
 	keyboard = new KeyboardHandler;
-	currentScreen = new MainMenu(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT);
+	currentScreen = new MainMenu(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT, this);
 
 }
 
@@ -120,12 +120,18 @@ void Game::clean() {
 	printf("Quiting game...");
 }
 
-SDL_Renderer* Game::getRenderer() {
-	return renderer;
+void Game::changeScreen(SCREEN screenId) {
+	printf_s("Change screen to %d", screenId);
+	if (screenId = QUIT)
+		isRunning = false;
 }
 
 bool Game::running() {
 	return isRunning;
+}
+
+SDL_Renderer* Game::getRenderer() {
+	return renderer;
 }
 
 SDL_Texture* Game::loadTextureFromBMP(const char* filepath) {

@@ -50,13 +50,15 @@ MainMenu::MainMenu(
 	SDL_Surface* _textSurface,
 	SDL_Surface* _charset,
 	int _SCREEN_WIDTH,
-	int _SCREEN_HEIGHT)
+	int _SCREEN_HEIGHT,
+	Game* _game)
 	:Screen::Screen(
 		_renderer,
 		_textSurface,
 		_charset,
 		_SCREEN_WIDTH,
 		_SCREEN_HEIGHT) {
+	game = _game;
 	SDL_Rect titleRect, buttonRect;
 	titleRect.x = SCREEN_WIDTH / 2;
 	titleRect.y = SCREEN_HEIGHT / 100 * titleHeight;
@@ -68,7 +70,7 @@ MainMenu::MainMenu(
 	buttonRect.x = SCREEN_WIDTH / 2;
 	buttonRect.y = SCREEN_HEIGHT / 100 * firstButtonHeight;
 	for (int i = 0; i < buttonsNumber; i++) {
-		Button* button = new Button(renderer, buttonRect, Color(191, 180, 178), Color(40, 40, 40), buttonPaths[i]);
+		Button* button = new Button(renderer, buttonRect, Color(191, 180, 178), Color(40, 40, 40), buttonPaths[i], SCREEN(LEVEL_1 + i), game );
 		addElement(button);
 		buttonRect.y += buttonHeight * 1.25;
 	}
@@ -130,12 +132,16 @@ Button::Button(
 	SDL_Rect _rect,
 	Color _outlineColor,
 	Color _fillColor,
-	char* texturePath)
+	char* texturePath,
+	SCREEN _nextScreenId,
+	Game* _game)
 	:GUIElement(_renderer, _rect) {
 	outlineColor = _outlineColor;
 	fillColor = baseFillColor = _fillColor;
 	hoverColor = _fillColor*2.0;
 	image = new Image(renderer, rect, texturePath);
+	nextScreenId = _nextScreenId;
+	game = _game;
 }
 
 
@@ -147,7 +153,7 @@ void Button::render() {
 }
 
 void Button::handleEvent(SDL_Event& event) {
-	if (event.type == SDL_MOUSEMOTION) {
+	if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONUP) {
 		int x, y;
 		SDL_GetMouseState(&x, &y);
 		if (x >= rect.x - rect.w / 2 &&
@@ -155,6 +161,9 @@ void Button::handleEvent(SDL_Event& event) {
 			y >= rect.y - rect.h / 2 &&
 			y <= rect.y + rect.h / 2) {
 			fillColor = hoverColor;
+			if (event.type == SDL_MOUSEBUTTONUP) {
+				game->changeScreen(nextScreenId);
+			}
 		}
 		else {
 			fillColor = baseFillColor;
