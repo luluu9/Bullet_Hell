@@ -84,7 +84,8 @@ void Game::handleEvents() {
 			break;
 		};
 		keyboard->handleEvent(event);
-		currentScreen->handleEvent(event);
+		if (currentScreen != nullptr)
+			currentScreen->handleEvent(event);
 	};
 }
 
@@ -107,7 +108,8 @@ void Game::update(double delta, double worldTime) {
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-	currentScreen->render();
+	if (currentScreen!=nullptr)
+		currentScreen->render();
 	SDL_UpdateTexture(textTexture, NULL, textSurface->pixels, textSurface->pitch);
 	SDL_RenderCopy(renderer, textTexture, NULL, NULL);
 	SDL_RenderPresent(renderer);
@@ -121,9 +123,16 @@ void Game::clean() {
 }
 
 void Game::changeScreen(SCREEN screenId) {
-	printf_s("Change screen to %d", screenId);
-	if (screenId == QUIT)
+	printf_s("Change screen to %d\n", screenId);
+	currentScreen->~Screen();
+	currentScreen = nullptr;
+	switch (screenId) {
+	case QUIT:
 		isRunning = false;
+		break;
+	case LEVEL_1:
+		break;
+	}
 }
 
 bool Game::running() {

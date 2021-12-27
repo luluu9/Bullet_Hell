@@ -22,9 +22,12 @@ public:
 		SDL_Surface* _charset,
 		int _SCREEN_WIDTH,
 		int _SCREEN_HEIGHT);
+	Screen::~Screen();
 	void render();
 	void handleEvent(SDL_Event& event); 
 	void addElement(GUIElement* element);
+	void hide();
+	void show();
 
 protected:
 	int SCREEN_WIDTH, SCREEN_HEIGHT;
@@ -34,6 +37,8 @@ protected:
 	GUIElement** elements;
 	unsigned int elementsNumber = 10;
 	unsigned int elementsCount = 0;
+	bool hidden = false;
+	bool exit = false;
 };
 
 
@@ -72,6 +77,7 @@ private:
 class GUIElement {
 public:
 	GUIElement(SDL_Renderer* _renderer, SDL_Rect _rect);
+	virtual ~GUIElement() {};
 	virtual void render() {};
 	virtual void handleEvent(SDL_Event& event) {};
 	void hide();
@@ -101,6 +107,7 @@ public:
 		SDL_Renderer* _renderer, 
 		SDL_Rect _rect, 
 		char* texturePath);
+	Image::~Image();
 	void render();
 
 private:
@@ -117,6 +124,7 @@ public:
 		char* texturePath,
 		SCREEN _nextScreenId,
 		Game* _game);
+	Button::~Button();
 	void render();
 	void handleEvent(SDL_Event& event);
 

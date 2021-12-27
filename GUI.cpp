@@ -19,14 +19,30 @@ Screen::Screen(
 	elements = new GUIElement * [elementsNumber];
 }
 
-void Screen::render() {
+Screen::~Screen() {
 	for (unsigned int i = 0; i < elementsCount; i++) {
+		printf("%d", i);
+		elements[i]->~GUIElement();
+	}
+	for (unsigned int i = 0; i < elementsCount; i++) {
+		delete elements[i];
+	}
+	delete[] elements;
+	exit = true; // exit each loop
+}
+
+void Screen::render() {
+	if (hidden) return;
+	for (unsigned int i = 0; i < elementsCount; i++) {
+		if (exit) return;
 		elements[i]->render();
 	}
 }
 
 void Screen::handleEvent(SDL_Event& event) {
+	if (hidden) return;
 	for (unsigned int i = 0; i < elementsCount; i++) {
+		if (exit) return;
 		elements[i]->handleEvent(event);
 	}
 }
@@ -42,6 +58,14 @@ void Screen::addElement(GUIElement* element) {
 	}
 	elements[elementsCount] = element;
 	elementsCount++;
+}
+
+void Screen::hide() {
+	hidden = true;
+}
+
+void Screen::show() {
+	hidden = false;
 }
 
 
@@ -119,6 +143,9 @@ Image::Image(
 	image = loadTextureFromBMP(renderer, texturePath);
 }
 
+Image::~Image() {
+	SDL_DestroyTexture(image);
+}
 
 void Image::render() {
 	if (!hidden) {
@@ -144,6 +171,9 @@ Button::Button(
 	game = _game;
 }
 
+Button::~Button() {
+	delete image;
+}
 
 void Button::render() {
 	if (!hidden) {
