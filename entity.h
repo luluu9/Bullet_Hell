@@ -84,10 +84,10 @@ private:
 	int MIN_SPEED = 200;
 	int MAX_ANGLE = 360;
 	int MAX_RAND_POS = 30;
-	float SCALE_DECREASE = 0.02;
+	float SCALE_DECREASE = (float)0.02;
 	double speed;
 	float scale;
-	
+
 };
 
 
