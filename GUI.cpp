@@ -2,6 +2,7 @@
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "GUI.h"
 #include "drawing.h"
+#include "paths.h"
 #include "stdio.h"
 #include <iostream>
 
@@ -125,18 +126,14 @@ GameScreen::GameScreen(
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	SDL_SetColorKey(charset, true, 0xFF000000);
 
-	SDL_Texture* eti = loadTextureFromBMP(renderer, "./assets/etispinner_small.bmp");
-	SDL_Texture* spark = loadTextureFromBMP(renderer, "./assets/spark.bmp");
-	player = new Player(renderer, eti, &camera, game->getKeyboard(), &entities, spark);
+	player = new Player(renderer, &camera, game->getKeyboard(), &entities);
 	entities.addEntity(player);
 
-	background = loadTextureFromBMP(renderer, "./assets/sky.bmp");
+	background = loadTextureFromBMP(renderer, BACKGROUND_TXT_PATH);
 	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
 
-	SDL_Texture* chemiczny = loadTextureFromBMP(renderer, "./assets/chemiczny.bmp");
-	SDL_Texture* acid = loadTextureFromBMP(renderer, "./assets/acid.bmp");
 	for (int i = 0; i < 1; i++) {
-		Chemiczny* enemy = new Chemiczny(renderer, chemiczny, &camera, &entities, player, acid);
+		Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
 		entities.addEntity(enemy);
 		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
 	}

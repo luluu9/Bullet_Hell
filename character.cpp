@@ -4,20 +4,22 @@
 #include <cstdlib>
 #include "character.h"
 #include "drawing.h"
+#include "paths.h"
 
 #define PI 3.14159265
-
 
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 640;
 
 
-Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
-	SDL_Rect* _camera, KeyboardHandler* _keyboard,
-	GameEntities* _entities, SDL_Texture* _collisionTexture)
-	: DestroyableEntity{ _renderer, _texture, _camera },
-	keyboard{ _keyboard }, entities{ _entities },
-	collisionTexture{ _collisionTexture } {
+Player::Player(
+	SDL_Renderer* _renderer, 
+	SDL_Rect* _camera, 
+	KeyboardHandler* _keyboard,
+	GameEntities* _entities)
+	: DestroyableEntity{ _renderer, PLAYER_TXT_PATH, _camera },
+	keyboard{ _keyboard }, 
+	entities{ _entities } {
 	entityType = PLAYER;
 	invincibleTimer = new Timer(INVINCIBLE_TIME);
 	attackTimer = new Timer(MAX_ATTACK_TIME, true);
@@ -118,7 +120,7 @@ void Player::collide(Entity* collidingEntity, double delta) {
 		Enemy* enemy = dynamic_cast<Enemy*>(collidingEntity);
 		if (attacking) {
 			enemy->hit(damage * delta);
-			Spark* spark = new Spark(renderer, collisionTexture, camera, entities, enemy->getPos());
+			Spark* spark = new Spark(renderer, camera, entities, enemy->getPos());
 			entities->addEntity(spark);
 		}
 	}
@@ -136,9 +138,12 @@ void Player::stopInvincibility() {
 }
 
 
-Chemiczny::Chemiczny(SDL_Renderer* _renderer, SDL_Texture* _texture,
-	SDL_Rect* _camera, GameEntities* _entities, Player* _player, SDL_Texture* _acidTxt)
-	: Enemy{ _renderer, _texture, _camera, _entities, _player, _acidTxt } {
+Chemiczny::Chemiczny(
+	SDL_Renderer* _renderer, 
+	SDL_Rect* _camera, 
+	GameEntities* _entities, 
+	Player* _player)
+	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
 	shootingTimer = rand() % shootingDelay;
 };
 
@@ -156,7 +161,7 @@ void Chemiczny::updatePosition(double delta) {
 
 void Chemiczny::tryToShoot(double delta) {
 	if (shootingTimer <= 0 && pos.getDistanceTo(player->getPos()) <= shootingThreshold) {
-		Weapon* acidWeapon = new Weapon(renderer, weaponTexture, camera, angle);
+		Weapon* acidWeapon = new Weapon(renderer, ACID_TXT_PATH, camera, angle);
 		acidWeapon->setPos(pos);
 		entities->addEntity(acidWeapon);
 		shootingTimer = shootingDelay;

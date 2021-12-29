@@ -1,17 +1,20 @@
 #include "entity.h"
 #include "drawing.h"
+#include "paths.h"
 #include <cstdlib>
 
 #define DRAW_COLLISION_BOX 1
 #define PI 3.14159265
 
 
-Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture,
+Entity::Entity(
+	SDL_Renderer* _renderer, 
+	char* texturePath, 
 	SDL_Rect* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
-	texture = _texture;
 	renderer = _renderer;
+	texture = loadTextureFromBMP(renderer, texturePath);
 	camera = _camera;
 	colliding = false;
 	entityType = UNKNOWN;
@@ -83,9 +86,9 @@ void Entity::setAngle(int _angle) {
 
 DestroyableEntity::DestroyableEntity(
 	SDL_Renderer* _renderer,
-	SDL_Texture* _texture,
+	char* texturePath,
 	SDL_Rect* _camera)
-	:Entity(_renderer, _texture, _camera) { }
+	:Entity(_renderer, texturePath, _camera) { }
 
 void DestroyableEntity::render() {
 	Entity::render();
@@ -109,15 +112,17 @@ void DestroyableEntity::drawHPBar() {
 	drawRectangle(renderer, barRect, hpColor, hpColor);
 }
 
-Enemy::Enemy(SDL_Renderer* _renderer, SDL_Texture* _texture,
-	SDL_Rect* _camera, GameEntities* _entities,
-	Player* _player, SDL_Texture* _weaponTexture)
-	:DestroyableEntity(_renderer, _texture, _camera) {
+Enemy::Enemy(
+	SDL_Renderer* _renderer, 
+	char* texturePath,
+	SDL_Rect* _camera, 
+	GameEntities* _entities,
+	Player* _player)
+	:DestroyableEntity(_renderer, texturePath, _camera) {
 	angle = rand() % 360;
 	entities = _entities;
 	entityType = ENEMY;
 	player = _player;
-	weaponTexture = _weaponTexture;
 }
 
 void Enemy::hit(float damage) {
@@ -127,9 +132,12 @@ void Enemy::hit(float damage) {
 }
 
 
-Spark::Spark(SDL_Renderer* _renderer, SDL_Texture* _texture,
-	SDL_Rect* _camera, GameEntities* _entities, Vector2 startPos)
-	:Entity(_renderer, _texture, _camera) {
+Spark::Spark(
+	SDL_Renderer* _renderer, 
+	SDL_Rect* _camera, 
+	GameEntities* _entities, 
+	Vector2 startPos)
+	:Entity(_renderer, SPARK_TXT_PATH, _camera) {
 	pos = startPos;
 	pos.x += -MAX_RAND_POS + rand() % (MAX_RAND_POS * 2);
 	pos.y += -MAX_RAND_POS + rand() % (MAX_RAND_POS * 2);

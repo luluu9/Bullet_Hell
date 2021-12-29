@@ -9,7 +9,11 @@ public:
 	double SPEED = 300;
 	int DAMAGE = 10;
 
-	Weapon(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera, int _angle);
+	Weapon(
+		SDL_Renderer* _renderer, 
+		char* texturePath,
+		SDL_Rect* _camera, 
+		int _angle);
 	void update(double delta);
 };
 

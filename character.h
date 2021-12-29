@@ -18,9 +18,11 @@ public:
 	int ATTACK_ROT_MULTIPLIER = 10;
 
 	//Initializes the variablesA
-	Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
-		   SDL_Rect* _camera, KeyboardHandler* _keyboard,
-		   GameEntities* _entities, SDL_Texture* _collisionTexture);
+	Player(
+		SDL_Renderer* _renderer,
+		SDL_Rect* _camera,
+		KeyboardHandler* _keyboard,
+		GameEntities* _entities);
 	~Player();
 
 	void handleEvent(SDL_Event& event);
@@ -32,24 +34,26 @@ public:
 	void stopInvincibility();
 
 private:
+	
 	KeyboardHandler* keyboard;
 	GameEntities* entities;
-	SDL_Texture* collisionTexture;
 	Timer* invincibleTimer;
 	Timer* attackTimer;
 	Timer* attackCountdown;
 	bool invincible = false;
 	bool attacking = false;
-	
+
 	float damage = 100; // dmg per second
 };
 
 
 class Chemiczny : public Enemy {
 public:
-	Chemiczny(SDL_Renderer* _renderer, SDL_Texture* _texture, 
-			  SDL_Rect* _camera, GameEntities* _entities, Player* player,
-			  SDL_Texture* _AcidTexture);
+	Chemiczny(
+		SDL_Renderer* _renderer,
+		SDL_Rect* _camera,
+		GameEntities* _entities,
+		Player* player);
 
 	void Chemiczny::updatePosition(double delta);
 	void Chemiczny::tryToShoot(double delta);
