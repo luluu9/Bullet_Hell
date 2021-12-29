@@ -17,10 +17,11 @@ Screen::Screen(
 	renderer = _renderer;
 	textSurface = _textSurface;
 	charset = _charset;
-	elements = new GUIElement * [elementsNumber];
+	elements = new GUIElement*[elementsNumber];
 }
 
 Screen::~Screen() {
+	printf("Deleting screen\n");
 	for (unsigned int i = 0; i < elementsCount; i++) {
 		elements[i]->~GUIElement();
 	}
@@ -139,6 +140,10 @@ GameScreen::GameScreen(
 		entities.addEntity(enemy);
 		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
 	}
+}
+
+GameScreen::~GameScreen() {
+	printf("Deleting gamescreen\n");
 }
 
 void GameScreen::handleEvent(SDL_Event& event) {

@@ -17,11 +17,11 @@ public:
 	int MAX_ATTACK_TIME = 2000;
 	int ATTACK_ROT_MULTIPLIER = 10;
 
-
 	//Initializes the variablesA
 	Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
 		   SDL_Rect* _camera, KeyboardHandler* _keyboard,
 		   GameEntities* _entities, SDL_Texture* _collisionTexture);
+	~Player();
 
 	void handleEvent(SDL_Event& event);
 	void attack();
@@ -42,7 +42,6 @@ private:
 	bool attacking = false;
 	
 	float damage = 100; // dmg per second
-
 };
 
 

@@ -2,6 +2,8 @@
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "base_types.h"
+#include <stdio.h>
+
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
 
 struct GameEntities; // forward declaration
@@ -15,6 +17,7 @@ public:
 	int entityType;
 
 	Entity(SDL_Renderer* _renderer, SDL_Texture* _texture, SDL_Rect* _camera);
+	~Entity();
 
 	virtual void handleEvent(SDL_Event& event);
 	virtual void update(double delta);
@@ -100,6 +103,13 @@ struct GameEntities {
 			entities[i] = nullptr;
 		for (unsigned int i = 0; i < queueAmount; i++)
 			removeQueue[i] = nullptr;
+	}
+	~GameEntities() {
+		printf_s("Deleting game entities\n");
+		for (unsigned int i = 0; i < amount; i++)
+			delete entities[i];
+		delete[] entities;
+		delete[] removeQueue;
 	}
 
 	void removeQueuedEntities() {

@@ -22,7 +22,7 @@ public:
 		SDL_Surface* _charset,
 		int _SCREEN_WIDTH,
 		int _SCREEN_HEIGHT);
-	Screen::~Screen();
+	virtual ~Screen();
 	virtual void render();
 	virtual void update(double delta, double worldTime) {};
 	virtual void handleEvent(SDL_Event& event);
@@ -75,6 +75,7 @@ public:
 		int _SCREEN_WIDTH,
 		int _SCREEN_HEIGHT,
 		Game* _game);
+	~GameScreen();
 	void handleEvent(SDL_Event& event);
 	void update(double delta, double worldTime);
 	void render();

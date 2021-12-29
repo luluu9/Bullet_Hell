@@ -46,6 +46,5 @@ private:
 	char text[128];
 
 	Screen* currentScreen;
-
 	KeyboardHandler* keyboard;
 };

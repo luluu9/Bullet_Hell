@@ -25,6 +25,13 @@ Player::Player(SDL_Renderer* _renderer, SDL_Texture* _texture,
 	attackCountdown->elapsedTime = MAX_ATTACK_TIME;
 }
 
+Player::~Player() {
+	printf_s("Deleting player\n");
+	delete invincibleTimer;
+	delete attackTimer;
+	delete attackCountdown;
+}
+
 void Player::handleEvent(SDL_Event& event) {
 	if (keyboard->isPressed(SDLK_UP)) speed += ACCEL;
 	if (keyboard->isPressed(SDLK_DOWN)) speed -= ACCEL;

@@ -67,7 +67,6 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 
 	keyboard = new KeyboardHandler;
 	currentScreen = new MainMenu(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT, this);
-
 }
 
 void Game::handleEvents() {
@@ -76,8 +75,7 @@ void Game::handleEvents() {
 		switch (event.type) {
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false;
-			break;
-		case SDL_KEYUP:
+			if (event.key.keysym.sym == SDLK_n) changeScreen(LEVEL_1);
 			break;
 		case SDL_QUIT:
 			isRunning = false;
@@ -103,6 +101,11 @@ void Game::render() {
 }
 
 void Game::clean() {
+	delete currentScreen;
+	delete keyboard;
+	SDL_DestroyTexture(textTexture);
+	SDL_FreeSurface(textSurface);
+	SDL_FreeSurface(charset);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

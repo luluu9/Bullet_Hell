@@ -18,6 +18,11 @@ Entity::Entity(SDL_Renderer* _renderer, SDL_Texture* _texture,
 	SDL_QueryTexture(texture, NULL, NULL, &WIDTH, &HEIGHT);
 }
 
+Entity::~Entity() {
+	printf_s("Deleting entity\n");
+	SDL_DestroyTexture(texture);
+}
+
 void Entity::handleEvent(SDL_Event& event) {
 	//printf("entity event");
 }
