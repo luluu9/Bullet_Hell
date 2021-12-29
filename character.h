@@ -60,4 +60,5 @@ private:
 	int shootingThreshold = 600; // px
 	int shootingDelay = 1500; // in msec
 	int shootingTimer = shootingDelay;
+	//float MAX_HP = 1000;
 };

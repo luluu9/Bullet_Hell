@@ -43,7 +43,7 @@ public:
 	void render();
 	void drawHPBar();
 protected:
-	float MAX_HP = 100;
+	float MAX_HP = 1000;
 	float healthPoints = MAX_HP;
 };
 

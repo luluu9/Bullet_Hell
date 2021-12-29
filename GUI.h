@@ -80,6 +80,7 @@ public:
 	void render();
 private:
 	SDL_Texture* background;
+	int bgWidth, bgHeight;
 	GameEntities entities;
 	Player* player;
 	SDL_Rect camera;

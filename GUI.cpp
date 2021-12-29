@@ -130,10 +130,11 @@ GameScreen::GameScreen(
 	entities.addEntity(player);
 
 	background = loadTextureFromBMP(renderer, "./assets/sky.bmp");
+	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
 
 	SDL_Texture* chemiczny = loadTextureFromBMP(renderer, "./assets/chemiczny.bmp");
 	SDL_Texture* acid = loadTextureFromBMP(renderer, "./assets/acid.bmp");
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 1; i++) {
 		Chemiczny* enemy = new Chemiczny(renderer, chemiczny, &camera, &entities, player, acid);
 		entities.addEntity(enemy);
 		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
@@ -173,8 +174,9 @@ void GameScreen::update(double delta, double worldTime) {
 }
 
 void GameScreen::render() {
-	for (int i = -3; i < 3; i++)
-		DrawTexture(renderer, background, -camera.x + i * 1024, -camera.y);
+	for (int i = -1; i <= SCREEN_WIDTH / bgWidth + 2; i++)
+		for (int j = -1; j <= SCREEN_HEIGHT / bgHeight + 2; j++)
+			DrawTexture(renderer, background, -(camera.x%bgWidth) + i * bgWidth, -(camera.y % bgHeight) + j * bgHeight);
 	for (unsigned int i = 0; i < entities.currentEntity; i++)
 		entities.getEntity(i)->render();
 	Screen::render(); // draw last to always be visible
