@@ -80,28 +80,6 @@ protected:
 };
 
 
-class Spark : public Entity {
-public:
-	Spark(
-		SDL_Renderer* _renderer, 
-		SDL_Rect* _camera, 
-		GameEntities* entities, 
-		Vector2 startPos);
-	void update(double delta);
-	void render();
-
-private:
-	GameEntities* entities;
-	int MAX_SPEED = 500;
-	int MIN_SPEED = 200;
-	int MAX_ANGLE = 360;
-	int MAX_RAND_POS = 30;
-	float SCALE_DECREASE = (float)0.02;
-	double speed;
-	float scale;
-};
-
-
 struct GameEntities {
 public:
 	unsigned int currentEntity = 0;

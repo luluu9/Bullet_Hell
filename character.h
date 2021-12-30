@@ -34,7 +34,6 @@ public:
 	void stopInvincibility();
 
 private:
-	
 	KeyboardHandler* keyboard;
 	GameEntities* entities;
 	Timer* invincibleTimer;
@@ -63,4 +62,26 @@ private:
 	int shootingThreshold = 600; // px
 	int shootingDelay = 1500; // in msec
 	int shootingTimer = shootingDelay;
+};
+
+
+class Spark : public Entity {
+public:
+	Spark(
+		SDL_Renderer* _renderer,
+		SDL_Rect* _camera,
+		GameEntities* entities,
+		Vector2 startPos);
+	void update(double delta);
+	void render();
+
+private:
+	GameEntities* entities;
+	int MAX_SPEED = 500;
+	int MIN_SPEED = 200;
+	int MAX_ANGLE = 360;
+	int MAX_RAND_POS = 30;
+	float SCALE_DECREASE = (float)0.02;
+	double speed;
+	float scale;
 };

@@ -137,36 +137,6 @@ void Enemy::hit(float damage) {
 }
 
 
-Spark::Spark(
-	SDL_Renderer* _renderer, 
-	SDL_Rect* _camera, 
-	GameEntities* _entities, 
-	Vector2 startPos)
-	:Entity(_renderer, SPARK_TXT_PATH, _camera) {
-	pos = startPos;
-	pos.x += -MAX_RAND_POS + rand() % (MAX_RAND_POS * 2);
-	pos.y += -MAX_RAND_POS + rand() % (MAX_RAND_POS * 2);
-	entities = _entities;
-	speed = MIN_SPEED + rand() % (MAX_SPEED - MIN_SPEED);
-	angle = rand() % MAX_ANGLE;
-	scale = (float)rand() / (float)RAND_MAX;
-}
-
-void Spark::update(double delta) {
-	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
-	velocity = velocity.normalized();
-	pos.x += velocity.x * delta * speed;
-	pos.y += velocity.y * delta * speed;
-	scale -= SCALE_DECREASE;
-	if (scale <= 0)
-		entities->queueRemove(this);
-}
-
-void Spark::render() {
-	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
-}
-
-
 GameEntities::GameEntities() {
 	for (unsigned int i = 0; i < amount; i++)
 		entities[i] = nullptr;
