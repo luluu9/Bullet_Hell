@@ -112,6 +112,11 @@ void DestroyableEntity::drawHPBar() {
 	drawRectangle(renderer, barRect, hpColor, hpColor);
 }
 
+void DestroyableEntity::setHP(float _MAX_HP) {
+	MAX_HP = _MAX_HP;
+	healthPoints = MAX_HP;
+}
+
 Enemy::Enemy(
 	SDL_Renderer* _renderer, 
 	char* texturePath,

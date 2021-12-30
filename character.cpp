@@ -145,8 +145,8 @@ Chemiczny::Chemiczny(
 	Player* _player)
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
 	shootingTimer = rand() % shootingDelay;
+	setHP(100);
 };
-
 
 void Chemiczny::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();

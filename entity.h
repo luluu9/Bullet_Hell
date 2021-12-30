@@ -51,8 +51,9 @@ public:
 		SDL_Rect* _camera);
 	void render();
 	void drawHPBar();
+	void setHP(float _MAX_HP);
 protected:
-	float MAX_HP = 1000;
+	float MAX_HP = 100;
 	float healthPoints = MAX_HP;
 };
 
