@@ -25,6 +25,7 @@ Player::Player(
 	attackTimer = new Timer(MAX_ATTACK_TIME, true);
 	attackCountdown = new Timer(MAX_ATTACK_TIME);
 	attackCountdown->elapsedTime = MAX_ATTACK_TIME;
+	setHP(PLAYER_HP);
 }
 
 Player::~Player() {
@@ -145,7 +146,7 @@ Chemiczny::Chemiczny(
 	Player* _player)
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
 	shootingTimer = rand() % shootingDelay;
-	setHP(100);
+	setHP(CHEMICZNY_HP);
 };
 
 
