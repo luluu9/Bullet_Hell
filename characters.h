@@ -5,7 +5,7 @@
 #include "weapons.h"
 #include "entity.h"
 #include "base_types.h"
-#include "character.h"
+#include "characters.h"
 
 
 class Player : public DestroyableEntity {

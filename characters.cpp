@@ -2,7 +2,7 @@
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include <stdio.h>
 #include <cstdlib>
-#include "character.h"
+#include "characters.h"
 #include "drawing.h"
 #include "settings.h"
 

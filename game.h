@@ -1,7 +1,7 @@
 #pragma once
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
-#include "character.h"
+#include "characters.h"
 #include "keyboard.h"
 #include "entity.h"
 #include "GUI.h"
