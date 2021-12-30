@@ -5,6 +5,7 @@
 #include "entity.h"
 #include "string.h"
 #include "GUI.h"
+#include "settings.h"
 
 
 Game::Game() {
@@ -50,7 +51,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
-	SDL_SetWindowTitle(window, "Bullet Hell");
+	SDL_SetWindowTitle(window, TITLE);
 	//SDL_ShowCursor(SDL_DISABLE);
 
 	// prepare everything to draw text
@@ -62,7 +63,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 		SCREEN_WIDTH, SCREEN_HEIGHT);
 	SDL_SetTextureBlendMode(textTexture, SDL_BLENDMODE_BLEND);
 
-	charset = SDL_LoadBMP("./cs8x8.bmp");
+	charset = SDL_LoadBMP(CHARSET_TXT_PATH);
 	SDL_SetColorKey(charset, true, 0xFF000000);
 
 	keyboard = new KeyboardHandler;
