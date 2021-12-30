@@ -167,6 +167,92 @@ void Spark::render() {
 }
 
 
+GameEntities::GameEntities() {
+	for (unsigned int i = 0; i < amount; i++)
+		entities[i] = nullptr;
+	for (unsigned int i = 0; i < queueAmount; i++)
+		removeQueue[i] = nullptr;
+}
+
+GameEntities::~GameEntities() {
+	printf_s("Deleting game entities\n");
+	for (unsigned int i = 0; i < amount; i++)
+		delete entities[i];
+	delete[] entities;
+	delete[] removeQueue;
+}
+
+void GameEntities::removeQueuedEntities() {
+	// remove all entities queued to remove
+	for (unsigned int i = 0; i < currentQueueEntity; i++) {
+		removeEntity(removeQueue[i]);
+		removeQueue[i] = nullptr;
+	}
+	currentQueueEntity = 0;
+}
+
+Entity* GameEntities::getEntity(unsigned int entityId) {
+	if (entityId >= amount) return nullptr;
+	return entities[entityId];
+}
+
+void GameEntities::addEntity(Entity* entity) {
+	if (currentEntity >= amount) {
+		// resize array
+		amount *= 2;
+		Entity** extendedArray = new Entity * [amount];
+		for (unsigned int i = 0; i < currentEntity; i++)
+			extendedArray[i] = entities[i];
+		for (unsigned int i = currentEntity; i < amount; i++)
+			extendedArray[i] = nullptr;
+		delete[] entities;
+		entities = extendedArray;
+	}
+	entities[currentEntity] = entity;
+	currentEntity++;
+}
+
+void GameEntities::queueRemove(Entity* entityToRemove) {
+	if (currentQueueEntity >= queueAmount) {
+		// resize array
+		queueAmount *= 2;
+		Entity** extendedArray = new Entity * [queueAmount];
+		for (unsigned int i = 0; i < currentQueueEntity; i++)
+			extendedArray[i] = removeQueue[i];
+		for (unsigned int i = currentQueueEntity; i < queueAmount; i++)
+			extendedArray[i] = nullptr;
+		delete[] removeQueue;
+		removeQueue = extendedArray;
+	}
+	removeQueue[currentQueueEntity] = entityToRemove;
+	currentQueueEntity++;
+}
+
+void GameEntities::removeEntity(Entity* entityToRemove) {
+	Entity* firstEncounteredEntity = nullptr;
+	unsigned int firstEncounteredEntityId = amount;
+	for (int i = amount - 1; i >= 0; i--) {
+		if (entities[i] != nullptr) {
+			if (entities[i] == entityToRemove) {
+				entities[i]->~Entity(); // call destructor
+				entities[i] = nullptr;
+				if (firstEncounteredEntity != nullptr) { // fill gap in array
+					entities[i] = firstEncounteredEntity;
+					entities[firstEncounteredEntityId] = nullptr;
+				}
+				currentEntity--;
+				break;
+			}
+			if (firstEncounteredEntity == nullptr) {
+				firstEncounteredEntity = entities[i];
+				firstEncounteredEntityId = i;
+			}
+		}
+	}
+}
+
+
+
 bool isColliding(Entity* a, Entity* b) {
 	// AABB algorithm
 	SDL_Rect rect1 = a->getGlobalRect();

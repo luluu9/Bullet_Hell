@@ -102,69 +102,17 @@ private:
 };
 
 
-// todo: move functions to .cpp
 struct GameEntities {
+public:
 	unsigned int currentEntity = 0;
 
-	GameEntities() {
-		for (unsigned int i = 0; i < amount; i++)
-			entities[i] = nullptr;
-		for (unsigned int i = 0; i < queueAmount; i++)
-			removeQueue[i] = nullptr;
-	}
-	~GameEntities() {
-		printf_s("Deleting game entities\n");
-		for (unsigned int i = 0; i < amount; i++)
-			delete entities[i];
-		delete[] entities;
-		delete[] removeQueue;
-	}
+	GameEntities();
+	~GameEntities();
 
-	void removeQueuedEntities() {
-		// remove all entities queued to remove
-		for (unsigned int i = 0; i < currentQueueEntity; i++) {
-			removeEntity(removeQueue[i]);
-			removeQueue[i] = nullptr;
-		}
-		currentQueueEntity = 0;
-	}
-
-	Entity* getEntity(unsigned int entityId) {
-		if (entityId >= amount) return nullptr;
-		return entities[entityId];
-	}
-
-	void addEntity(Entity* entity) {
-		if (currentEntity >= amount) {
-			// resize array
-			amount *= 2;
-			Entity** extendedArray = new Entity * [amount];
-			for (unsigned int i = 0; i < currentEntity; i++)
-				extendedArray[i] = entities[i];
-			for (unsigned int i = currentEntity; i < amount; i++)
-				extendedArray[i] = nullptr;
-			delete[] entities;
-			entities = extendedArray;
-		}
-		entities[currentEntity] = entity;
-		currentEntity++;
-	}
-
-	void queueRemove(Entity* entityToRemove) {
-		if (currentQueueEntity >= queueAmount) {
-			// resize array
-			queueAmount *= 2;
-			Entity** extendedArray = new Entity * [queueAmount];
-			for (unsigned int i = 0; i < currentQueueEntity; i++)
-				extendedArray[i] = removeQueue[i];
-			for (unsigned int i = currentQueueEntity; i < queueAmount; i++)
-				extendedArray[i] = nullptr;
-			delete[] removeQueue;
-			removeQueue = extendedArray;
-		}
-		removeQueue[currentQueueEntity] = entityToRemove;
-		currentQueueEntity++;
-	}
+	void removeQueuedEntities();
+	Entity* getEntity(unsigned int entityId);
+	void addEntity(Entity* entity);
+	void queueRemove(Entity* entityToRemove);
 
 private:
 	unsigned int amount = 10;
@@ -173,28 +121,7 @@ private:
 	Entity** entities = new Entity * [amount];
 	Entity** removeQueue = new Entity * [amount];
 
-	void removeEntity(Entity* entityToRemove) {
-		Entity* firstEncounteredEntity = nullptr;
-		unsigned int firstEncounteredEntityId = amount;
-		for (int i = amount - 1; i >= 0; i--) {
-			if (entities[i] != nullptr) {
-				if (entities[i] == entityToRemove) {
-					entities[i]->~Entity(); // call destructor
-					entities[i] = nullptr;
-					if (firstEncounteredEntity != nullptr) { // fill gap in array
-						entities[i] = firstEncounteredEntity;
-						entities[firstEncounteredEntityId] = nullptr;
-					}
-					currentEntity--;
-					break;
-				}
-				if (firstEncounteredEntity == nullptr) {
-					firstEncounteredEntity = entities[i];
-					firstEncounteredEntityId = i;
-				}
-			}
-		}
-	}
+	void removeEntity(Entity* entityToRemove);
 };
 
 bool isColliding(Entity* a, Entity* b);
