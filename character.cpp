@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include "character.h"
 #include "drawing.h"
-#include "paths.h"
+#include "settings.h"
 
 #define PI 3.14159265
 
@@ -147,6 +147,7 @@ Chemiczny::Chemiczny(
 	shootingTimer = rand() % shootingDelay;
 	setHP(100);
 };
+
 
 void Chemiczny::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();

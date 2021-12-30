@@ -2,7 +2,7 @@
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "GUI.h"
 #include "drawing.h"
-#include "paths.h"
+#include "settings.h"
 #include "stdio.h"
 #include <iostream>
 

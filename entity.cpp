@@ -1,6 +1,6 @@
 #include "entity.h"
 #include "drawing.h"
-#include "paths.h"
+#include "settings.h"
 #include <cstdlib>
 
 #define DRAW_COLLISION_BOX 1

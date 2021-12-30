@@ -40,7 +40,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="GUI.h" />
-    <ClInclude Include="paths.h" />
+    <ClInclude Include="settings.h" />
     <ClInclude Include="weapons.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="main.h" />
