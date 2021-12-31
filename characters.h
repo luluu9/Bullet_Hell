@@ -94,12 +94,17 @@ public:
 		SDL_Rect* _camera,
 		GameEntities* _entities,
 		Player* player);
+	AIR::~AIR();
 
 	void AIR::updatePosition(double delta);
 	void AIR::tryToShoot(double delta);
 	void AIR::update(double delta);
-
 private:
+	int SPEED = 200;
 	int shootingDelay = 5000; // in msec
 	int shootingTimer = shootingDelay;
+	int shootingThreshold = 600;
+	int robotsMaxNumber = 4;
+	Robot** robots;
+	
 };

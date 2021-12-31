@@ -204,7 +204,7 @@ void GameEntities::removeEntity(Entity* entityToRemove) {
 	for (int i = amount - 1; i >= 0; i--) {
 		if (entities[i] != nullptr) {
 			if (entities[i] == entityToRemove) {
-				entities[i]->~Entity(); // call destructor
+				delete entities[i]; // call destructor
 				entities[i] = nullptr;
 				if (firstEncounteredEntity != nullptr) { // fill gap in array
 					entities[i] = firstEncounteredEntity;

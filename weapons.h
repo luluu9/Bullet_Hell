@@ -24,7 +24,8 @@ public:
 		SDL_Renderer* _renderer,
 		char* texturePath,
 		SDL_Rect* _camera,
-		int startAngle);
+		Vector2 startPos,
+		int robotId);
 	void update(double delta);
 private:
 	float radius = 200;

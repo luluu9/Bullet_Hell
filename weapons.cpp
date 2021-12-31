@@ -27,11 +27,17 @@ Robot::Robot(
 	SDL_Renderer* _renderer,
 	char* texturePath,
 	SDL_Rect* _camera,
-	int startAngle)
+	Vector2 startPos,
+	int robotId)
 	:Weapon(_renderer, texturePath, _camera, 0) {
 	entityType = WEAPON;
-	pos.x = 0;
-	pos.y = -radius;
+	pos.x = startPos.x;
+	pos.y = startPos.y;
+	if (robotId == 0) pos.y -= radius;
+	if (robotId == 1) pos.x += radius;
+	if (robotId == 2) pos.y += radius;
+	if (robotId == 3) pos.x -= radius;
+	angle = rotateSpeed * robotId;
 	SPEED = 2 * PI * radius / (360 / rotateSpeed);
 }
 

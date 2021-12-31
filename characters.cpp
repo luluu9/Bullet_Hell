@@ -13,12 +13,12 @@ const int SCREEN_HEIGHT = 640;
 
 
 Player::Player(
-	SDL_Renderer* _renderer, 
-	SDL_Rect* _camera, 
+	SDL_Renderer* _renderer,
+	SDL_Rect* _camera,
 	KeyboardHandler* _keyboard,
 	GameEntities* _entities)
 	: DestroyableEntity{ _renderer, PLAYER_TXT_PATH, _camera },
-	keyboard{ _keyboard }, 
+	keyboard{ _keyboard },
 	entities{ _entities } {
 	entityType = PLAYER;
 	invincibleTimer = new Timer(INVINCIBLE_TIME);
@@ -170,9 +170,9 @@ void Spark::render() {
 
 
 Chemiczny::Chemiczny(
-	SDL_Renderer* _renderer, 
-	SDL_Rect* _camera, 
-	GameEntities* _entities, 
+	SDL_Renderer* _renderer,
+	SDL_Rect* _camera,
+	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
 	shootingTimer = rand() % shootingDelay;
@@ -216,27 +216,45 @@ AIR::AIR(
 	angle = 0;
 	shootingTimer = rand() % shootingDelay;
 	setHP(AIR_HP);
+	robots = new Robot * [robotsMaxNumber];
+	for (int i = 0; i < robotsMaxNumber; i++) {
+		Robot* robot = new Robot(renderer, ROBOT_TXT_PATH, camera, pos, i);
+		entities->addEntity(robot);
+		robots[i] = robot;
+	}
 };
 
+AIR::~AIR() {
+	for (int i = 0; i < robotsMaxNumber; i++)
+		delete robots[i];
+	delete[] robots;
+	delete robots;
+}
+
 void AIR::updatePosition(double delta) {
-	//Vector2 playerPos = player->getPos();
-	//angle = pos.getAngleTo(playerPos);
-	//Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
-	//int threshold = player->WIDTH;
-	//if (pos.getDistanceTo(playerPos) < threshold) return;
-	//velocity = velocity.normalized();
-	//pos.x += velocity.x * delta * SPEED;
-	//pos.y += velocity.y * delta * SPEED;
+	Vector2 playerPos = player->getPos();
+	angle = pos.getAngleTo(playerPos);
+	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
+	if (pos.getDistanceTo(playerPos) < shootingThreshold) return;
+	velocity = velocity.normalized();
+	pos.x += velocity.x * delta * SPEED;
+	pos.y += velocity.y * delta * SPEED;
+	for (int i = 0; i < robotsMaxNumber; i++) {
+		if (robots[i] == nullptr) continue;
+		Vector2 newRobotPos = robots[i]->getPos();
+		newRobotPos.x += velocity.x * delta * SPEED;
+		newRobotPos.y += velocity.y * delta * SPEED;
+		robots[i]->setPos(newRobotPos);
+	}
 }
 
 void AIR::tryToShoot(double delta) {
 	if (shootingTimer <= 0) {
-		Weapon* robot = new Robot(renderer, ROBOT_TXT_PATH, camera, angle);
-		entities->addEntity(robot);
-		shootingTimer = shootingDelay;
+		// pass
 	}
 	shootingTimer -= delta * 1000;
 }
+
 
 void AIR::update(double delta) {
 	updatePosition(delta);
