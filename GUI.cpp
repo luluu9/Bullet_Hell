@@ -12,13 +12,15 @@ Screen::Screen(
 	SDL_Surface* _textSurface,
 	SDL_Surface* _charset,
 	int _SCREEN_WIDTH,
-	int _SCREEN_HEIGHT) {
+	int _SCREEN_HEIGHT,
+	SCREEN _screenId) {
 	SCREEN_WIDTH = _SCREEN_WIDTH;
 	SCREEN_HEIGHT = _SCREEN_HEIGHT;
 	renderer = _renderer;
 	textSurface = _textSurface;
 	charset = _charset;
 	elements = new GUIElement*[elementsNumber];
+	screenId = _screenId;
 }
 
 Screen::~Screen() {
@@ -83,7 +85,8 @@ MainMenu::MainMenu(
 		_textSurface,
 		_charset,
 		_SCREEN_WIDTH,
-		_SCREEN_HEIGHT) {
+		_SCREEN_HEIGHT,
+		MAIN_MENU) {
 	game = _game;
 	SDL_Rect titleRect, buttonRect;
 	titleRect.x = SCREEN_WIDTH / 2;
@@ -109,13 +112,15 @@ GameScreen::GameScreen(
 	SDL_Surface* _charset,
 	int _SCREEN_WIDTH,
 	int _SCREEN_HEIGHT,
-	Game* _game)
+	Game* _game,
+	SCREEN levelId)
 	:Screen::Screen(
 		_renderer,
 		_textSurface,
 		_charset,
 		_SCREEN_WIDTH,
-		_SCREEN_HEIGHT) {
+		_SCREEN_HEIGHT,
+		levelId) {
 	game = _game;
 
 	camera.x = 0;
@@ -132,11 +137,19 @@ GameScreen::GameScreen(
 	background = loadTextureFromBMP(renderer, BACKGROUND_TXT_PATH);
 	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
 
-	for (int i = 0; i < 1; i++) {
-		Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
-		entities.addEntity(enemy);
-		enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
+	switch (screenId) {
+	case LEVEL_1:
+		for (int i = 0; i < 1; i++) {
+			Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
+			entities.addEntity(enemy);
+			enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
+		}
+		break;
+	case LEVEL_2:
+		AIR* air = new AIR(renderer, &camera, &entities, player);
+		entities.addEntity(air);
 	}
+	
 }
 
 GameScreen::~GameScreen() {

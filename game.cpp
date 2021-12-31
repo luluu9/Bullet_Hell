@@ -124,7 +124,7 @@ void Game::changeScreen(SCREEN screenId) {
 	case LEVEL_1:
 	case LEVEL_2:
 	case LEVEL_3:
-		currentScreen = new GameScreen(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT, this);
+		currentScreen = new GameScreen(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT, this, screenId);
 		break;
 	}
 }

@@ -21,7 +21,8 @@ public:
 		SDL_Surface* _textSurface,
 		SDL_Surface* _charset,
 		int _SCREEN_WIDTH,
-		int _SCREEN_HEIGHT);
+		int _SCREEN_HEIGHT,
+		SCREEN _screenId);
 	virtual ~Screen();
 	virtual void render();
 	virtual void update(double delta, double worldTime) {};
@@ -36,6 +37,7 @@ protected:
 	SDL_Surface* textSurface;
 	SDL_Surface* charset;
 	GUIElement** elements;
+	SCREEN screenId;
 	unsigned int elementsNumber = 10;
 	unsigned int elementsCount = 0;
 	bool hidden = false;
@@ -74,7 +76,8 @@ public:
 		SDL_Surface* _charset,
 		int _SCREEN_WIDTH,
 		int _SCREEN_HEIGHT,
-		Game* _game);
+		Game* _game,
+		SCREEN levelId);
 	~GameScreen();
 	void handleEvent(SDL_Event& event);
 	void update(double delta, double worldTime);

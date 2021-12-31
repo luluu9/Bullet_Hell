@@ -36,7 +36,7 @@ public:
 
 protected:
 	Vector2 pos;
-	int speed, angle;
+	float speed, angle;
 	SDL_Renderer* renderer;
 	SDL_Texture* texture;
 	SDL_Rect* camera;

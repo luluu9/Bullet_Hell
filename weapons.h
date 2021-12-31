@@ -17,3 +17,17 @@ public:
 	void update(double delta);
 };
 
+
+class Robot : public Weapon {
+public:
+	Robot(
+		SDL_Renderer* _renderer,
+		char* texturePath,
+		SDL_Rect* _camera,
+		int startAngle);
+	void update(double delta);
+private:
+	float radius = 200;
+	int rotateSpeed = 90; // per second
+};
+

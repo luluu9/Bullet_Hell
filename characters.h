@@ -46,25 +46,6 @@ private:
 };
 
 
-class Chemiczny : public Enemy {
-public:
-	Chemiczny(
-		SDL_Renderer* _renderer,
-		SDL_Rect* _camera,
-		GameEntities* _entities,
-		Player* player);
-
-	void Chemiczny::updatePosition(double delta);
-	void Chemiczny::tryToShoot(double delta);
-	void Chemiczny::update(double delta);
-
-private:
-	int shootingThreshold = 600; // px
-	int shootingDelay = 1500; // in msec
-	int shootingTimer = shootingDelay;
-};
-
-
 class Spark : public Entity {
 public:
 	Spark(
@@ -84,4 +65,41 @@ private:
 	float SCALE_DECREASE = (float)0.02;
 	double speed;
 	float scale;
+};
+
+
+class Chemiczny : public Enemy {
+public:
+	Chemiczny(
+		SDL_Renderer* _renderer,
+		SDL_Rect* _camera,
+		GameEntities* _entities,
+		Player* player);
+
+	void Chemiczny::updatePosition(double delta);
+	void Chemiczny::tryToShoot(double delta);
+	void Chemiczny::update(double delta);
+
+private:
+	int shootingThreshold = 600; // px
+	int shootingDelay = 1500; // in msec
+	int shootingTimer = shootingDelay;
+};
+
+
+class AIR : public Enemy {
+public:
+	AIR(
+		SDL_Renderer* _renderer,
+		SDL_Rect* _camera,
+		GameEntities* _entities,
+		Player* player);
+
+	void AIR::updatePosition(double delta);
+	void AIR::tryToShoot(double delta);
+	void AIR::update(double delta);
+
+private:
+	int shootingDelay = 5000; // in msec
+	int shootingTimer = shootingDelay;
 };
