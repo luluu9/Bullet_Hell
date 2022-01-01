@@ -183,7 +183,9 @@ Chemiczny::Chemiczny(
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
-	shootingTimer = rand() % shootingDelay;
+	shootingTimer = new Timer(shootingDelay, false, true);
+	shootingTimer->elapsedTime = rand() % shootingDelay;
+	shootingTimer->start();
 	setHP(CHEMICZNY_HP);
 	enemyType = CHEMICZNY;
 };
@@ -199,13 +201,11 @@ void Chemiczny::updatePosition(double delta) {
 }
 
 void Chemiczny::tryToShoot(double delta) {
-	if (shootingTimer <= 0 && pos.getDistanceTo(player->getPos()) <= shootingThreshold) {
+	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= shootingThreshold) {
 		Weapon* acidWeapon = new Acid(renderer, ACID_TXT_PATH, camera, angle);
 		acidWeapon->setPos(pos);
 		entities->addEntity(acidWeapon);
-		shootingTimer = shootingDelay;
 	}
-	shootingTimer -= delta * 1000;
 }
 
 void Chemiczny::update(double delta) {

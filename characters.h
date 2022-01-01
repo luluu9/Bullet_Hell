@@ -83,9 +83,9 @@ public:
 	void Chemiczny::update(double delta);
 
 private:
+	Timer* shootingTimer;
 	int shootingThreshold = 400; // px
 	int shootingDelay = 1500; // in msec
-	int shootingTimer = shootingDelay;
 };
 
 
