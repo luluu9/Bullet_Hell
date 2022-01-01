@@ -3,8 +3,6 @@
 
 class Weapon : public Entity {
 public:
-	int WIDTH = 40;
-	int HEIGHT = 40;
 	double ACCEL = 30;
 	double SPEED = 300;
 	int DAMAGE = 10;
@@ -36,11 +34,13 @@ public:
 		char* texturePath,
 		SDL_Rect* _camera,
 		Vector2 startPos,
-		int robotId);
+		int startAngle,
+		float _radius,
+		int _rotateSpeed);
 	void update(double delta);
 private:
-	float radius = 200;
-	int rotateSpeed = 90; // per second
+	float radius; 
+	int rotateSpeed; // per second
 };
 
 
@@ -50,13 +50,34 @@ public:
 		SDL_Renderer* _renderer,
 		char* texturePath,
 		SDL_Rect* _camera,
+		GameEntities* _entities,
 		float _startAngle);
 	void update(double delta);
 private:
 	const int GRANADE_SPEED = 300;
 	const int ROTATE_SPEED = 300;
+	const int BOOM_DELAY = 1500; // msec
+	const int BOOM_DIRECTIONS = 4;
+	Timer boomTimer = Timer(BOOM_DELAY);
+	GameEntities* entities;
 	float angle = 0;
 	float startAngle;
 	
 };
 
+class EMPWave : public Weapon {
+public:
+	EMPWave(
+		SDL_Renderer* _renderer,
+		char* texturePath,
+		SDL_Rect* _camera,
+		GameEntities* _entities,
+		float _startAngle);
+	void update(double delta);
+	void render();
+private:
+	const int WAVE_SPEED = 300;
+	const int WAVE_DURATION = 1500; // msec;
+	GameEntities* entities;
+	double scale = 0.1;
+};

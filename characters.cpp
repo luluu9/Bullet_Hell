@@ -102,7 +102,7 @@ void Player::render() {
 
 void Player::collide(Entity* collidingEntity, double delta) {
 	colliding = true;
-	printf_s("typ postaci: %d\n", collidingEntity->entityType);
+	// printf_s("typ postaci: %d\n", collidingEntity->entityType);
 	if (collidingEntity->entityType == WEAPON) {
 		Weapon* weapon = dynamic_cast<Weapon*>(collidingEntity);
 		collideWeapon(weapon, delta);
@@ -122,7 +122,7 @@ void Player::collideEnemy(Enemy* enemy, double delta) {
 }
 
 void Player::collideWeapon(Weapon* weapon, double delta) {
-	printf_s("typ broni: %d\n", weapon->weaponType);
+	// printf_s("typ broni: %d\n", weapon->weaponType);
 	if (attacking && weapon->weaponType == ACID) {
 		weapon->setAngle(weapon->getAngle() + 180); // bounce bullet
 		weapon->update(0.05); // prevent infinite loop inside player rect
@@ -223,9 +223,15 @@ AIR::AIR(
 	enemyType = AIR_TYPE;
 	setHP(AIR_HP);
 	angle = 0;
-	robots = new Robot * [robotsMaxNumber];
-	for (int i = 0; i < robotsMaxNumber; i++) {
-		Robot* robot = new Robot(renderer, ROBOT_TXT_PATH, camera, pos, i);
+	robots = new Robot * [ROBOTS_NUMBER];
+	int angleStep = 360 / ROBOTS_NUMBER;
+	for (int i = 0; i < ROBOTS_NUMBER; i++) {
+		int robotAngle = i * angleStep;
+		Vector2 startPos = getPos();
+		Vector2 direction = getDirectionFromAngle(robotAngle-90);
+		startPos.x += direction.x * ROBOTS_RADIUS;
+		startPos.y += direction.y * ROBOTS_RADIUS;
+		Robot* robot = new Robot(renderer, ROBOT_TXT_PATH, camera, startPos, robotAngle, ROBOTS_RADIUS, angleStep);
 		entities->addEntity(robot);
 		robots[i] = robot;
 	}
@@ -234,7 +240,7 @@ AIR::AIR(
 };
 
 AIR::~AIR() {
-	for (int i = 0; i < robotsMaxNumber; i++)
+	for (int i = 0; i < ROBOTS_NUMBER; i++)
 		delete robots[i];
 	delete[] robots;
 	delete robots;
@@ -242,13 +248,14 @@ AIR::~AIR() {
 }
 
 void AIR::updatePosition(double delta) {
+	//printf_s("%f, %f\n", robots[0]->getPos().x, robots[0]->getPos().y);
 	Vector2 playerPos = player->getPos();
 	angle = pos.getAngleTo(playerPos);
 	Vector2 velocity = getDirectionFromAngle(angle);
 	if (pos.getDistanceTo(playerPos) < shootingThreshold) return;
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
-	for (int i = 0; i < robotsMaxNumber; i++) {
+	for (int i = 0; i < ROBOTS_NUMBER; i++) {
 		if (robots[i] == nullptr) continue;
 		Vector2 newRobotPos = robots[i]->getPos();
 		newRobotPos.x += velocity.x * delta * SPEED;
@@ -259,7 +266,7 @@ void AIR::updatePosition(double delta) {
 
 void AIR::tryToShoot(double delta) {
 	if (shootingTimer->update(delta)) {
-		EMP* emp = new EMP(renderer, EMP_TXT_PATH, camera, angle);
+		EMP* emp = new EMP(renderer, EMP_TXT_PATH, camera, entities, angle);
 		emp->setPos(getPos());
 		entities->addEntity(emp);
 	}
