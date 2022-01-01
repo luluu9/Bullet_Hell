@@ -30,6 +30,8 @@ public:
 	void update(double delta);
 	void render();
 	void collide(Entity* collidingEntity, double delta);
+	void collideEnemy(Enemy* enemy, double delta);
+	void collideWeapon(Weapon* weapon, double delta);
 	void startInvincibility();
 	void stopInvincibility();
 

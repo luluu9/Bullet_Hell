@@ -104,25 +104,33 @@ void Player::collide(Entity* collidingEntity, double delta) {
 	colliding = true;
 	if (collidingEntity->entityType == WEAPON) {
 		Weapon* weapon = dynamic_cast<Weapon*>(collidingEntity);
-		if (attacking) {
-			weapon->setAngle(weapon->getAngle() + 180); // bounce bullet
-			weapon->update(0.05); // prevent infinite loop inside player rect
-		}
-		else {
-			if (!invincible) {
-				healthPoints -= weapon->DAMAGE;
-				startInvincibility();
-			}
-			entities->queueRemove(weapon);
-		}
+		collideWeapon(weapon, delta);
 	}
 	else if (collidingEntity->entityType == ENEMY) {
 		Enemy* enemy = dynamic_cast<Enemy*>(collidingEntity);
-		if (attacking) {
-			enemy->hit(damage * delta);
-			Spark* spark = new Spark(renderer, camera, entities, enemy->getPos());
-			entities->addEntity(spark);
+		collideEnemy(enemy, delta);
+	}
+}
+
+void Player::collideEnemy(Enemy* enemy, double delta) {
+	if (attacking) {
+		enemy->hit(damage * delta);
+		Spark* spark = new Spark(renderer, camera, entities, enemy->getPos());
+		entities->addEntity(spark);
+	}
+}
+
+void Player::collideWeapon(Weapon* weapon, double delta) {
+	if (attacking) {
+		weapon->setAngle(weapon->getAngle() + 180); // bounce bullet
+		weapon->update(0.05); // prevent infinite loop inside player rect
+	}
+	else {
+		if (!invincible) {
+			healthPoints -= weapon->DAMAGE;
+			startInvincibility();
 		}
+		entities->queueRemove(weapon);
 	}
 }
 
