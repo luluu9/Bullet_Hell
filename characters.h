@@ -103,10 +103,10 @@ public:
 	void AIR::update(double delta);
 private:
 	int SPEED = 200;
-	int shootingDelay = 5000; // in msec
-	int shootingTimer = shootingDelay;
+	int SHOOTING_DELAY = 2500; // in msec
 	int shootingThreshold = 600;
 	int robotsMaxNumber = 4;
+	Timer* shootingTimer;
 	Robot** robots;
 	
 };

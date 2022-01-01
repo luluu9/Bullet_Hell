@@ -28,6 +28,7 @@ public:
 		int _angle);
 };
 
+
 class Robot : public Weapon {
 public:
 	Robot(
@@ -40,5 +41,22 @@ public:
 private:
 	float radius = 200;
 	int rotateSpeed = 90; // per second
+};
+
+
+class EMP : public Weapon {
+public:
+	EMP(
+		SDL_Renderer* _renderer,
+		char* texturePath,
+		SDL_Rect* _camera,
+		float _startAngle);
+	void update(double delta);
+private:
+	const int GRANADE_SPEED = 300;
+	const int ROTATE_SPEED = 300;
+	float angle = 0;
+	float startAngle;
+	
 };
 

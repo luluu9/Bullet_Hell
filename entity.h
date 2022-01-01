@@ -6,7 +6,7 @@
 
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
 enum ENEMY_TYPES { CHEMICZNY=1, AIR_TYPE };
-enum WEAPON_TYPES { ACID=1, ROBOT, GRANADE };
+enum WEAPON_TYPES { ACID=1, ROBOT, EMP_GRANADE};
 
 
 struct GameEntities; // forward declaration

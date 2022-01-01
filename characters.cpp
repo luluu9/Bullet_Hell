@@ -220,16 +220,17 @@ AIR::AIR(
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, AIR_TXT_PATH, _camera, _entities, _player } {
-	angle = 0;
-	shootingTimer = rand() % shootingDelay;
+	enemyType = AIR_TYPE;
 	setHP(AIR_HP);
+	angle = 0;
 	robots = new Robot * [robotsMaxNumber];
 	for (int i = 0; i < robotsMaxNumber; i++) {
 		Robot* robot = new Robot(renderer, ROBOT_TXT_PATH, camera, pos, i);
 		entities->addEntity(robot);
 		robots[i] = robot;
 	}
-	enemyType = AIR_TYPE;
+	shootingTimer = new Timer(SHOOTING_DELAY, false, true);
+	shootingTimer->start();
 };
 
 AIR::~AIR() {
@@ -237,6 +238,7 @@ AIR::~AIR() {
 		delete robots[i];
 	delete[] robots;
 	delete robots;
+	delete shootingTimer;
 }
 
 void AIR::updatePosition(double delta) {
@@ -256,10 +258,11 @@ void AIR::updatePosition(double delta) {
 }
 
 void AIR::tryToShoot(double delta) {
-	if (shootingTimer <= 0) {
-		// pass
+	if (shootingTimer->update(delta)) {
+		EMP* emp = new EMP(renderer, EMP_TXT_PATH, camera, angle);
+		emp->setPos(getPos());
+		entities->addEntity(emp);
 	}
-	shootingTimer -= delta * 1000;
 }
 
 

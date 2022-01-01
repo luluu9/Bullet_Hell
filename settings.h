@@ -8,6 +8,7 @@ static char* PLAYER_TXT_PATH = "./assets/etispinner_small.bmp";
 static char* CHARSET_TXT_PATH = "./assets/cs8x8.bmp";
 static char* ROBOT_TXT_PATH = "./assets/robot_small.bmp";
 static char* AIR_TXT_PATH = "./assets/air.bmp";
+static char* EMP_TXT_PATH = "./assets/emp_granade/emp_granade.bmp";
 
 // ANIMATIONS
 static char* EMP_GRANADE_DIR_PATH = "./assets/emp_granade";

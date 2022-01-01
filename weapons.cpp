@@ -39,7 +39,6 @@ Robot::Robot(
 	Vector2 startPos,
 	int robotId)
 	:Weapon(_renderer, texturePath, _camera, 0) {
-	entityType = WEAPON;
 	pos.x = startPos.x;
 	pos.y = startPos.y;
 	if (robotId == 0) pos.y -= radius;
@@ -56,4 +55,23 @@ void Robot::update(double delta) {
 	Vector2 velocity = getDirectionFromAngle(angle);
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
+}
+
+
+EMP::EMP(
+	SDL_Renderer* _renderer,
+	char* texturePath,
+	SDL_Rect* _camera,
+	float _startAngle)
+	:Weapon(_renderer, texturePath, _camera, _startAngle) {
+	startAngle = _startAngle;
+	weaponType = EMP_GRANADE;
+	SPEED = GRANADE_SPEED;
+}
+
+void EMP::update(double delta) {
+	angle += ROTATE_SPEED * delta;
+	Vector2 direction = getDirectionFromAngle(startAngle);
+	pos.x += direction.x * delta * SPEED;
+	pos.y += direction.y * delta * SPEED;
 }

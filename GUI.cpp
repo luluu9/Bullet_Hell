@@ -149,8 +149,6 @@ GameScreen::GameScreen(
 		AIR* air = new AIR(renderer, &camera, &entities, player);
 		entities.addEntity(air);
 	}
-
-	testPlayer = new AnimationPlayer(renderer, &camera, EMP_GRANADE_DIR_PATH, EMP_GRANADE_FRAMES);
 }
 
 GameScreen::~GameScreen() {
@@ -181,11 +179,9 @@ void GameScreen::update(double delta, double worldTime) {
 		if (currentEntity != player) {
 			if (isColliding(player, currentEntity)) {
 				player->collide(currentEntity, delta);
-				testPlayer = new AnimationPlayer(renderer, &camera, EMP_GRANADE_DIR_PATH, EMP_GRANADE_FRAMES);
 			}
 		}
 	}
-	testPlayer->update(delta);
 	sprintf_s(text, "% .1lf s ", worldTime);
 	DrawString(textSurface, SCREEN_WIDTH / 2, 10, text, charset);
 }
@@ -197,7 +193,6 @@ void GameScreen::render() {
 	for (unsigned int i = 0; i < entities.currentEntity; i++)
 		entities.getEntity(i)->render();
 	Screen::render(); // draw last to always be visible
-	testPlayer->render();
 }
 
 GUIElement::GUIElement(SDL_Renderer* _renderer, SDL_Rect _rect) {
