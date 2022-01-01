@@ -182,8 +182,7 @@ void Chemiczny::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();
 	angle = pos.getAngleTo(playerPos);
 	Vector2 velocity = getDirectionFromAngle(angle);
-	int threshold = player->WIDTH*1.5;
-	if (pos.getDistanceTo(playerPos) < threshold) return;
+	if (pos.getDistanceTo(playerPos) < shootingThreshold) return;
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 }
