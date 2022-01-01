@@ -22,6 +22,16 @@ void Weapon::update(double delta) {
 }
 
 
+Acid::Acid(
+	SDL_Renderer* _renderer,
+	char* texturePath,
+	SDL_Rect* _camera,
+	int _angle)
+	:Weapon(_renderer, texturePath, _camera, _angle) {
+	weaponType = ACID;
+}
+
+
 Robot::Robot(
 	SDL_Renderer* _renderer,
 	char* texturePath,
@@ -38,6 +48,7 @@ Robot::Robot(
 	if (robotId == 3) pos.x -= radius;
 	angle = rotateSpeed * robotId;
 	SPEED = 2 * PI * radius / (360 / rotateSpeed);
+	weaponType = ROBOT;
 }
 
 void Robot::update(double delta) {

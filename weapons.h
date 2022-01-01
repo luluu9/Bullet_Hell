@@ -8,6 +8,7 @@ public:
 	double ACCEL = 30;
 	double SPEED = 300;
 	int DAMAGE = 10;
+	int weaponType = UNKNOWN;
 
 	Weapon(
 		SDL_Renderer* _renderer, 
@@ -17,6 +18,15 @@ public:
 	void update(double delta);
 };
 
+
+class Acid : public Weapon {
+public:
+	Acid(
+		SDL_Renderer* _renderer,
+		char* texturePath,
+		SDL_Rect* _camera,
+		int _angle);
+};
 
 class Robot : public Weapon {
 public:

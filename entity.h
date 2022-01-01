@@ -5,6 +5,8 @@
 #include <stdio.h>
 
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
+enum ENEMY_TYPES { CHEMICZNY=1, AIR_TYPE };
+enum WEAPON_TYPES { ACID=1, ROBOT };
 
 
 struct GameEntities; // forward declaration
@@ -18,8 +20,8 @@ public:
 	int entityType;
 
 	Entity(
-		SDL_Renderer* _renderer, 
-		char* texturePath, 
+		SDL_Renderer* _renderer,
+		char* texturePath,
 		SDL_Rect* _camera);
 	~Entity();
 
@@ -46,7 +48,7 @@ protected:
 class DestroyableEntity : public Entity {
 public:
 	DestroyableEntity(
-		SDL_Renderer* _renderer, 
+		SDL_Renderer* _renderer,
 		char* texturePath,
 		SDL_Rect* _camera);
 	void render();
@@ -64,11 +66,12 @@ public:
 	double SPEED = 50;
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 500; //px per sec
+	int enemyType = UNKNOWN;
 
 	//Initializes the variablesA
-	Enemy(SDL_Renderer* _renderer, 
+	Enemy(SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera, 
+		SDL_Rect* _camera,
 		GameEntities* entities,
 		Player* _player);
 

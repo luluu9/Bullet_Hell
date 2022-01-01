@@ -102,6 +102,7 @@ void Player::render() {
 
 void Player::collide(Entity* collidingEntity, double delta) {
 	colliding = true;
+	printf_s("typ postaci: %d\n", collidingEntity->entityType);
 	if (collidingEntity->entityType == WEAPON) {
 		Weapon* weapon = dynamic_cast<Weapon*>(collidingEntity);
 		collideWeapon(weapon, delta);
@@ -121,7 +122,8 @@ void Player::collideEnemy(Enemy* enemy, double delta) {
 }
 
 void Player::collideWeapon(Weapon* weapon, double delta) {
-	if (attacking) {
+	printf_s("typ broni: %d\n", weapon->weaponType);
+	if (attacking && weapon->weaponType == ACID) {
 		weapon->setAngle(weapon->getAngle() + 180); // bounce bullet
 		weapon->update(0.05); // prevent infinite loop inside player rect
 	}
@@ -183,6 +185,7 @@ Chemiczny::Chemiczny(
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
 	shootingTimer = rand() % shootingDelay;
 	setHP(CHEMICZNY_HP);
+	enemyType = CHEMICZNY;
 };
 
 
@@ -197,7 +200,7 @@ void Chemiczny::updatePosition(double delta) {
 
 void Chemiczny::tryToShoot(double delta) {
 	if (shootingTimer <= 0 && pos.getDistanceTo(player->getPos()) <= shootingThreshold) {
-		Weapon* acidWeapon = new Weapon(renderer, ACID_TXT_PATH, camera, angle);
+		Weapon* acidWeapon = new Acid(renderer, ACID_TXT_PATH, camera, angle);
 		acidWeapon->setPos(pos);
 		entities->addEntity(acidWeapon);
 		shootingTimer = shootingDelay;
@@ -226,6 +229,7 @@ AIR::AIR(
 		entities->addEntity(robot);
 		robots[i] = robot;
 	}
+	enemyType = AIR_TYPE;
 };
 
 AIR::~AIR() {
