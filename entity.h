@@ -23,6 +23,9 @@ public:
 		SDL_Renderer* _renderer,
 		char* texturePath,
 		SDL_Rect* _camera);
+	Entity(
+		SDL_Renderer* _renderer,
+		SDL_Rect* _camera);
 	~Entity();
 
 	virtual void handleEvent(SDL_Event& event);
@@ -106,26 +109,27 @@ private:
 };
 
 
-class AnimationPlayer {
+class AnimationPlayer : public Entity {
 public:
 	AnimationPlayer(
 		SDL_Renderer* _renderer,
 		SDL_Rect* _camera,
 		char* _texturesDir,
-		int _frames);
+		int _frames,
+		Vector2 _pos);
 	~AnimationPlayer();
 	void update(double delta);
 	void render();
 	void nextFrame();
+	void start();
 private:
 	SDL_Texture** txtFrames;
-	SDL_Renderer* renderer;
-	SDL_Rect* camera;
 	Timer* timer;
 	char* texturesDir;
 	int frames;
 	int currentFrame = 0;
-	float speed = 30; // miliseconds per frame
+	float speed = 50; // miliseconds per frame
+	bool started = false;
 };
 
 bool isColliding(Entity* a, Entity* b);

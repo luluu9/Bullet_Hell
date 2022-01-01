@@ -52,7 +52,6 @@ Robot::Robot(
 }
 
 void Robot::update(double delta) {
-	printf_s("%f, %f\n", getPos().x, getPos().y);
 	angle += delta * rotateSpeed;
 	Vector2 velocity = getDirectionFromAngle(angle);
 	pos.x += velocity.x * delta * SPEED;
@@ -77,14 +76,13 @@ EMP::EMP(
 void EMP::update(double delta) {
 	if (boomTimer.update(delta)) {
 		// boom
+		startAnimation();
 		int angleStep = 360 / BOOM_DIRECTIONS;
 		for (int i = 0; i < BOOM_DIRECTIONS; i++) {
 			int waveAngle = startAngle + i * angleStep;
 			EMPWave* wave = new EMPWave(renderer, EMPWave_TXT_PATH, camera, entities, waveAngle);
 			Vector2 startPos = getPos();
 			Vector2 direction = getDirectionFromAngle(waveAngle);
-			printf_s("%d, %d\n", WIDTH, HEIGHT);
-			
 			wave->setPos(startPos);
 			entities->addEntity(wave);
 		}
@@ -98,6 +96,15 @@ void EMP::update(double delta) {
 	}
 }
 
+void EMP::render() {
+	Weapon::render();
+}
+
+void EMP::startAnimation() {
+	AnimationPlayer* boomAnimation = new AnimationPlayer(renderer, camera, EMP_GRANADE_DIR_PATH, EMP_GRANADE_FRAMES, pos);
+	entities->addEntity(boomAnimation);
+	boomAnimation->start();
+}
 
 EMPWave::EMPWave(
 	SDL_Renderer* _renderer,
@@ -121,4 +128,6 @@ void EMPWave::update(double delta) {
 
 void EMPWave::render() {
 	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
+	
 }
+

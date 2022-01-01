@@ -53,15 +53,19 @@ public:
 		GameEntities* _entities,
 		float _startAngle);
 	void update(double delta);
+	void render();
+	void startAnimation();
 private:
 	const int GRANADE_SPEED = 300;
 	const int ROTATE_SPEED = 300;
 	const int BOOM_DELAY = 1500; // msec
 	const int BOOM_DIRECTIONS = 4;
+	const int BOOM_DURATION = 0.5;
 	Timer boomTimer = Timer(BOOM_DELAY);
 	GameEntities* entities;
 	float angle = 0;
 	float startAngle;
+	
 	
 };
 

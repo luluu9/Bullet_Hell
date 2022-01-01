@@ -21,6 +21,20 @@ Entity::Entity(
 	SDL_QueryTexture(texture, NULL, NULL, &WIDTH, &HEIGHT);
 }
 
+Entity::Entity(
+	SDL_Renderer* _renderer,
+	SDL_Rect* _camera) {
+	pos.x = pos.y = 0;
+	speed = angle = 0;
+	HEIGHT = WIDTH = 0;
+	renderer = _renderer;
+	camera = _camera;
+	colliding = false;
+	entityType = UNKNOWN;
+	texture = nullptr;
+}
+
+
 Entity::~Entity() {
 	printf_s("Deleting entity\n");
 	SDL_DestroyTexture(texture);
@@ -246,11 +260,12 @@ AnimationPlayer::AnimationPlayer(
 	SDL_Renderer* _renderer,
 	SDL_Rect* _camera,
 	char* _texturesDir,
-	int _frames) {
-	renderer = _renderer;
-	camera = _camera;
+	int _frames,
+	Vector2 _pos) 
+	:Entity(_renderer, _camera){
 	texturesDir = _texturesDir;
 	frames = _frames;
+	pos = _pos;
 	txtFrames = new SDL_Texture * [frames];
 	char txtPath[MAX_PATH_LENGTH];
 	for (int i = 0; i < frames; i++) {
@@ -258,7 +273,6 @@ AnimationPlayer::AnimationPlayer(
 		txtFrames[i] = loadTextureFromBMP(renderer, txtPath);
 	}
 	timer = new Timer(speed, false, true);
-	timer->start();
 }
 
 AnimationPlayer::~AnimationPlayer() {
@@ -269,15 +283,19 @@ AnimationPlayer::~AnimationPlayer() {
 }
 
 void AnimationPlayer::update(double delta) {
-	if (timer->update(delta)) {
-		printf_s("change txt\n");
-		nextFrame();
+	if (started) {
+		if (timer->update(delta)) {
+			printf_s("change txt\n");
+			nextFrame();
+		}
 	}
 }
 
 void AnimationPlayer::render() {
-	if (currentFrame < frames)
-		DrawTexture(renderer, txtFrames[currentFrame], 500, 500);
+	if (started) {
+		if (currentFrame < frames)
+			DrawTexture(renderer, txtFrames[currentFrame], pos.x - camera->x, pos.y - camera->y);
+	}
 }
 
 void AnimationPlayer::nextFrame() {
@@ -286,4 +304,9 @@ void AnimationPlayer::nextFrame() {
 		//delete this;
 		return;
 	}
+}
+
+void AnimationPlayer::start() {
+	started = true;
+	timer->start();
 }
