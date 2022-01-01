@@ -103,3 +103,4 @@ private:
 };
 
 bool isColliding(Entity* a, Entity* b);
+Vector2 getDirectionFromAngle(float angle);

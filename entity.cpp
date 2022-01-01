@@ -222,7 +222,6 @@ void GameEntities::removeEntity(Entity* entityToRemove) {
 }
 
 
-
 bool isColliding(Entity* a, Entity* b) {
 	// AABB algorithm
 	SDL_Rect rect1 = a->getGlobalRect();
@@ -234,4 +233,11 @@ bool isColliding(Entity* a, Entity* b) {
 		return true;
 	}
 	return false;
+}
+
+
+Vector2 getDirectionFromAngle(float angle) {
+	Vector2 direction(cos(angle * PI / 180), sin(angle * PI / 180));
+	direction = direction.normalized();
+	return direction;
 }

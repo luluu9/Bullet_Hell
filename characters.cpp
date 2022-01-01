@@ -67,8 +67,7 @@ void Player::attack() {
 }
 
 void Player::update(double delta) {
-	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
-	velocity = velocity.normalized();
+	Vector2 velocity = getDirectionFromAngle(angle);
 	pos.x += velocity.x * delta * speed;
 	pos.y += velocity.y * delta * speed;
 	attackTimer->update(delta);
@@ -155,8 +154,7 @@ Spark::Spark(
 }
 
 void Spark::update(double delta) {
-	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
-	velocity = velocity.normalized();
+	Vector2 velocity = getDirectionFromAngle(angle);
 	pos.x += velocity.x * delta * speed;
 	pos.y += velocity.y * delta * speed;
 	scale -= SCALE_DECREASE;
@@ -183,10 +181,9 @@ Chemiczny::Chemiczny(
 void Chemiczny::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();
 	angle = pos.getAngleTo(playerPos);
-	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
-	int threshold = player->WIDTH;
+	Vector2 velocity = getDirectionFromAngle(angle);
+	int threshold = player->WIDTH*1.5;
 	if (pos.getDistanceTo(playerPos) < threshold) return;
-	velocity = velocity.normalized();
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 }
@@ -234,9 +231,8 @@ AIR::~AIR() {
 void AIR::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();
 	angle = pos.getAngleTo(playerPos);
-	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
+	Vector2 velocity = getDirectionFromAngle(angle);
 	if (pos.getDistanceTo(playerPos) < shootingThreshold) return;
-	velocity = velocity.normalized();
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 	for (int i = 0; i < robotsMaxNumber; i++) {

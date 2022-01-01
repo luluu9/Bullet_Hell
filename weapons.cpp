@@ -16,8 +16,7 @@ Weapon::Weapon(
 }
 
 void Weapon::update(double delta) {
-	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
-	velocity = velocity.normalized();
+	Vector2 velocity = getDirectionFromAngle(angle);
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 }
@@ -43,8 +42,7 @@ Robot::Robot(
 
 void Robot::update(double delta) {
 	angle += delta * rotateSpeed;
-	Vector2 velocity(cos(angle * PI / 180), sin(angle * PI / 180));
-	velocity = velocity.normalized();
+	Vector2 velocity = getDirectionFromAngle(angle);
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 }
