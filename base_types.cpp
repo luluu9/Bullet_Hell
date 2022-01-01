@@ -43,9 +43,19 @@ Color::Color(uint8_t _r, uint8_t _g, uint8_t _b)
 	:Color(_r, _g, _b, 0) { };
 
 
-Timer::Timer(double _time, bool _autoReset) {
+// time in msec
+Timer::Timer(double _time) {
 	time = _time;
-	autoReset = _autoReset;
+	autoLoad = false;
+	autoStart = false;
+	elapsedTime = 0.0;
+	started = false;
+}
+
+Timer::Timer(double _time, bool _autoLoad, bool _autoStart) {
+	time = _time;
+	autoLoad = _autoLoad;
+	autoStart = _autoStart;
 	elapsedTime = 0.0;
 	started = false;
 }
@@ -59,6 +69,8 @@ void Timer::start() {
 
 void Timer::end() {
 	started = false;
+	if (autoStart)
+		start();
 }
 
 void Timer::resume() {
@@ -78,7 +90,7 @@ bool Timer::update(double delta) {
 			return true;
 		}
 	}
-	else if (autoReset) {
+	else if (autoLoad) {
 		if (elapsedTime > 0)
 			elapsedTime -= delta * 1000;
 		else

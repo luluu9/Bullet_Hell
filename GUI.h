@@ -90,6 +90,8 @@ private:
 	SDL_Rect camera;
 	Game* game;
 	char text[128];
+
+	AnimationPlayer* testPlayer;
 };
 
 

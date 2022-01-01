@@ -8,8 +8,8 @@
 
 
 Entity::Entity(
-	SDL_Renderer* _renderer, 
-	char* texturePath, 
+	SDL_Renderer* _renderer,
+	char* texturePath,
 	SDL_Rect* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
@@ -118,9 +118,9 @@ void DestroyableEntity::setHP(float _MAX_HP) {
 }
 
 Enemy::Enemy(
-	SDL_Renderer* _renderer, 
+	SDL_Renderer* _renderer,
 	char* texturePath,
-	SDL_Rect* _camera, 
+	SDL_Rect* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	:DestroyableEntity(_renderer, texturePath, _camera) {
@@ -240,4 +240,50 @@ Vector2 getDirectionFromAngle(float angle) {
 	Vector2 direction(cos(angle * PI / 180), sin(angle * PI / 180));
 	direction = direction.normalized();
 	return direction;
+}
+
+AnimationPlayer::AnimationPlayer(
+	SDL_Renderer* _renderer,
+	SDL_Rect* _camera,
+	char* _texturesDir,
+	int _frames) {
+	renderer = _renderer;
+	camera = _camera;
+	texturesDir = _texturesDir;
+	frames = _frames;
+	txtFrames = new SDL_Texture * [frames];
+	char txtPath[MAX_PATH_LENGTH];
+	for (int i = 0; i < frames; i++) {
+		sprintf(txtPath, "%s/%d.bmp", texturesDir, i);
+		txtFrames[i] = loadTextureFromBMP(renderer, txtPath);
+	}
+	timer = new Timer(speed, false, true);
+	timer->start();
+}
+
+AnimationPlayer::~AnimationPlayer() {
+	printf_s("Deleting AnimationPlayer");
+	for (unsigned int i = 0; i < frames; i++)
+		delete txtFrames[i];
+	delete[] txtFrames;
+}
+
+void AnimationPlayer::update(double delta) {
+	if (timer->update(delta)) {
+		printf_s("change txt\n");
+		nextFrame();
+	}
+}
+
+void AnimationPlayer::render() {
+	if (currentFrame < frames)
+		DrawTexture(renderer, txtFrames[currentFrame], 500, 500);
+}
+
+void AnimationPlayer::nextFrame() {
+	currentFrame++;
+	if (currentFrame == frames) {
+		//delete this;
+		return;
+	}
 }

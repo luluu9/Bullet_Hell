@@ -33,9 +33,11 @@ struct Timer {
 	double elapsedTime;
 	double time;
 	bool started;
-	bool autoReset; // if stopped substract delta time
+	bool autoLoad; // if stopped substract delta time
+	bool autoStart; // if ended start again
 
-	Timer(double _time, bool _autoReset = false);
+	Timer(double _time, bool _autoLoad, bool _autoStart = false);
+	Timer(double _time);
 	void start();
 	void end();
 	void resume();

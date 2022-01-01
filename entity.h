@@ -6,7 +6,7 @@
 
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
 enum ENEMY_TYPES { CHEMICZNY=1, AIR_TYPE };
-enum WEAPON_TYPES { ACID=1, ROBOT };
+enum WEAPON_TYPES { ACID=1, ROBOT, GRANADE };
 
 
 struct GameEntities; // forward declaration
@@ -103,6 +103,29 @@ private:
 	Entity** removeQueue = new Entity * [amount];
 
 	void removeEntity(Entity* entityToRemove);
+};
+
+
+class AnimationPlayer {
+public:
+	AnimationPlayer(
+		SDL_Renderer* _renderer,
+		SDL_Rect* _camera,
+		char* _texturesDir,
+		int _frames);
+	~AnimationPlayer();
+	void update(double delta);
+	void render();
+	void nextFrame();
+private:
+	SDL_Texture** txtFrames;
+	SDL_Renderer* renderer;
+	SDL_Rect* camera;
+	Timer* timer;
+	char* texturesDir;
+	int frames;
+	int currentFrame = 0;
+	float speed = 30; // miliseconds per frame
 };
 
 bool isColliding(Entity* a, Entity* b);
