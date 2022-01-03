@@ -128,6 +128,27 @@ void EMPWave::update(double delta) {
 
 void EMPWave::render() {
 	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
-	
 }
 
+
+Hammer::Hammer(
+	SDL_Renderer* _renderer,
+	char* texturePath,
+	SDL_Rect* _camera,
+	int _angle)
+	:Weapon(_renderer, texturePath, _camera, _angle) {
+	DAMAGE = 35;
+	weaponType = HAMMER;
+	startAngle = _angle;
+}
+
+
+void Hammer::update(double delta) {
+	angle -= delta*800;
+	Vector2 rotationDirection = getDirectionFromAngle(angle);
+	pos.x += rotationDirection.x * delta * SPEED;
+	pos.y += rotationDirection.y * delta * SPEED;
+	Vector2 baseDirection = getDirectionFromAngle(startAngle);
+	pos.x += baseDirection.x * delta * SPEED;
+	pos.y += baseDirection.y * delta * SPEED;
+}

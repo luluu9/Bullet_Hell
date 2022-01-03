@@ -84,8 +84,8 @@ public:
 
 private:
 	Timer* shootingTimer;
-	int shootingThreshold = 400; // px
-	int shootingDelay = 10; // in msec
+	int SHOOTING_THRESHOLD = 500; // px
+	int SHOOTING_DELAY = 1000; // in msec
 	
 };
 
@@ -109,8 +109,28 @@ private:
 	int SHOOTING_DELAY = 2500; // in msec
 	int ROBOTS_NUMBER = 5;
 	int ROBOTS_RADIUS = 250;
-	int shootingThreshold = 600;
+	int SHOOTING_THRESHOLD = 600;
 	Timer* shootingTimer;
 	Robot** robots;
 	
+};
+
+
+class WILIS : public Enemy {
+public:
+	WILIS(
+		SDL_Renderer* _renderer,
+		SDL_Rect* _camera,
+		GameEntities* _entities,
+		Player* player);
+
+	void updatePosition(double delta);
+	void tryToShoot(double delta);
+	void update(double delta);
+private:
+	Timer* shootingTimer;
+	int SHOOTING_THRESHOLD = 400; // px
+	int SHOOTING_DELAY = 2500; // in msec
+	int SPEED = 200;
+
 };

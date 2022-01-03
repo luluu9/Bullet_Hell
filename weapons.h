@@ -85,3 +85,17 @@ private:
 	GameEntities* entities;
 	double scale = 0.1;
 };
+
+
+class Hammer : public Weapon {
+public:
+	Hammer(
+		SDL_Renderer* _renderer,
+		char* texturePath,
+		SDL_Rect* _camera,
+		int _angle);
+
+	void Hammer::update(double delta);
+private:
+	int startAngle;
+};

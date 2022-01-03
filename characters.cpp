@@ -183,8 +183,8 @@ Chemiczny::Chemiczny(
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
-	shootingTimer = new Timer(shootingDelay, false, true);
-	shootingTimer->elapsedTime = rand() % shootingDelay;
+	shootingTimer = new Timer(SHOOTING_DELAY, false, true);
+	shootingTimer->elapsedTime = rand() % SHOOTING_DELAY;
 	shootingTimer->start();
 	setHP(CHEMICZNY_HP);
 	enemyType = CHEMICZNY;
@@ -195,13 +195,13 @@ void Chemiczny::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();
 	angle = pos.getAngleTo(playerPos);
 	Vector2 velocity = getDirectionFromAngle(angle);
-	if (pos.getDistanceTo(playerPos) < shootingThreshold) return;
+	if (pos.getDistanceTo(playerPos) < SHOOTING_THRESHOLD) return;
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 }
 
 void Chemiczny::tryToShoot(double delta) {
-	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= shootingThreshold) {
+	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= SHOOTING_THRESHOLD) {
 		Weapon* acidWeapon = new Acid(renderer, ACID_TXT_PATH, camera, angle);
 		acidWeapon->setPos(pos);
 		entities->addEntity(acidWeapon);
@@ -236,20 +236,20 @@ AIR::AIR(
 	shootingTimer->start();
 };
 
-Vector2 AIR::getRobotPos(int angle) {
-	Vector2 startPos = getPos();
-	Vector2 direction = getDirectionFromAngle(angle - 90);
-	startPos.x += direction.x * ROBOTS_RADIUS;
-	startPos.y += direction.y * ROBOTS_RADIUS;
-	return startPos;
-}
-
 AIR::~AIR() {
 	for (int i = 0; i < ROBOTS_NUMBER; i++)
 		delete robots[i];
 	delete[] robots;
 	delete robots;
 	delete shootingTimer;
+}
+
+Vector2 AIR::getRobotPos(int angle) {
+	Vector2 startPos = getPos();
+	Vector2 direction = getDirectionFromAngle(angle - 90);
+	startPos.x += direction.x * ROBOTS_RADIUS;
+	startPos.y += direction.y * ROBOTS_RADIUS;
+	return startPos;
 }
 
 void AIR::setPos(Vector2 newPos) {
@@ -268,7 +268,7 @@ void AIR::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();
 	angle = pos.getAngleTo(playerPos);
 	Vector2 velocity = getDirectionFromAngle(angle);
-	if (pos.getDistanceTo(playerPos) < shootingThreshold) return;
+	if (pos.getDistanceTo(playerPos) < SHOOTING_THRESHOLD) return;
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 	for (int i = 0; i < ROBOTS_NUMBER; i++) {
@@ -290,6 +290,43 @@ void AIR::tryToShoot(double delta) {
 
 
 void AIR::update(double delta) {
+	updatePosition(delta);
+	tryToShoot(delta);
+}
+
+
+WILIS::WILIS(
+	SDL_Renderer* _renderer,
+	SDL_Rect* _camera,
+	GameEntities* _entities,
+	Player* _player)
+	: Enemy{ _renderer, WILIS_TXT_PATH, _camera, _entities, _player } {
+	shootingTimer = new Timer(SHOOTING_DELAY, false, true);
+	shootingTimer->elapsedTime = rand() % SHOOTING_DELAY;
+	shootingTimer->start();
+	setHP(WILIS_HP);
+	enemyType = WILIS_TYPE;
+};
+
+
+void WILIS::updatePosition(double delta) {
+	Vector2 playerPos = player->getPos();
+	angle = pos.getAngleTo(playerPos);
+	Vector2 velocity = getDirectionFromAngle(angle);
+	if (pos.getDistanceTo(playerPos) < SHOOTING_THRESHOLD) return;
+	pos.x += velocity.x * delta * SPEED;
+	pos.y += velocity.y * delta * SPEED;
+}
+
+void WILIS::tryToShoot(double delta) {
+	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= SHOOTING_THRESHOLD) {
+		Weapon* acidWeapon = new Hammer(renderer, HAMMER_TXT_PATH, camera, angle);
+		acidWeapon->setPos(pos);
+		entities->addEntity(acidWeapon);
+	}
+}
+
+void WILIS::update(double delta) {
 	updatePosition(delta);
 	tryToShoot(delta);
 }

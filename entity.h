@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
-enum ENEMY_TYPES { CHEMICZNY=1, AIR_TYPE };
-enum WEAPON_TYPES { ACID=1, ROBOT, EMP_GRANADE};
+enum ENEMY_TYPES { CHEMICZNY=1, AIR_TYPE, WILIS_TYPE };
+enum WEAPON_TYPES { ACID=1, ROBOT, EMP_GRANADE, HAMMER };
 
 
 struct GameEntities; // forward declaration

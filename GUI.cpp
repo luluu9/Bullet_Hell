@@ -19,7 +19,7 @@ Screen::Screen(
 	renderer = _renderer;
 	textSurface = _textSurface;
 	charset = _charset;
-	elements = new GUIElement*[elementsNumber];
+	elements = new GUIElement * [elementsNumber];
 	screenId = _screenId;
 }
 
@@ -139,17 +139,26 @@ GameScreen::GameScreen(
 	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
 
 	switch (currentLevel) {
-	case LEVEL_1:
-		for (int i = 0; i < 1; i++) {
-			Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
-			entities.addEntity(enemy);
-			enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
+		case LEVEL_1: {
+			for (int i = 0; i < 1; i++) {
+				Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
+				entities.addEntity(enemy);
+				enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
+			}
+			break;
 		}
-		break;
-	case LEVEL_2:
-		AIR* air = new AIR(renderer, &camera, &entities, player);
-		entities.addEntity(air);
-		air->setPos(Vector2(400, 400));
+		case LEVEL_2: {
+			AIR* air = new AIR(renderer, &camera, &entities, player);
+			entities.addEntity(air);
+			air->setPos(Vector2(400, 400));
+			break;
+		}
+		case LEVEL_3: {
+			WILIS* wilis = new WILIS(renderer, &camera, &entities, player);
+			entities.addEntity(wilis);
+			wilis->setPos(Vector2(500, 500));
+			break;
+		}
 	}
 }
 
@@ -204,7 +213,7 @@ void GameScreen::update(double delta, double worldTime) {
 void GameScreen::render() {
 	for (int i = -1; i <= SCREEN_WIDTH / bgWidth + 2; i++)
 		for (int j = -1; j <= SCREEN_HEIGHT / bgHeight + 2; j++)
-			DrawTexture(renderer, background, -(camera.x%bgWidth) + i * bgWidth, -(camera.y % bgHeight) + j * bgHeight);
+			DrawTexture(renderer, background, -(camera.x % bgWidth) + i * bgWidth, -(camera.y % bgHeight) + j * bgHeight);
 	for (unsigned int i = 0; i < entities.currentEntity; i++)
 		entities.getEntity(i)->render();
 
@@ -227,16 +236,16 @@ void GameScreen::popup(STATE state) {
 	titleRect.y = SCREEN_HEIGHT / 100 * titleHeight;
 	if (state == LOST)
 		title = new Image(renderer, titleRect, lostTitle);
-	else 
+	else
 		title = new Image(renderer, titleRect, wonTitle);
 	addElement(title);
-	
+
 	buttonRect.w = buttonWidth;
 	buttonRect.h = buttonHeight;
-	buttonRect.x = SCREEN_WIDTH / 2 - buttonWidth/2 - buttonMargin;
+	buttonRect.x = SCREEN_WIDTH / 2 - buttonWidth / 2 - buttonMargin;
 	buttonRect.y = SCREEN_HEIGHT / 2;
 	SCREEN nextLevel = (SCREEN)((int)currentLevel + 1);
-	if (state == LOST) 
+	if (state == LOST)
 		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, lostButtonPaths[0], MAIN_MENU, game);
 	else
 		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, wonButtonPaths[0], nextLevel, game);
