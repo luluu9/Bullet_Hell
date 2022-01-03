@@ -42,6 +42,9 @@ protected:
 	unsigned int elementsCount = 0;
 	bool hidden = false;
 	bool exit = false;
+
+	Color defaultButtonOutline = Color(191, 180, 178);
+	Color defaultButtonFill = Color(40, 40, 40);
 };
 
 
@@ -79,10 +82,12 @@ public:
 		Game* _game,
 		SCREEN levelId);
 	~GameScreen();
+
+	enum STATE { LOST, WON };
 	void handleEvent(SDL_Event& event);
 	void update(double delta, double worldTime);
 	void render();
-	void popup();
+	void popup(STATE state);
 private:
 	SDL_Texture* background;
 	int bgWidth, bgHeight;
@@ -92,7 +97,7 @@ private:
 	Game* game;
 	SCREEN currentLevel;
 	char text[128];
-	char* loseButtonPaths[2] = {
+	char* lostButtonPaths[2] = {
 		"./assets/menu.bmp",
 		"./assets/try_again.bmp"
 	};

@@ -13,7 +13,7 @@ public:
 	double ACCEL = 30;
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 700; //px per sec
-	int INVINCIBLE_TIME = 2500;
+	int INVINCIBLE_TIME = 00;
 	int MAX_ATTACK_TIME = 2000;
 	int ATTACK_ROT_MULTIPLIER = 10;
 
@@ -85,7 +85,8 @@ public:
 private:
 	Timer* shootingTimer;
 	int shootingThreshold = 400; // px
-	int shootingDelay = 1500; // in msec
+	int shootingDelay = 10; // in msec
+	
 };
 
 

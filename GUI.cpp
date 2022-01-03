@@ -99,7 +99,7 @@ MainMenu::MainMenu(
 	buttonRect.x = SCREEN_WIDTH / 2;
 	buttonRect.y = SCREEN_HEIGHT / 100 * firstButtonHeight;
 	for (int i = 0; i < buttonsNumber; i++) {
-		Button* button = new Button(renderer, buttonRect, Color(191, 180, 178), Color(40, 40, 40), buttonPaths[i], SCREEN(LEVEL_1 + i), game);
+		Button* button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, buttonPaths[i], SCREEN(LEVEL_1 + i), game);
 		addElement(button);
 		buttonRect.y += buttonHeight * 1.25;
 	}
@@ -194,11 +194,11 @@ void GameScreen::update(double delta, double worldTime) {
 	DrawString(textSurface, SCREEN_WIDTH / 2, 10, text, charset);
 
 	if (enemies == 0) {
-		popup();
-		SCREEN newLevel = (SCREEN)((int)currentLevel+1);
-		//game->changeScreen(newLevel);
+		popup(WON);
 	}
-	// printf_s("Enemies number: %d\n", enemies);
+	if (player->getHP() <= 0.0) {
+		popup(LOST);
+	}
 }
 
 void GameScreen::render() {
@@ -219,19 +219,27 @@ void GameScreen::render() {
 	Screen::render(); // draw last to always be visible
 }
 
-void GameScreen::popup() {
+void GameScreen::popup(STATE state) {
 	SDL_Rect buttonRect, shadowRect;
+	Button* button;
 	buttonRect.w = buttonWidth;
 	buttonRect.h = buttonHeight;
 	buttonRect.x = SCREEN_WIDTH / 2 - buttonWidth/2 - buttonMargin;
 	buttonRect.y = SCREEN_HEIGHT / 2;
 	shadowRect.w = SCREEN_WIDTH;
 	shadowRect.h = SCREEN_HEIGHT;
-	for (int i = 0; i < 2; i++) {
-		Button* button = new Button(renderer, buttonRect, Color(191, 180, 178), Color(40, 40, 40), wonButtonPaths[i], SCREEN(LEVEL_1 + i), game);
-		addElement(button);
-		buttonRect.x += buttonWidth + buttonMargin;
-	}
+	SCREEN nextLevel = (SCREEN)((int)currentLevel + 1);
+	if (state == LOST) 
+		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, lostButtonPaths[0], MAIN_MENU, game);
+	else
+		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, wonButtonPaths[0], nextLevel, game);
+	addElement(button);
+	buttonRect.x += buttonWidth + buttonMargin;
+	if (state == LOST)
+		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, lostButtonPaths[1], currentLevel, game);
+	else
+		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, wonButtonPaths[1], MAIN_MENU, game); // change to SCOREBOARD if implemented
+	addElement(button);
 	pause = true;
 }
 

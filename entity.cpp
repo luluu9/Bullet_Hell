@@ -131,6 +131,11 @@ void DestroyableEntity::setHP(float _MAX_HP) {
 	healthPoints = MAX_HP;
 }
 
+float DestroyableEntity::getHP() {
+	return healthPoints;
+}
+
+
 Enemy::Enemy(
 	SDL_Renderer* _renderer,
 	char* texturePath,

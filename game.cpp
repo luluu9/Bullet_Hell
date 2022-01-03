@@ -122,6 +122,9 @@ void Game::changeScreen(SCREEN screenId) {
 	case QUIT:
 		isRunning = false;
 		break;
+	case MAIN_MENU:
+		currentScreen = new MainMenu(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT, this);
+		break;
 	case LEVEL_1:
 	case LEVEL_2:
 	case LEVEL_3:
