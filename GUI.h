@@ -89,6 +89,7 @@ private:
 	Player* player;
 	SDL_Rect camera;
 	Game* game;
+	SCREEN currentLevel;
 	char text[128];
 
 	AnimationPlayer* testPlayer;

@@ -122,6 +122,7 @@ GameScreen::GameScreen(
 		_SCREEN_HEIGHT,
 		levelId) {
 	game = _game;
+	currentLevel = levelId;
 
 	camera.x = 0;
 	camera.y = 0;
@@ -137,7 +138,7 @@ GameScreen::GameScreen(
 	background = loadTextureFromBMP(renderer, BACKGROUND_TXT_PATH);
 	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
 
-	switch (screenId) {
+	switch (currentLevel) {
 	case LEVEL_1:
 		for (int i = 0; i < 1; i++) {
 			Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
@@ -165,11 +166,14 @@ void GameScreen::handleEvent(SDL_Event& event) {
 
 void GameScreen::update(double delta, double worldTime) {
 	entities.removeQueuedEntities();
+	int enemies = 0;
 	SDL_Event x;
 	for (unsigned int i = 0; i < entities.currentEntity; i++) {
 		Entity* currentEntity = entities.getEntity(i);
 		currentEntity->handleEvent(x);
 		currentEntity->update(delta);
+		if (currentEntity->entityType == ENEMY)
+			enemies++;
 	}
 	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
 	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
@@ -183,8 +187,15 @@ void GameScreen::update(double delta, double worldTime) {
 			}
 		}
 	}
+
 	sprintf_s(text, "% .1lf s ", worldTime);
 	DrawString(textSurface, SCREEN_WIDTH / 2, 10, text, charset);
+
+	if (enemies == 0) {
+		SCREEN newLevel = (SCREEN)((int)currentLevel+1);
+		game->changeScreen(newLevel);
+	}
+	// printf_s("Enemies number: %d\n", enemies);
 }
 
 void GameScreen::render() {
