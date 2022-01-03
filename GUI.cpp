@@ -220,20 +220,28 @@ void GameScreen::render() {
 }
 
 void GameScreen::popup(STATE state) {
-	SDL_Rect buttonRect, shadowRect;
+	SDL_Rect titleRect, buttonRect;
+	Image* title;
 	Button* button;
+	titleRect.x = SCREEN_WIDTH / 2;
+	titleRect.y = SCREEN_HEIGHT / 100 * titleHeight;
+	if (state == LOST)
+		title = new Image(renderer, titleRect, lostTitle);
+	else 
+		title = new Image(renderer, titleRect, wonTitle);
+	addElement(title);
+	
 	buttonRect.w = buttonWidth;
 	buttonRect.h = buttonHeight;
 	buttonRect.x = SCREEN_WIDTH / 2 - buttonWidth/2 - buttonMargin;
 	buttonRect.y = SCREEN_HEIGHT / 2;
-	shadowRect.w = SCREEN_WIDTH;
-	shadowRect.h = SCREEN_HEIGHT;
 	SCREEN nextLevel = (SCREEN)((int)currentLevel + 1);
 	if (state == LOST) 
 		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, lostButtonPaths[0], MAIN_MENU, game);
 	else
 		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, wonButtonPaths[0], nextLevel, game);
 	addElement(button);
+
 	buttonRect.x += buttonWidth + buttonMargin;
 	if (state == LOST)
 		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, lostButtonPaths[1], currentLevel, game);

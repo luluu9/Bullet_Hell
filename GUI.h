@@ -105,6 +105,9 @@ private:
 		"./assets/next_level.bmp",
 		"./assets/save_score.bmp"
 	};
+	char* lostTitle = "./assets/lost.bmp";
+	char* wonTitle = "./assets/won.bmp";
+	const int titleHeight = 20; // percentage of screen from top
 	const int buttonWidth = 300;
 	const int buttonHeight = 125;
 	const int buttonMargin = 10;
