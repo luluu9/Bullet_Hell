@@ -50,6 +50,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	SDL_SetWindowTitle(window, TITLE);
 	//SDL_ShowCursor(SDL_DISABLE);

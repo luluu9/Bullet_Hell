@@ -3,7 +3,7 @@
 #include "settings.h"
 #include <cstdlib>
 
-#define DRAW_COLLISION_BOX 1
+#define DRAW_COLLISION_BOX 0
 #define PI 3.14159265
 
 
@@ -54,9 +54,9 @@ void Entity::render() {
 	if (DRAW_COLLISION_BOX) {
 		SDL_Rect rect = getGlobalRect();
 		if (colliding)
-			drawRectangle(renderer, rect, Color(255, 0, 0, 0));
+			drawRectangle(renderer, rect, Color(255, 0, 0));
 		else
-			drawRectangle(renderer, rect, Color(0, 0, 0, 0));
+			drawRectangle(renderer, rect, Color(0, 0, 0));
 	}
 }
 

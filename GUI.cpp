@@ -159,12 +159,14 @@ GameScreen::~GameScreen() {
 
 void GameScreen::handleEvent(SDL_Event& event) {
 	Screen::handleEvent(event);
+	if (pause) return;
 	for (unsigned int i = 0; i < entities.currentEntity; i++) {
 		entities.getEntity(i)->handleEvent(event);
 	}
 }
 
 void GameScreen::update(double delta, double worldTime) {
+	if (pause) return;
 	entities.removeQueuedEntities();
 	int enemies = 0;
 	SDL_Event x;
@@ -192,8 +194,9 @@ void GameScreen::update(double delta, double worldTime) {
 	DrawString(textSurface, SCREEN_WIDTH / 2, 10, text, charset);
 
 	if (enemies == 0) {
+		popup();
 		SCREEN newLevel = (SCREEN)((int)currentLevel+1);
-		game->changeScreen(newLevel);
+		//game->changeScreen(newLevel);
 	}
 	// printf_s("Enemies number: %d\n", enemies);
 }
@@ -204,8 +207,34 @@ void GameScreen::render() {
 			DrawTexture(renderer, background, -(camera.x%bgWidth) + i * bgWidth, -(camera.y % bgHeight) + j * bgHeight);
 	for (unsigned int i = 0; i < entities.currentEntity; i++)
 		entities.getEntity(i)->render();
+
+	if (pause) {
+		SDL_Rect shadowRect;
+		shadowRect.x = 0;
+		shadowRect.y = 0;
+		shadowRect.w = SCREEN_WIDTH;
+		shadowRect.h = SCREEN_HEIGHT;
+		drawRectangle(renderer, shadowRect, Color(0, 0, 0), Color(-255, -255, -255, 100));
+	}
 	Screen::render(); // draw last to always be visible
 }
+
+void GameScreen::popup() {
+	SDL_Rect buttonRect, shadowRect;
+	buttonRect.w = buttonWidth;
+	buttonRect.h = buttonHeight;
+	buttonRect.x = SCREEN_WIDTH / 2 - buttonWidth/2 - buttonMargin;
+	buttonRect.y = SCREEN_HEIGHT / 2;
+	shadowRect.w = SCREEN_WIDTH;
+	shadowRect.h = SCREEN_HEIGHT;
+	for (int i = 0; i < 2; i++) {
+		Button* button = new Button(renderer, buttonRect, Color(191, 180, 178), Color(40, 40, 40), wonButtonPaths[i], SCREEN(LEVEL_1 + i), game);
+		addElement(button);
+		buttonRect.x += buttonWidth + buttonMargin;
+	}
+	pause = true;
+}
+
 
 GUIElement::GUIElement(SDL_Renderer* _renderer, SDL_Rect _rect) {
 	renderer = _renderer;

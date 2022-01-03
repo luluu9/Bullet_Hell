@@ -82,6 +82,7 @@ public:
 	void handleEvent(SDL_Event& event);
 	void update(double delta, double worldTime);
 	void render();
+	void popup();
 private:
 	SDL_Texture* background;
 	int bgWidth, bgHeight;
@@ -91,6 +92,18 @@ private:
 	Game* game;
 	SCREEN currentLevel;
 	char text[128];
+	char* loseButtonPaths[2] = {
+		"./assets/menu.bmp",
+		"./assets/try_again.bmp"
+	};
+	char* wonButtonPaths[2] = {
+		"./assets/next_level.bmp",
+		"./assets/save_score.bmp"
+	};
+	const int buttonWidth = 300;
+	const int buttonHeight = 125;
+	const int buttonMargin = 10;
+	bool pause = false;
 
 	AnimationPlayer* testPlayer;
 };

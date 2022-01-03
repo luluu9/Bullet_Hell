@@ -60,8 +60,10 @@ void drawRectangle(SDL_Renderer* renderer, SDL_Rect rect, Color outlineColor, Co
 		rect.x -= rect.w / 2;
 		rect.y -= rect.h / 2;
 	}
+	
 	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
 	SDL_SetRenderDrawColor(renderer, fillColor.r, fillColor.g, fillColor.b, fillColor.a);
+	
 	if (fillColor) 
 		SDL_RenderFillRect(renderer, &rect);
 	SDL_SetRenderDrawColor(renderer, outlineColor.r, outlineColor.g, outlineColor.b, outlineColor.a);
@@ -74,6 +76,6 @@ SDL_Texture* loadTextureFromBMP(SDL_Renderer* renderer, const char* filepath) {
 	SDL_Surface* tmpSurface = SDL_LoadBMP(filepath);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, tmpSurface);
 	SDL_FreeSurface(tmpSurface);
-
+	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 	return texture;
 }

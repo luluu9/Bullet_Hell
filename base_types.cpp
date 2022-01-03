@@ -34,13 +34,13 @@ float Vector2::getDistanceTo(Vector2 destVec) {
 
 Color::Color(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a)
 	: r{ _r }, g{ _g }, b{ _b }, a{ _a } { 
-	r = (r <= 0 ? 0 : r >= 255 ? 255 : r);
-	g = (g <= 0 ? 0 : g >= 255 ? 255 : g);
-	b = (b <= 0 ? 0 : b >= 255 ? 255 : b);
+	r = (r <= -255 ? -255 : r >= 255 ? 255 : r);
+	g = (g <= -255 ? -255 : g >= 255 ? 255 : g);
+	b = (b <= -255 ? -255 : b >= 255 ? 255 : b);
 };
 
 Color::Color(uint8_t _r, uint8_t _g, uint8_t _b)
-	:Color(_r, _g, _b, 0) { };
+	:Color(_r, _g, _b, 255) { };
 
 
 // time in msec
