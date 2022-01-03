@@ -227,10 +227,7 @@ AIR::AIR(
 	int angleStep = 360 / ROBOTS_NUMBER;
 	for (int i = 0; i < ROBOTS_NUMBER; i++) {
 		int robotAngle = i * angleStep;
-		Vector2 startPos = getPos();
-		Vector2 direction = getDirectionFromAngle(robotAngle-90);
-		startPos.x += direction.x * ROBOTS_RADIUS;
-		startPos.y += direction.y * ROBOTS_RADIUS;
+		Vector2 startPos = getRobotPos(robotAngle);
 		Robot* robot = new Robot(renderer, ROBOT_TXT_PATH, camera, startPos, robotAngle, ROBOTS_RADIUS, angleStep);
 		entities->addEntity(robot);
 		robots[i] = robot;
@@ -239,12 +236,31 @@ AIR::AIR(
 	shootingTimer->start();
 };
 
+Vector2 AIR::getRobotPos(int angle) {
+	Vector2 startPos = getPos();
+	Vector2 direction = getDirectionFromAngle(angle - 90);
+	startPos.x += direction.x * ROBOTS_RADIUS;
+	startPos.y += direction.y * ROBOTS_RADIUS;
+	return startPos;
+}
+
 AIR::~AIR() {
 	for (int i = 0; i < ROBOTS_NUMBER; i++)
 		delete robots[i];
 	delete[] robots;
 	delete robots;
 	delete shootingTimer;
+}
+
+void AIR::setPos(Vector2 newPos) {
+	Entity::setPos(newPos);
+	int angleStep = 360 / ROBOTS_NUMBER;
+	for (int i = 0; i < ROBOTS_NUMBER; i++) {
+		int robotAngle = i * angleStep;
+		Vector2 pos = getRobotPos(robotAngle);
+		robots[i]->setPos(pos);
+		robots[i]->setAngle(robotAngle);
+	}
 }
 
 void AIR::updatePosition(double delta) {

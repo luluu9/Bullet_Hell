@@ -98,6 +98,8 @@ public:
 		Player* player);
 	AIR::~AIR();
 
+	Vector2 AIR::getRobotPos(int angle);
+	void AIR::setPos(Vector2 newPos);
 	void AIR::updatePosition(double delta);
 	void AIR::tryToShoot(double delta);
 	void AIR::update(double delta);

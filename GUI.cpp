@@ -148,6 +148,7 @@ GameScreen::GameScreen(
 	case LEVEL_2:
 		AIR* air = new AIR(renderer, &camera, &entities, player);
 		entities.addEntity(air);
+		air->setPos(Vector2(400, 400));
 	}
 }
 
