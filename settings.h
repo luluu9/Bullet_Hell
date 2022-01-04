@@ -10,7 +10,7 @@ static char* ROBOT_TXT_PATH = "./assets/robot_small.bmp";
 static char* AIR_TXT_PATH = "./assets/air.bmp";
 static char* EMP_TXT_PATH = "./assets/emp_granade/emp_granade.bmp";
 static char* EMPWave_TXT_PATH = "./assets/emp_granade/emp_wave_large.bmp";
-static char* WILIS_TXT_PATH = "./assets/air.bmp";
+static char* WILIS_TXT_PATH = "./assets/wilis.bmp";
 static char* HAMMER_TXT_PATH = "./assets/hammer_small.bmp";
 
 
