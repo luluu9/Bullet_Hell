@@ -1,4 +1,18 @@
 #pragma once
+
+// SETTINGS
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 1080;
+const int MAX_FPS = 144;
+const bool FULLSCREEN = false;
+static const char* TITLE = "Wojna Wydzialow";
+
+
+// SPECIFIC VALUES
+const double PI = 3.14159265;
+
+
+// PATHS
 const unsigned short MAX_PATH_LENGTH = 255;
 static char* SPARK_TXT_PATH = "./assets/spark.bmp";
 static char* ACID_TXT_PATH = "./assets/acid.bmp";
@@ -18,8 +32,8 @@ static char* HAMMER_TXT_PATH = "./assets/hammer_small.bmp";
 static char* EMP_GRANADE_DIR_PATH = "./assets/emp_granade";
 static int EMP_GRANADE_FRAMES = 9;
 
-static char* TITLE = "Wojna Wydzia³ów";
 
+// CHARACTERS
 static int PLAYER_HP = 100;
 static int CHEMICZNY_HP = 200;
 static int AIR_HP = 100;

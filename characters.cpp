@@ -6,11 +6,6 @@
 #include "drawing.h"
 #include "settings.h"
 
-#define PI 3.14159265
-
-const int SCREEN_WIDTH = 1080;
-const int SCREEN_HEIGHT = 640;
-
 
 Player::Player(
 	SDL_Renderer* _renderer,

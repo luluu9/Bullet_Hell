@@ -11,11 +11,7 @@ Screen::Screen(
 	SDL_Renderer* _renderer,
 	SDL_Surface* _textSurface,
 	SDL_Surface* _charset,
-	int _SCREEN_WIDTH,
-	int _SCREEN_HEIGHT,
 	SCREEN _screenId) {
-	SCREEN_WIDTH = _SCREEN_WIDTH;
-	SCREEN_HEIGHT = _SCREEN_HEIGHT;
 	renderer = _renderer;
 	textSurface = _textSurface;
 	charset = _charset;
@@ -77,15 +73,11 @@ MainMenu::MainMenu(
 	SDL_Renderer* _renderer,
 	SDL_Surface* _textSurface,
 	SDL_Surface* _charset,
-	int _SCREEN_WIDTH,
-	int _SCREEN_HEIGHT,
 	Game* _game)
 	:Screen::Screen(
 		_renderer,
 		_textSurface,
 		_charset,
-		_SCREEN_WIDTH,
-		_SCREEN_HEIGHT,
 		MAIN_MENU) {
 	game = _game;
 	SDL_Rect titleRect, buttonRect;
@@ -110,16 +102,12 @@ GameScreen::GameScreen(
 	SDL_Renderer* _renderer,
 	SDL_Surface* _textSurface,
 	SDL_Surface* _charset,
-	int _SCREEN_WIDTH,
-	int _SCREEN_HEIGHT,
 	Game* _game,
 	SCREEN levelId)
 	:Screen::Screen(
 		_renderer,
 		_textSurface,
 		_charset,
-		_SCREEN_WIDTH,
-		_SCREEN_HEIGHT,
 		levelId) {
 	game = _game;
 	currentLevel = levelId;

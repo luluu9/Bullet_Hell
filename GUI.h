@@ -4,6 +4,7 @@
 #include "base_types.h"
 #include "entity.h"
 #include "game.h"
+#include "settings.h"
 
 #ifndef SCREEN_ENUM
 #define SCREEN_ENUM
@@ -20,8 +21,6 @@ public:
 		SDL_Renderer* _renderer,
 		SDL_Surface* _textSurface,
 		SDL_Surface* _charset,
-		int _SCREEN_WIDTH,
-		int _SCREEN_HEIGHT,
 		SCREEN _screenId);
 	virtual ~Screen();
 	virtual void render();
@@ -32,7 +31,6 @@ public:
 	void show();
 
 protected:
-	int SCREEN_WIDTH, SCREEN_HEIGHT;
 	SDL_Renderer* renderer;
 	SDL_Surface* textSurface;
 	SDL_Surface* charset;
@@ -54,8 +52,6 @@ public:
 		SDL_Renderer* _renderer,
 		SDL_Surface* _textSurface,
 		SDL_Surface* _charset,
-		int _SCREEN_WIDTH,
-		int _SCREEN_HEIGHT,
 		Game* _game);
 private:
 	char* titlePath = "./assets/title.bmp";
@@ -77,8 +73,6 @@ public:
 		SDL_Renderer* _renderer,
 		SDL_Surface* _textSurface,
 		SDL_Surface* _charset,
-		int _SCREEN_WIDTH,
-		int _SCREEN_HEIGHT,
 		Game* _game,
 		SCREEN levelId);
 	~GameScreen();

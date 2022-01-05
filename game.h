@@ -5,6 +5,7 @@
 #include "keyboard.h"
 #include "entity.h"
 #include "GUI.h"
+#include "settings.h"
 
 #ifndef SCREEN_ENUM
 #define SCREEN_ENUM
@@ -18,8 +19,6 @@ class Game {
 public:
 	Game();
 	~Game();
-
-	void init(const char* title, int width, int height, bool fullscreen);
 
 	void handleEvents();
 	void update(double delta, double worldTime);
@@ -37,8 +36,6 @@ private:
 	bool isRunning;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	int SCREEN_WIDTH;
-	int SCREEN_HEIGHT;
 
 	SDL_Texture* textTexture;
 	SDL_Surface* textSurface;

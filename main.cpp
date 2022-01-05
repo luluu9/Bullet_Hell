@@ -2,19 +2,14 @@
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "game.h"
+#include "settings.h"
 
-extern const int SCREEN_WIDTH = 1920;
-extern const int SCREEN_HEIGHT = 1080;
-bool FULLSCREEN = false;
-const int MAX_FPS = 144;
 
 int main(int argc, char** argv) {
 	int delta;
 	double frames, t1, t2, worldTime, fpsTimer, fps, deltaDivided;
 
 	Game* game = new Game();
-	game->init("Bullet Hell", SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN);
-
 	t1 = SDL_GetTicks();
 
 	frames = 0;

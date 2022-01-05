@@ -12,25 +12,14 @@ Game::Game() {
 	isRunning = true;
 	window = nullptr;
 	renderer = nullptr;
-	SCREEN_WIDTH = 0;
-	SCREEN_HEIGHT = 0;
 	textTexture = nullptr;
 	textSurface = nullptr;
 	charset = nullptr;
 	keyboard = nullptr;
 	currentScreen = nullptr;
-}
-
-Game::~Game() {
-	clean();
-}
-
-void Game::init(const char* title, int width, int height, bool fullscreen) {
-	SCREEN_WIDTH = width;
-	SCREEN_HEIGHT = height;
 
 	int flags = 0;
-	if (fullscreen)
+	if (FULLSCREEN)
 		flags = SDL_WINDOW_FULLSCREEN;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -68,7 +57,11 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	SDL_SetColorKey(charset, true, 0xFF000000);
 
 	keyboard = new KeyboardHandler;
-	currentScreen = new MainMenu(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT, this);
+	currentScreen = new MainMenu(renderer, textSurface, charset, this);
+}
+
+Game::~Game() {
+	clean();
 }
 
 void Game::handleEvents() {
@@ -123,12 +116,12 @@ void Game::changeScreen(SCREEN screenId) {
 		isRunning = false;
 		break;
 	case MAIN_MENU:
-		currentScreen = new MainMenu(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT, this);
+		currentScreen = new MainMenu(renderer, textSurface, charset, this);
 		break;
 	case LEVEL_1:
 	case LEVEL_2:
 	case LEVEL_3:
-		currentScreen = new GameScreen(renderer, textSurface, charset, SCREEN_WIDTH, SCREEN_HEIGHT, this, screenId);
+		currentScreen = new GameScreen(renderer, textSurface, charset, this, screenId);
 		break;
 	}
 }
