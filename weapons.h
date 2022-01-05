@@ -11,7 +11,7 @@ public:
 	Weapon(
 		SDL_Renderer* _renderer, 
 		char* texturePath,
-		SDL_Rect* _camera, 
+		Rect* _camera, 
 		int _angle);
 	void update(double delta);
 };
@@ -22,7 +22,7 @@ public:
 	Acid(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		int _angle);
 };
 
@@ -32,7 +32,7 @@ public:
 	Robot(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		Vector2 startPos,
 		int startAngle,
 		float _radius,
@@ -49,7 +49,7 @@ public:
 	EMP(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		GameEntities* _entities,
 		float _startAngle);
 	void update(double delta);
@@ -74,7 +74,7 @@ public:
 	EMPWave(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		GameEntities* _entities,
 		float _startAngle);
 	void update(double delta);
@@ -92,10 +92,38 @@ public:
 	Hammer(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		int _angle);
 
 	void Hammer::update(double delta);
 private:
+	float _DAMAGE = 35;
 	int startAngle;
+};
+
+
+class WreckingBall : public Weapon {
+public:
+	WreckingBall(
+		SDL_Renderer* _renderer,
+		char* texturePath,
+		Rect* _camera,
+		Vector2 _impactPos);
+
+	void update(double delta);
+	void render();
+	void shakeCamera();
+private:
+	int FALL_TIME = 2000;
+	int SHOW_BALL_TIME = 1800;
+	int FALL_SPEED = 6;
+	int SHAKE_DURATION = 250;
+	int SHAKE_POWER = 10;
+	int _DAMAGE = 50;
+	SDL_Texture* shadowTexture;
+	Vector2 impactPos;
+	Timer fallTimer = Timer(FALL_TIME);
+	Timer shakeTimer = Timer(SHAKE_DURATION);
+	bool ballShown = false;
+	
 };

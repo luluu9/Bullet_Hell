@@ -174,8 +174,6 @@ void GameScreen::update(double delta, double worldTime) {
 		if (currentEntity->entityType == ENEMY)
 			enemies++;
 	}
-	camera.x = (int)(player->getPos().x + player->WIDTH / 2) - SCREEN_WIDTH / 2;
-	camera.y = (int)(player->getPos().y + player->HEIGHT / 2) - SCREEN_HEIGHT / 2;
 
 	player->colliding = false;
 	for (unsigned int i = 0; i < entities.currentEntity; i++) {
@@ -201,7 +199,7 @@ void GameScreen::update(double delta, double worldTime) {
 void GameScreen::render() {
 	for (int i = -1; i <= SCREEN_WIDTH / bgWidth + 2; i++)
 		for (int j = -1; j <= SCREEN_HEIGHT / bgHeight + 2; j++)
-			DrawTexture(renderer, background, -(camera.x % bgWidth) + i * bgWidth, -(camera.y % bgHeight) + j * bgHeight);
+			DrawTexture(renderer, background, -((int)camera.x % bgWidth) + i * bgWidth, -((int)camera.y % bgHeight) + j * bgHeight);
 	for (unsigned int i = 0; i < entities.currentEntity; i++)
 		entities.getEntity(i)->render();
 

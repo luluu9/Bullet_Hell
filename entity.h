@@ -6,7 +6,7 @@
 
 enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
 enum ENEMY_TYPES { CHEMICZNY=1, AIR_TYPE, WILIS_TYPE };
-enum WEAPON_TYPES { ACID=1, ROBOT, EMP_GRANADE, HAMMER };
+enum WEAPON_TYPES { ACID=1, ROBOT, EMP_GRANADE, HAMMER, WRECKING_BALL };
 
 
 struct GameEntities; // forward declaration
@@ -16,21 +16,23 @@ class Entity {
 public:
 	int WIDTH;
 	int HEIGHT;
+	bool COLLISIONS_DISABLED = false;
 	bool colliding;
 	int entityType;
 
 	Entity(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera);
+		Rect* _camera);
 	Entity(
 		SDL_Renderer* _renderer,
-		SDL_Rect* _camera);
+		Rect* _camera);
 	~Entity();
 
 	virtual void handleEvent(SDL_Event& event);
 	virtual void update(double delta);
 	virtual void render();
+	void renderCollisionBox();
 	Vector2 getPos();
 	void setPos(Vector2 newPos);
 	Vector2 getGlobalPos();
@@ -44,7 +46,7 @@ protected:
 	float speed, angle;
 	SDL_Renderer* renderer;
 	SDL_Texture* texture;
-	SDL_Rect* camera;
+	Rect* camera;
 };
 
 
@@ -53,7 +55,7 @@ public:
 	DestroyableEntity(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera);
+		Rect* _camera);
 	void render();
 	void drawHPBar();
 	void setHP(float _MAX_HP);
@@ -75,7 +77,7 @@ public:
 	//Initializes the variablesA
 	Enemy(SDL_Renderer* _renderer,
 		char* texturePath,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		GameEntities* entities,
 		Player* _player);
 
@@ -114,7 +116,7 @@ class AnimationPlayer : public Entity {
 public:
 	AnimationPlayer(
 		SDL_Renderer* _renderer,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		char* _texturesDir,
 		int _frames,
 		Vector2 _pos);

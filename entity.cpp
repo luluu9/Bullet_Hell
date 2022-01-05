@@ -3,14 +3,11 @@
 #include "settings.h"
 #include <cstdlib>
 
-#define DRAW_COLLISION_BOX 0
-#define PI 3.14159265
-
 
 Entity::Entity(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	SDL_Rect* _camera) {
+	Rect* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	renderer = _renderer;
@@ -23,7 +20,7 @@ Entity::Entity(
 
 Entity::Entity(
 	SDL_Renderer* _renderer,
-	SDL_Rect* _camera) {
+	Rect* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	HEIGHT = WIDTH = 0;
@@ -48,9 +45,7 @@ void Entity::update(double delta) {
 	//printf("entity update");
 }
 
-void Entity::render() {
-	//printf_s("%f, %f: %d, %d\n", pos.x, pos.y, cam.x, cam.y);
-	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle);
+void Entity::renderCollisionBox() {
 	if (DRAW_COLLISION_BOX) {
 		SDL_Rect rect = getGlobalRect();
 		if (colliding)
@@ -58,6 +53,12 @@ void Entity::render() {
 		else
 			drawRectangle(renderer, rect, Color(0, 0, 0));
 	}
+}
+
+void Entity::render() {
+	//printf_s("%f, %f: %d, %d\n", pos.x, pos.y, cam.x, cam.y);
+	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle);
+	renderCollisionBox();
 }
 
 Vector2 Entity::getPos() {
@@ -101,7 +102,7 @@ void Entity::setAngle(int _angle) {
 DestroyableEntity::DestroyableEntity(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	SDL_Rect* _camera)
+	Rect* _camera)
 	:Entity(_renderer, texturePath, _camera) { }
 
 void DestroyableEntity::render() {
@@ -139,7 +140,7 @@ float DestroyableEntity::getHP() {
 Enemy::Enemy(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	SDL_Rect* _camera,
+	Rect* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	:DestroyableEntity(_renderer, texturePath, _camera) {
@@ -242,6 +243,7 @@ void GameEntities::removeEntity(Entity* entityToRemove) {
 
 
 bool isColliding(Entity* a, Entity* b) {
+	if (a->COLLISIONS_DISABLED || b->COLLISIONS_DISABLED) return false;
 	// AABB algorithm
 	SDL_Rect rect1 = a->getGlobalRect();
 	SDL_Rect rect2 = b->getGlobalRect();
@@ -263,7 +265,7 @@ Vector2 getDirectionFromAngle(float angle) {
 
 AnimationPlayer::AnimationPlayer(
 	SDL_Renderer* _renderer,
-	SDL_Rect* _camera,
+	Rect* _camera,
 	char* _texturesDir,
 	int _frames,
 	Vector2 _pos) 

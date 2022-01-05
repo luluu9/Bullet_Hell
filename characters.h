@@ -20,7 +20,7 @@ public:
 	//Initializes the variablesA
 	Player(
 		SDL_Renderer* _renderer,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		KeyboardHandler* _keyboard,
 		GameEntities* _entities);
 	~Player();
@@ -52,7 +52,7 @@ class Spark : public Entity {
 public:
 	Spark(
 		SDL_Renderer* _renderer,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		GameEntities* entities,
 		Vector2 startPos);
 	void update(double delta);
@@ -74,7 +74,7 @@ class Chemiczny : public Enemy {
 public:
 	Chemiczny(
 		SDL_Renderer* _renderer,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		GameEntities* _entities,
 		Player* player);
 
@@ -94,7 +94,7 @@ class AIR : public Enemy {
 public:
 	AIR(
 		SDL_Renderer* _renderer,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		GameEntities* _entities,
 		Player* player);
 	AIR::~AIR();
@@ -120,7 +120,7 @@ class WILIS : public Enemy {
 public:
 	WILIS(
 		SDL_Renderer* _renderer,
-		SDL_Rect* _camera,
+		Rect* _camera,
 		GameEntities* _entities,
 		Player* player);
 
@@ -128,9 +128,11 @@ public:
 	void tryToShoot(double delta);
 	void update(double delta);
 private:
-	Timer* shootingTimer;
-	int SHOOTING_THRESHOLD = 400; // px
-	int SHOOTING_DELAY = 2500; // in msec
+	Timer* hammerShootingTimer;
+	Timer* ballShootingTimer;
+	int HAMMER_SHOOTING_THRESHOLD = 400; // px
+	int HAMMER_SHOOTING_DELAY = 12500; // in msec
+	int BALL_SHOOTING_DELAY = 3000;
 	int SPEED = 200;
 
 };

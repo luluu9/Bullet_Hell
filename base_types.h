@@ -12,6 +12,15 @@ struct Vector2 {
 	float getLength();
 	float getAngleTo(Vector2 destVec);
 	float getDistanceTo(Vector2 destVec);
+
+	Vector2 operator *(double m) { return Vector2(x * m, y * m); }
+};
+
+struct Rect {
+	float x;
+	float y;
+	float w;
+	float h;
 };
 
 struct Color {

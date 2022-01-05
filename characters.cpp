@@ -9,7 +9,7 @@
 
 Player::Player(
 	SDL_Renderer* _renderer,
-	SDL_Rect* _camera,
+	Rect* _camera,
 	KeyboardHandler* _keyboard,
 	GameEntities* _entities)
 	: DestroyableEntity{ _renderer, PLAYER_TXT_PATH, _camera },
@@ -20,6 +20,8 @@ Player::Player(
 	attackTimer = new Timer(MAX_ATTACK_TIME, true);
 	attackCountdown = new Timer(MAX_ATTACK_TIME);
 	attackCountdown->elapsedTime = MAX_ATTACK_TIME;
+	camera->x = pos.x - SCREEN_WIDTH / 2;
+	camera->y = (pos.y+HEIGHT/2) - SCREEN_HEIGHT / 2;
 	setHP(PLAYER_HP);
 }
 
@@ -62,9 +64,12 @@ void Player::attack() {
 }
 
 void Player::update(double delta) {
-	Vector2 velocity = getDirectionFromAngle(angle);
-	pos.x += velocity.x * delta * speed;
-	pos.y += velocity.y * delta * speed;
+	Vector2 direction = getDirectionFromAngle(angle);
+	Vector2 velocity = direction * delta * speed;
+	pos.x += velocity.x;
+	pos.y += velocity.y;
+	camera->x += velocity.x;
+	camera->y += velocity.y;
 	attackTimer->update(delta);
 	attackCountdown->update(delta);
 	//printf("%f\t%f\n", attackTimer->elapsedTime, attackCountdown->elapsedTime);
@@ -125,6 +130,7 @@ void Player::collideWeapon(Weapon* weapon, double delta) {
 	else {
 		if (!invincible) {
 			healthPoints -= weapon->DAMAGE;
+			healthPoints = (healthPoints < 0.0) ? 0.0 : healthPoints;
 			startInvincibility();
 		}
 		entities->queueRemove(weapon);
@@ -145,7 +151,7 @@ void Player::stopInvincibility() {
 
 Spark::Spark(
 	SDL_Renderer* _renderer,
-	SDL_Rect* _camera,
+	Rect* _camera,
 	GameEntities* _entities,
 	Vector2 startPos)
 	:Entity(_renderer, SPARK_TXT_PATH, _camera) {
@@ -174,7 +180,7 @@ void Spark::render() {
 
 Chemiczny::Chemiczny(
 	SDL_Renderer* _renderer,
-	SDL_Rect* _camera,
+	Rect* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
@@ -211,7 +217,7 @@ void Chemiczny::update(double delta) {
 
 AIR::AIR(
 	SDL_Renderer* _renderer,
-	SDL_Rect* _camera,
+	Rect* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, AIR_TXT_PATH, _camera, _entities, _player } {
@@ -292,13 +298,16 @@ void AIR::update(double delta) {
 
 WILIS::WILIS(
 	SDL_Renderer* _renderer,
-	SDL_Rect* _camera,
+	Rect* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, WILIS_TXT_PATH, _camera, _entities, _player } {
-	shootingTimer = new Timer(SHOOTING_DELAY, false, true);
-	shootingTimer->elapsedTime = rand() % SHOOTING_DELAY;
-	shootingTimer->start();
+	hammerShootingTimer = new Timer(HAMMER_SHOOTING_DELAY, false, true);
+	hammerShootingTimer->elapsedTime = rand() % HAMMER_SHOOTING_DELAY;
+	hammerShootingTimer->start();
+	ballShootingTimer = new Timer(BALL_SHOOTING_DELAY, false, true);
+	ballShootingTimer->start();
+	ballShootingTimer->elapsedTime = 6000;
 	setHP(WILIS_HP);
 	enemyType = WILIS_TYPE;
 };
@@ -308,16 +317,21 @@ void WILIS::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();
 	angle = pos.getAngleTo(playerPos);
 	Vector2 velocity = getDirectionFromAngle(angle);
-	if (pos.getDistanceTo(playerPos) < SHOOTING_THRESHOLD) return;
+	if (pos.getDistanceTo(playerPos) < HAMMER_SHOOTING_THRESHOLD) return;
 	pos.x += velocity.x * delta * SPEED;
 	pos.y += velocity.y * delta * SPEED;
 }
 
 void WILIS::tryToShoot(double delta) {
-	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= SHOOTING_THRESHOLD) {
+	if (hammerShootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= HAMMER_SHOOTING_THRESHOLD) {
 		Weapon* acidWeapon = new Hammer(renderer, HAMMER_TXT_PATH, camera, angle);
 		acidWeapon->setPos(pos);
 		entities->addEntity(acidWeapon);
+	}
+	if (ballShootingTimer->update(delta)) {
+		Vector2 ballDestination = player->getPos();
+		Weapon* ballWeapon = new WreckingBall(renderer, WRECKING_BALL_TXT_PATH, camera, ballDestination);
+		entities->addEntity(ballWeapon);
 	}
 }
 
