@@ -6,7 +6,7 @@ const int SCREEN_HEIGHT = 1080;
 const int MAX_FPS = 144;
 const bool FULLSCREEN = false;
 static const char* TITLE = "Wojna Wydzialow";
-const bool DRAW_COLLISION_BOX = true;
+const bool DRAW_COLLISION_BOX = false;
 
 
 // SPECIFIC VALUES
@@ -29,6 +29,7 @@ static char* WILIS_TXT_PATH = "./assets/wilis.bmp";
 static char* HAMMER_TXT_PATH = "./assets/hammer_small.bmp";
 static char* WRECKING_BALL_TXT_PATH = "./assets/ball.bmp";
 static char* WRECKING_BALL_SHADOW_TXT_PATH = "./assets/ball_shadow.bmp";
+static char* GAS_TXT_PATH = "./assets/gas.bmp";
 
 
 // ANIMATIONS

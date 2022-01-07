@@ -195,9 +195,55 @@ void WreckingBall::update(double delta) {
 		shakeTimer.update(delta);
 		shakeCamera();
 	}
-	}
+}
 
 void WreckingBall::shakeCamera() {
-	camera->x += -SHAKE_POWER/2 + rand() % SHAKE_POWER;
-	camera->y += -SHAKE_POWER/2 + rand() % SHAKE_POWER;
+	camera->x += -SHAKE_POWER / 2 + rand() % SHAKE_POWER;
+	camera->y += -SHAKE_POWER / 2 + rand() % SHAKE_POWER;
+}
+
+
+
+Gas::Gas(
+	SDL_Renderer* _renderer,
+	char* texturePath,
+	Rect* _camera,
+	GameEntities* _gameEntities,
+	Vector2 startPos,
+	float _destroyTime,
+	float _TRANS_TIME)
+	:Weapon(_renderer, texturePath, _camera, 0) {
+	gameEntities = _gameEntities;
+	DAMAGE = _DAMAGE;
+	DESTROY_TIME = _destroyTime;
+	TRANS_TIME = _TRANS_TIME != 0 ? _TRANS_TIME : TRANS_TIME;
+	weaponType = GAS;
+	angle = rand() % 360;
+	ROTATION = -20 + rand() % 40;
+	pos = startPos;
+	COLLISIONS_DISABLED = true;
+}
+
+
+void Gas::update(double delta) {
+	elapsedTime += delta * 1000;
+	if (elapsedTime > DESTROY_TIME) {
+		alpha = MAX_ALPHA * (1 - ((elapsedTime - DESTROY_TIME) / TRANS_TIME));
+		if (alpha <= 0)
+			gameEntities->queueRemove(this);
+	}
+	else {
+		alpha = MAX_ALPHA * (elapsedTime / TRANS_TIME);
+		scale = MAX_SCALE * (elapsedTime / TRANS_TIME);
+		alpha = alpha > MAX_ALPHA ? MAX_ALPHA : alpha;
+		scale = scale > MAX_SCALE ? MAX_SCALE : scale;
+	}
+}
+
+void Gas::render() {
+
+	angle = ROTATION * elapsedTime / 1000;
+	SDL_SetTextureAlphaMod(texture, alpha);
+	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
+	renderCollisionBox();
 }

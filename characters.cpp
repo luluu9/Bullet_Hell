@@ -21,7 +21,7 @@ Player::Player(
 	attackCountdown = new Timer(MAX_ATTACK_TIME);
 	attackCountdown->elapsedTime = MAX_ATTACK_TIME;
 	camera->x = pos.x - SCREEN_WIDTH / 2;
-	camera->y = (pos.y+HEIGHT/2) - SCREEN_HEIGHT / 2;
+	camera->y = (pos.y + HEIGHT / 2) - SCREEN_HEIGHT / 2;
 	setHP(PLAYER_HP);
 }
 
@@ -184,11 +184,23 @@ Chemiczny::Chemiczny(
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
+	enemyType = CHEMICZNY;
+	setHP(CHEMICZNY_HP);
 	shootingTimer = new Timer(SHOOTING_DELAY, false, true);
 	shootingTimer->elapsedTime = rand() % SHOOTING_DELAY;
+	gasTimer = new Timer(GAS_DELAY, false, true);
+
+	SDL_Texture* gasTxt = loadTextureFromBMP(renderer, GAS_TXT_PATH);
+	SDL_QueryTexture(texture, NULL, NULL, &GAS_WEAPON_WIDTH, &GAS_WEAPON_HEIGHT);
+	SDL_DestroyTexture(gasTxt);
+	int gasNumberToFill = GAS_WIDTH / GAS_WEAPON_WIDTH;
+	addGasTime = GAS_SPEED / gasNumberToFill;
+	addGasTimer = new Timer(addGasTime);
+	GAS_WEAPON_HEIGHT /= 2;
+	gasNumberToFillHeight = GAS_HEIGHT / GAS_WEAPON_HEIGHT;
+
 	shootingTimer->start();
-	setHP(CHEMICZNY_HP);
-	enemyType = CHEMICZNY;
+	gasTimer->start();
 };
 
 
@@ -201,11 +213,37 @@ void Chemiczny::updatePosition(double delta) {
 	pos.y += velocity.y * delta * SPEED;
 }
 
+void Chemiczny::gasOut() {
+	gasStartPos = player->getPos();
+	gasStartPos.x -= GAS_WIDTH / 4;
+	gasStartPos.y -= GAS_HEIGHT / 2;
+	gasEjected = 0;
+	updateGas();
+}
+
 void Chemiczny::tryToShoot(double delta) {
 	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= SHOOTING_THRESHOLD) {
 		Weapon* acidWeapon = new Acid(renderer, ACID_TXT_PATH, camera, angle);
 		acidWeapon->setPos(pos);
 		entities->addEntity(acidWeapon);
+	}
+	if (gasTimer->update(delta)) {
+		gasOut();
+	}
+	updateGas(delta);
+}
+
+void Chemiczny::updateGas(double delta) {
+	if (gasEjected < GAS_WIDTH && (delta == 0.0 || addGasTimer->update(delta))) {
+		Vector2 gasPos = gasStartPos;
+		gasPos.x += gasEjected;
+		for (int i = 0; i < gasNumberToFillHeight; i++) {
+			gasPos.y += GAS_WEAPON_HEIGHT;
+			Gas* gas = new Gas(renderer, GAS_TXT_PATH, camera, entities, gasPos, GAS_DELAY);
+			entities->addEntity(gas);
+		}
+		gasEjected += GAS_WEAPON_WIDTH;
+		addGasTimer->start();
 	}
 }
 

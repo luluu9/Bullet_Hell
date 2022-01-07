@@ -127,3 +127,30 @@ private:
 	bool ballShown = false;
 	
 };
+
+
+class Gas : public Weapon {
+public:
+	Gas(
+		SDL_Renderer* _renderer,
+		char* texturePath,
+		Rect* _camera,
+		GameEntities* _gameEntities,
+		Vector2 startPos,
+		float _destroyTime,
+		float _TRANS_TIME = 0);
+
+	void update(double delta);
+	void render();
+private:
+	GameEntities* gameEntities;
+	float _DAMAGE = 15;
+	float TRANS_TIME = 1500; // from 0 alpha to full
+	float MAX_ALPHA = 150;
+	float MAX_SCALE = 1.5;
+	float ROTATION = 10; // angle per second
+	float DESTROY_TIME;
+	float elapsedTime = 0;
+	int alpha = 255;
+	float scale = 1.0;
+};

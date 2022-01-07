@@ -6,6 +6,7 @@
 #include "entity.h"
 #include "base_types.h"
 #include "characters.h"
+#include "settings.h"
 
 
 class Player : public DestroyableEntity {
@@ -13,7 +14,7 @@ public:
 	double ACCEL = 30;
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 700; //px per sec
-	int INVINCIBLE_TIME = 00;
+	int INVINCIBLE_TIME = 1500;
 	int MAX_ATTACK_TIME = 2000;
 	int ATTACK_ROT_MULTIPLIER = 10;
 
@@ -80,12 +81,26 @@ public:
 
 	void Chemiczny::updatePosition(double delta);
 	void Chemiczny::tryToShoot(double delta);
+	void Chemiczny::gasOut();
+	void Chemiczny::updateGas(double delta=0.0);
 	void Chemiczny::update(double delta);
 
 private:
 	Timer* shootingTimer;
+	Timer* gasTimer;
+	Timer* addGasTimer;
 	int SHOOTING_THRESHOLD = 500; // px
 	int SHOOTING_DELAY = 1000; // in msec
+	int GAS_DELAY = 5000; // in msec
+	int GAS_SPEED = 10000; // how fast gas expands to fill GAS_WIDTH 
+	int GAS_HEIGHT = 600; 
+	int GAS_WIDTH = SCREEN_WIDTH*4;
+	int GAS_WEAPON_WIDTH;
+	int GAS_WEAPON_HEIGHT;
+	Vector2 gasStartPos;
+	int addGasTime;
+	float gasEjected = 0;
+	int gasNumberToFillHeight = 0;
 	
 };
 
