@@ -39,6 +39,6 @@ static int EMP_GRANADE_FRAMES = 9;
 
 // CHARACTERS
 static int PLAYER_HP = 100;
-static int CHEMICZNY_HP = 200;
+static int CHEMICZNY_HP = 400;
 static int AIR_HP = 100;
 static int WILIS_HP = 100;

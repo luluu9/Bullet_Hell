@@ -11,7 +11,7 @@
 
 class Player : public DestroyableEntity {
 public:
-	double ACCEL = 30;
+	double ACCEL = 20;
 	double ROT_SPEED = 2;
 	double MAX_SPEED = 700; //px per sec
 	int INVINCIBLE_TIME = 1500;
@@ -44,6 +44,7 @@ private:
 	Timer* attackCountdown;
 	bool invincible = false;
 	bool attacking = false;
+	bool gassed = false;
 
 	float damage = 100; // dmg per second
 };
@@ -84,14 +85,14 @@ public:
 	void Chemiczny::gasOut();
 	void Chemiczny::updateGas(double delta=0.0);
 	void Chemiczny::update(double delta);
-
 private:
 	Timer* shootingTimer;
 	Timer* gasTimer;
 	Timer* addGasTimer;
-	int SHOOTING_THRESHOLD = 500; // px
-	int SHOOTING_DELAY = 1000; // in msec
-	int GAS_DELAY = 5000; // in msec
+	int SPEED = 350;
+	int SHOOTING_THRESHOLD = 700; // px
+	int SHOOTING_DELAY = 700; // in msec
+	int GAS_DELAY = 8000; // in msec
 	int GAS_SPEED = 10000; // how fast gas expands to fill GAS_WIDTH 
 	int GAS_HEIGHT = 600; 
 	int GAS_WIDTH = SCREEN_WIDTH*4;

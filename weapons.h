@@ -148,7 +148,8 @@ private:
 	float TRANS_TIME = 1500; // from 0 alpha to full
 	float MAX_ALPHA = 150;
 	float MAX_SCALE = 1.5;
-	float ROTATION = 10; // angle per second
+	int ROTATION_MAX = 20; // rotation range
+	int ROTATION; // angle per second
 	float DESTROY_TIME;
 	float elapsedTime = 0;
 	int alpha = 255;

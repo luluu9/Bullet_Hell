@@ -219,7 +219,7 @@ Gas::Gas(
 	TRANS_TIME = _TRANS_TIME != 0 ? _TRANS_TIME : TRANS_TIME;
 	weaponType = GAS;
 	angle = rand() % 360;
-	ROTATION = -20 + rand() % 40;
+	ROTATION = -ROTATION_MAX + rand() % ROTATION_MAX *2;
 	pos = startPos;
 	COLLISIONS_DISABLED = true;
 }
@@ -237,11 +237,12 @@ void Gas::update(double delta) {
 		scale = MAX_SCALE * (elapsedTime / TRANS_TIME);
 		alpha = alpha > MAX_ALPHA ? MAX_ALPHA : alpha;
 		scale = scale > MAX_SCALE ? MAX_SCALE : scale;
+		if (elapsedTime > TRANS_TIME/2)
+			COLLISIONS_DISABLED = false;
 	}
 }
 
 void Gas::render() {
-
 	angle = ROTATION * elapsedTime / 1000;
 	SDL_SetTextureAlphaMod(texture, alpha);
 	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
