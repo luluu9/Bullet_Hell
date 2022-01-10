@@ -89,13 +89,13 @@ private:
 	Timer* shootingTimer;
 	Timer* gasTimer;
 	Timer* addGasTimer;
-	int SPEED = 350;
-	int SHOOTING_THRESHOLD = 700; // px
-	int SHOOTING_DELAY = 700; // in msec
-	int GAS_DELAY = 8000; // in msec
-	int GAS_SPEED = 10000; // how fast gas expands to fill GAS_WIDTH 
-	int GAS_HEIGHT = 600; 
-	int GAS_WIDTH = SCREEN_WIDTH*4;
+	int SPEED = CHEMICZNY_SPEED;
+	int SHOOTING_THRESHOLD = CHEMICZNY_SHOOTING_THRESHOLD; // px
+	int SHOOTING_DELAY = CHEMICZNY_SHOOTING_DELAY; // in msec
+	int GAS_DELAY = CHEMICZNY_GAS_DELAY; // in msec
+	int GAS_SPEED = CHEMICZNY_GAS_SPEED; // how fast gas expands to fill GAS_WIDTH 
+	int GAS_HEIGHT = CHEMICZNY_GAS_HEIGHT;
+	int GAS_WIDTH = CHEMICZNY_GAS_WIDTH;
 	int GAS_WEAPON_WIDTH;
 	int GAS_WEAPON_HEIGHT;
 	Vector2 gasStartPos;
@@ -146,8 +146,8 @@ public:
 private:
 	Timer* hammerShootingTimer;
 	Timer* ballShootingTimer;
-	int HAMMER_SHOOTING_THRESHOLD = 400; // px
-	int HAMMER_SHOOTING_DELAY = 12500; // in msec
+	int HAMMER_SHOOTING_THRESHOLD = 600; // px
+	int HAMMER_SHOOTING_DELAY = 2000; // in msec
 	int BALL_SHOOTING_DELAY = 3000;
 	int SPEED = 200;
 
