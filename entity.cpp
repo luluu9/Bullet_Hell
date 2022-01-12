@@ -31,7 +31,6 @@ Entity::Entity(
 	texture = nullptr;
 }
 
-
 Entity::~Entity() {
 	printf_s("Deleting entity\n");
 	SDL_DestroyTexture(texture);
@@ -57,7 +56,7 @@ void Entity::renderCollisionBox() {
 
 void Entity::render() {
 	//printf_s("%f, %f: %d, %d\n", pos.x, pos.y, cam.x, cam.y);
-	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle);
+	drawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle);
 	renderCollisionBox();
 }
 
@@ -242,27 +241,6 @@ void GameEntities::removeEntity(Entity* entityToRemove) {
 }
 
 
-bool isColliding(Entity* a, Entity* b) {
-	if (a->COLLISIONS_DISABLED || b->COLLISIONS_DISABLED) return false;
-	// AABB algorithm
-	SDL_Rect rect1 = a->getGlobalRect();
-	SDL_Rect rect2 = b->getGlobalRect();
-	if (rect1.x < rect2.x + rect2.w &&
-		rect1.x + rect1.w > rect2.x &&
-		rect1.y < rect2.y + rect2.h &&
-		rect1.h + rect1.y > rect2.y) {
-		return true;
-	}
-	return false;
-}
-
-
-Vector2 getDirectionFromAngle(float angle) {
-	Vector2 direction(cos(angle * PI / 180), sin(angle * PI / 180));
-	direction = direction.normalized();
-	return direction;
-}
-
 AnimationPlayer::AnimationPlayer(
 	SDL_Renderer* _renderer,
 	Camera* _camera,
@@ -278,7 +256,6 @@ AnimationPlayer::AnimationPlayer(
 	txtFrames = new SDL_Texture * [frames];
 	char txtPath[MAX_PATH_LENGTH];
 	for (int i = 0; i < frames; i++) {
-		sprintf(txtPath, "%s/%d.bmp", texturesDir, i);
 		txtFrames[i] = loadTextureFromBMP(renderer, txtPath);
 	}
 	timer = new Timer(speed, false, true);
@@ -301,7 +278,7 @@ void AnimationPlayer::update(double delta) {
 void AnimationPlayer::render() {
 	if (started) {
 		if (currentFrame < frames)
-			DrawTexture(renderer, txtFrames[currentFrame], pos.x - camera->x, pos.y - camera->y);
+			drawTexture(renderer, txtFrames[currentFrame], pos.x - camera->x, pos.y - camera->y);
 	}
 }
 
@@ -316,4 +293,27 @@ void AnimationPlayer::nextFrame() {
 void AnimationPlayer::start() {
 	started = true;
 	timer->start();
+}
+
+
+
+bool isColliding(Entity* a, Entity* b) {
+	if (a->COLLISIONS_DISABLED || b->COLLISIONS_DISABLED) return false;
+	// AABB algorithm
+	SDL_Rect rect1 = a->getGlobalRect();
+	SDL_Rect rect2 = b->getGlobalRect();
+	if (rect1.x < rect2.x + rect2.w &&
+		rect1.x + rect1.w > rect2.x &&
+		rect1.y < rect2.y + rect2.h &&
+		rect1.h + rect1.y > rect2.y) {
+		return true;
+	}
+	return false;
+}
+
+
+Vector2 getDirectionFromAngle(float angle) {
+	Vector2 direction(cos(angle * PI / 180), sin(angle * PI / 180));
+	direction = direction.normalized();
+	return direction;
 }

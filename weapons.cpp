@@ -5,7 +5,6 @@
 #include "settings.h"
 #include "drawing.h"
 
-#define PI 3.14159265
 
 Weapon::Weapon(
 	SDL_Renderer* _renderer,
@@ -109,6 +108,7 @@ void EMP::startAnimation() {
 	boomAnimation->start();
 }
 
+
 EMPWave::EMPWave(
 	SDL_Renderer* _renderer,
 	char* texturePath,
@@ -131,7 +131,7 @@ void EMPWave::update(double delta) {
 }
 
 void EMPWave::render() {
-	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
+	drawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
 }
 
 
@@ -146,7 +146,6 @@ Hammer::Hammer(
 	startAngle = _angle;
 }
 
-
 void Hammer::update(double delta) {
 	angle -= delta * 800;
 	Vector2 rotationDirection = getDirectionFromAngle(angle);
@@ -156,7 +155,6 @@ void Hammer::update(double delta) {
 	pos.x += baseDirection.x * delta * SPEED;
 	pos.y += baseDirection.y * delta * SPEED;
 }
-
 
 
 WreckingBall::WreckingBall(
@@ -173,16 +171,15 @@ WreckingBall::WreckingBall(
 	fallTimer.start();
 }
 
-
 void WreckingBall::render() {
 	float shadowScale = fallTimer.elapsedTime / SHOW_BALL_TIME;
 	shadowScale = shadowScale < 1.0 ? shadowScale : 1.0;
 	SDL_SetTextureAlphaMod(shadowTexture, shadowScale * 255);
-	DrawTextureRotated(renderer, shadowTexture, impactPos.x - camera->x, impactPos.y - camera->y, 0, shadowScale);
+	drawTextureRotated(renderer, shadowTexture, impactPos.x - camera->x, impactPos.y - camera->y, 0, shadowScale);
 	if (ballShown) {
 		float distFromDest = SCREEN_HEIGHT * FALL_SPEED - fallTimer.elapsedTime / (FALL_TIME)*SCREEN_HEIGHT * FALL_SPEED;
 		pos = Vector2(impactPos.x, impactPos.y - distFromDest);
-		DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, 0);
+		drawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, 0);
 	}
 	renderCollisionBox();
 }
@@ -218,7 +215,6 @@ Gas::Gas(
 	COLLISIONS_DISABLED = true;
 }
 
-
 void Gas::update(double delta) {
 	elapsedTime += delta * 1000;
 	if (elapsedTime > DESTROY_TIME) {
@@ -239,6 +235,6 @@ void Gas::update(double delta) {
 void Gas::render() {
 	angle = ROTATION * elapsedTime / 1000;
 	SDL_SetTextureAlphaMod(texture, alpha);
-	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
+	drawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
 	renderCollisionBox();
 }

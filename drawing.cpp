@@ -8,7 +8,7 @@
 // charset to bitmapa 128x128 zawieraj¹ca znaki
 // draw a text txt on surface screen, starting from the point (x, y)
 // charset is a 128x128 bitmap containing character images
-void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset) {
+void drawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset) {
 	SDL_FillRect(screen, NULL, 0x000000);
 	int px, py, c;
 	SDL_Rect s, d;
@@ -31,7 +31,7 @@ void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface
 };
 
 
-void DrawTexture(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y) {
+void drawTexture(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y) {
 	SDL_Rect dest;
 	int width, height;
 	SDL_QueryTexture(tex, NULL, NULL, &width, &height);
@@ -43,7 +43,7 @@ void DrawTexture(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y) {
 };
 
 
-void DrawTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y, double angle = 0.0, float scale=1.0) {
+void drawTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int x, int y, double angle = 0.0, float scale=1.0) {
 	SDL_Rect dest;
 	int width, height;
 	SDL_QueryTexture(tex, NULL, NULL, &width, &height);

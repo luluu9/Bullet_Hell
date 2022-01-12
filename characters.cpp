@@ -84,10 +84,7 @@ void Player::update(double delta) {
 	}
 }
 
-void Player::render() {
-	DestroyableEntity::render();
-
-	// render energy bar
+void Player::renderEnergy() {
 	int MARGIN = 2;
 	Color bgColor = Color(191, 179, 0);
 	Color energyColor = Color(255, 247, 0);
@@ -104,9 +101,13 @@ void Player::render() {
 	drawRectangle(renderer, barRect, energyColor, energyColor);
 }
 
+void Player::render() {
+	DestroyableEntity::render();
+	renderEnergy();
+}
+
 void Player::collide(Entity* collidingEntity, double delta) {
 	colliding = true;
-	// printf_s("typ postaci: %d\n", collidingEntity->entityType);
 	if (collidingEntity->entityType == WEAPON) {
 		Weapon* weapon = dynamic_cast<Weapon*>(collidingEntity);
 		collideWeapon(weapon, delta);
@@ -127,7 +128,6 @@ void Player::collideEnemy(Enemy* enemy, double delta) {
 }
 
 void Player::collideWeapon(Weapon* weapon, double delta) {
-	// printf_s("typ broni: %d\n", weapon->weaponType);
 	if (attacking && weapon->weaponType == ACID) {
 		weapon->setAngle(weapon->getAngle() + 180); // bounce bullet
 		weapon->update(0.05); // prevent infinite loop inside player rect
@@ -188,7 +188,7 @@ void Spark::update(double delta) {
 }
 
 void Spark::render() {
-	DrawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
+	drawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle, scale);
 }
 
 
@@ -216,7 +216,6 @@ Chemiczny::Chemiczny(
 	shootingTimer->start();
 	gasTimer->start();
 };
-
 
 void Chemiczny::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();
@@ -367,7 +366,6 @@ WILIS::WILIS(
 	setHP(WILIS_HP);
 	enemyType = WILIS_TYPE;
 };
-
 
 void WILIS::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();

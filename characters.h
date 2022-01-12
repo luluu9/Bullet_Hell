@@ -33,6 +33,7 @@ public:
 	void handleEvent(SDL_Event& event);
 	void attack();
 	void update(double delta);
+	void renderEnergy();
 	void render();
 	void collide(Entity* collidingEntity, double delta);
 	void collideEnemy(Enemy* enemy, double delta);

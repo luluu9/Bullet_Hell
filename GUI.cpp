@@ -205,7 +205,7 @@ void GameScreen::update(double delta, double worldTime) {
 void GameScreen::render() {
 	for (int i = -1; i <= SCREEN_WIDTH / bgWidth + 2; i++)
 		for (int j = -1; j <= SCREEN_HEIGHT / bgHeight + 2; j++)
-			DrawTexture(renderer, background, -((int)camera.x % bgWidth) + i * bgWidth, -((int)camera.y % bgHeight) + j * bgHeight);
+			drawTexture(renderer, background, -((int)camera.x % bgWidth) + i * bgWidth, -((int)camera.y % bgHeight) + j * bgHeight);
 	for (unsigned int i = 0; i < entities.currentEntity; i++)
 		entities.getEntity(i)->render();
 
@@ -299,7 +299,7 @@ Text::~Text() {
 
 void Text::render() {
 	if (!hidden) {
-		DrawString(textSurface, rect.x-strlen(text)*DEST_CHAR_SIZE/2, rect.y, text, charset);
+		drawString(textSurface, rect.x - strlen(text) * DEST_CHAR_SIZE / 2, rect.y, text, charset);
 	}
 }
 
@@ -318,7 +318,7 @@ Image::~Image() {
 
 void Image::render() {
 	if (!hidden) {
-		DrawTexture(renderer, image, rect.x, rect.y);
+		drawTexture(renderer, image, rect.x, rect.y);
 	}
 }
 
@@ -370,3 +370,56 @@ void Button::handleEvent(SDL_Event& event) {
 	}
 }
 
+
+ScoreCounter::ScoreCounter(SDL_Renderer* _renderer) {
+	renderer = _renderer;
+}
+
+void ScoreCounter::addScore(int points) {
+	score += points * multiplier;
+	updateText();
+	increaseMultiplier();
+}
+
+void ScoreCounter::removeScore(int points) {
+	if (score > 0)
+		score = score - points > 0 ? score - points : 0;
+	updateText();
+}
+
+void ScoreCounter::increaseMultiplier() {
+	if (multiplier < MAX_MULTIPLIER)
+		multiplier += MULTIPLIER_INCREASE;
+	multiplierTimer.start();
+}
+
+void ScoreCounter::resetMultiplier() {
+	multiplier = 1.0;
+}
+
+void ScoreCounter::update(double delta) {
+	if (multiplierTimer.update(delta)) {
+		resetMultiplier();
+	}
+}
+
+void ScoreCounter::updateText() {
+	sprintf(scoreText->text, "%d", score);
+}
+
+void ScoreCounter::setText(Text* _text) {
+	scoreText = _text;
+}
+
+void ScoreCounter::drawGrade() {
+	SDL_Rect windowRect;
+	windowRect.x = 0;
+	windowRect.y = 0;
+	windowRect.w = SCREEN_WIDTH;
+	windowRect.h = SCREEN_HEIGHT;
+	drawRectangle(renderer, windowRect, Color(), Color(255, 0, 0, multiplier * 1.5));
+}
+
+int ScoreCounter::getScore() {
+	return score;
+}

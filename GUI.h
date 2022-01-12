@@ -141,7 +141,7 @@ public:
 	Text(SDL_Renderer* _renderer, SDL_Rect _rect, SDL_Surface* _textSurface, SDL_Surface* _charset, char* _text);
 	Text(SDL_Renderer* _renderer, SDL_Rect _rect, SDL_Surface* _textSurface, SDL_Surface* _charset, int maxChars);
 	Text::~Text();
-	
+
 	void render();
 
 private:
@@ -191,61 +191,20 @@ class ScoreCounter {
 public:
 	double MULTIPLIER_INCREASE = 0.1;
 	int MULTIPLIER_TIME = 2500; // msec to start depleting
-	int MAX_MULTIPLIER = 60; 
+	int MAX_MULTIPLIER = 60;
 
-	ScoreCounter(SDL_Renderer* _renderer) {
-		renderer = _renderer;
-	}
+	ScoreCounter(SDL_Renderer* _renderer);
 
-	void addScore(int points) {
-		score += points * multiplier;
-		updateText();
-		increaseMultiplier();
-	}
+	void addScore(int points);
+	void removeScore(int points);
+	void increaseMultiplier();
+	void resetMultiplier();
+	void update(double delta);
+	void updateText();
+	void setText(Text* _text);
+	void drawGrade();
 
-	void removeScore(int points) {
-		if (score > 0)
-			score = score-points > 0 ? score-points : 0;
-		updateText();
-	}
-
-	void increaseMultiplier() {
-		if (multiplier < MAX_MULTIPLIER)
-			multiplier += MULTIPLIER_INCREASE;
-		multiplierTimer.start();
-		printf_s("%f\n", multiplier);
-	}
-
-	void resetMultiplier() {
-		multiplier = 1.0;
-	}
-
-	int getScore() {
-		return score;
-	}
-
-	void update(double delta) {
-		if (multiplierTimer.update(delta)) {
-			resetMultiplier();
-		}
-	}
-
-	void updateText() {
-		sprintf(scoreText->text, "%d", score);
-	}
-
-	void setText(Text* _text) {
-		scoreText = _text;
-	}
-
-	void drawGrade() {
-		SDL_Rect windowRect;
-		windowRect.x = 0;
-		windowRect.y = 0;
-		windowRect.w = SCREEN_WIDTH;
-		windowRect.h = SCREEN_HEIGHT;
-		drawRectangle(renderer, windowRect, Color(), Color(255, 0, 0, multiplier * 1.5));
-	}
+	int getScore();
 
 	SDL_Renderer* renderer = nullptr;
 	Timer multiplierTimer = Timer(MULTIPLIER_TIME, false, false, true);
