@@ -72,6 +72,9 @@ void Timer::start() {
 		elapsedTime = 0;
 		started = true;
 	}
+	else {
+		elapsedTime = 0;
+	}
 }
 
 void Timer::end() {

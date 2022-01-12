@@ -7,7 +7,10 @@
 #include "base_types.h"
 #include "characters.h"
 #include "settings.h"
+#include "GUI.h"
 
+
+class ScoreCounter;
 
 class Player : public DestroyableEntity {
 public:
@@ -23,7 +26,8 @@ public:
 		SDL_Renderer* _renderer,
 		Camera* _camera,
 		KeyboardHandler* _keyboard,
-		GameEntities* _entities);
+		GameEntities* _entities,
+		ScoreCounter* score);
 	~Player();
 
 	void handleEvent(SDL_Event& event);
@@ -45,6 +49,7 @@ private:
 	bool invincible = false;
 	bool attacking = false;
 	bool gassed = false;
+	ScoreCounter* score;
 
 	float damage = 100; // dmg per second
 };

@@ -103,50 +103,58 @@ GameScreen::GameScreen(
 	SDL_Surface* _textSurface,
 	SDL_Surface* _charset,
 	Game* _game,
-	SCREEN levelId)
-	:Screen::Screen(
+	SCREEN levelId,
+	ScoreCounter* _score)
+	:Screen(
 		_renderer,
 		_textSurface,
 		_charset,
 		levelId) {
 	game = _game;
 	currentLevel = levelId;
-
-	charset = SDL_LoadBMP("./cs8x8.bmp");
-	SDL_SetColorKey(charset, true, 0xFF000000);
+	score = _score;
 
 	camera.x = 0;
 	camera.y = 0;
 	camera.w = SCREEN_WIDTH;
 	camera.h = SCREEN_HEIGHT;
 
-	player = new Player(renderer, &camera, game->getKeyboard(), &entities);
+	SDL_Rect textRect;
+	textRect.w = 100;
+	textRect.h = 100;
+	textRect.x = SCREEN_WIDTH / 2;
+	textRect.y = SCREEN_HEIGHT / 10;
+	scoreText = new Text(renderer, textRect, textSurface, charset, MAX_CHARS);
+	addElement(scoreText);
+	score->setText(scoreText);
+
+	player = new Player(renderer, &camera, game->getKeyboard(), &entities, score);
 	entities.addEntity(player);
 
 	background = loadTextureFromBMP(renderer, BACKGROUND_TXT_PATH);
 	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
 
 	switch (currentLevel) {
-		case LEVEL_1: {
-			for (int i = 0; i < 1; i++) {
-				Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
-				entities.addEntity(enemy);
-				enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
-			}
-			break;
+	case LEVEL_1: {
+		for (int i = 0; i < 1; i++) {
+			Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
+			entities.addEntity(enemy);
+			enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
 		}
-		case LEVEL_2: {
-			AIR* air = new AIR(renderer, &camera, &entities, player);
-			entities.addEntity(air);
-			air->setPos(Vector2(400, 400));
-			break;
-		}
-		case LEVEL_3: {
-			WILIS* wilis = new WILIS(renderer, &camera, &entities, player);
-			entities.addEntity(wilis);
-			wilis->setPos(Vector2(500, 500));
-			break;
-		}
+		break;
+	}
+	case LEVEL_2: {
+		AIR* air = new AIR(renderer, &camera, &entities, player);
+		entities.addEntity(air);
+		air->setPos(Vector2(400, 400));
+		break;
+	}
+	case LEVEL_3: {
+		WILIS* wilis = new WILIS(renderer, &camera, &entities, player);
+		entities.addEntity(wilis);
+		wilis->setPos(Vector2(500, 500));
+		break;
+	}
 	}
 }
 
@@ -185,8 +193,7 @@ void GameScreen::update(double delta, double worldTime) {
 		}
 	}
 
-	sprintf_s(text, "% .1lf s ", worldTime);
-	DrawString(textSurface, SCREEN_WIDTH / 2, 10, text, charset);
+	score->update(delta);
 
 	if (enemies == 0) {
 		popup(WON);
@@ -272,6 +279,22 @@ Text::Text(
 	textSurface = _textSurface;
 	charset = _charset;
 	text = _text;
+}
+
+Text::Text(
+	SDL_Renderer* _renderer,
+	SDL_Rect _rect,
+	SDL_Surface* _textSurface,
+	SDL_Surface* _charset,
+	int maxChars)
+	:GUIElement::GUIElement(_renderer, _rect) {
+	textSurface = _textSurface;
+	charset = _charset;
+	text = new char[maxChars + 1];
+}
+
+Text::~Text() {
+	delete[] text;
 }
 
 void Text::render() {

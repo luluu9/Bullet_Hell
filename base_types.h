@@ -1,6 +1,7 @@
 #pragma once
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
+#include <stdio.h>
 #include <cstdlib>
 
 
@@ -30,7 +31,7 @@ struct Color {
 	Color() : r{ 0 }, b{ 0 }, g{ 0 }, a{ 0 } {};
 	Color(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a);
 	Color(uint8_t _r, uint8_t _g, uint8_t _b);
-	
+
 	operator bool() { return r || g || b; }
 	Color operator *(const double m) { return Color(r * m, g * m, b * m); }
 };
@@ -77,8 +78,8 @@ struct Camera {
 		if (shakeTimer.update(delta))
 			shake = false;
 		if (shake) {
-			x += -shakePower / 2 + rand() % shakePower+1;
-			y += -shakePower / 2 + rand() % shakePower+1;
+			x += -shakePower / 2 + rand() % shakePower + 1;
+			y += -shakePower / 2 + rand() % shakePower + 1;
 		}
 	}
 

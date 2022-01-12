@@ -13,6 +13,7 @@ enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, QUIT };
 #endif
 
 class Screen; // forward declaration
+class ScoreCounter;
 
 
 class Game {
@@ -44,4 +45,6 @@ private:
 
 	Screen* currentScreen;
 	KeyboardHandler* keyboard;
+
+	ScoreCounter* score;
 };

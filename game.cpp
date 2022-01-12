@@ -17,6 +17,7 @@ Game::Game() {
 	charset = nullptr;
 	keyboard = nullptr;
 	currentScreen = nullptr;
+	score = nullptr;
 
 	int flags = 0;
 	if (FULLSCREEN)
@@ -57,6 +58,7 @@ Game::Game() {
 	SDL_SetColorKey(charset, true, 0xFF000000);
 
 	keyboard = new KeyboardHandler;
+	score = new ScoreCounter;
 	currentScreen = new MainMenu(renderer, textSurface, charset, this);
 }
 
@@ -121,7 +123,7 @@ void Game::changeScreen(SCREEN screenId) {
 	case LEVEL_1:
 	case LEVEL_2:
 	case LEVEL_3:
-		currentScreen = new GameScreen(renderer, textSurface, charset, this, screenId);
+		currentScreen = new GameScreen(renderer, textSurface, charset, this, screenId, score);
 		break;
 	}
 }

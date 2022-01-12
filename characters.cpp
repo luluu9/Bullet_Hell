@@ -11,10 +11,12 @@ Player::Player(
 	SDL_Renderer* _renderer,
 	Camera* _camera,
 	KeyboardHandler* _keyboard,
-	GameEntities* _entities)
+	GameEntities* _entities,
+	ScoreCounter* _score)
 	: DestroyableEntity{ _renderer, PLAYER_TXT_PATH, _camera },
 	keyboard{ _keyboard },
-	entities{ _entities } {
+	entities{ _entities },
+	score{ _score } {
 	entityType = PLAYER;
 	invincibleTimer = new Timer(INVINCIBLE_TIME);
 	attackTimer = new Timer(MAX_ATTACK_TIME, true);
@@ -70,7 +72,7 @@ void Player::update(double delta) {
 	pos.y += velocity.y;
 	camera->x += velocity.x;
 	camera->y += velocity.y;
-	camera->setPos(pos-Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2));
+	camera->setPos(pos - Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	camera->update(delta);
 	attackTimer->update(delta);
 	attackCountdown->update(delta);
@@ -80,6 +82,7 @@ void Player::update(double delta) {
 			stopInvincibility();
 		}
 	}
+	score->addScore(1);
 }
 
 void Player::render() {
@@ -233,7 +236,7 @@ void Chemiczny::gasOut() {
 void Chemiczny::tryToShoot(double delta) {
 	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= SHOOTING_THRESHOLD) {
 		int currentWeaponAngle = 0;
-		for (int i=0; i<SHOOTING_SIDES; i++) {
+		for (int i = 0; i < SHOOTING_SIDES; i++) {
 			Weapon* acidWeapon = new Acid(renderer, ACID_TXT_PATH, camera, currentWeaponAngle);
 			acidWeapon->setPos(pos);
 			entities->addEntity(acidWeapon);

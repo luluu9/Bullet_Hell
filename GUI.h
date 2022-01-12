@@ -13,6 +13,8 @@ enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, QUIT };
 
 class GUIElement; // forward declaration
 class Game; // forward declaration
+class Text;
+class ScoreCounter;
 
 
 class Screen {
@@ -74,7 +76,8 @@ public:
 		SDL_Surface* _textSurface,
 		SDL_Surface* _charset,
 		Game* _game,
-		SCREEN levelId);
+		SCREEN levelId,
+		ScoreCounter* _score);
 	~GameScreen();
 
 	enum STATE { LOST, WON };
@@ -90,6 +93,9 @@ private:
 	Camera camera;
 	Game* game;
 	SCREEN currentLevel;
+	ScoreCounter* score;
+	Text* scoreText;
+
 	char text[128];
 	char* lostButtonPaths[2] = {
 		"./assets/menu.bmp",
@@ -129,13 +135,17 @@ protected:
 
 class Text : public GUIElement {
 public:
+	char* text;
+
 	Text(SDL_Renderer* _renderer, SDL_Rect _rect, SDL_Surface* _textSurface, SDL_Surface* _charset, char* _text);
+	Text(SDL_Renderer* _renderer, SDL_Rect _rect, SDL_Surface* _textSurface, SDL_Surface* _charset, int maxChars);
+	Text::~Text();
+	
 	void render();
 
 private:
 	SDL_Surface* textSurface;
 	SDL_Surface* charset;
-	char* text;
 };
 
 class Image : public GUIElement {
@@ -174,3 +184,51 @@ private:
 	SCREEN nextScreenId;
 	Game* game;
 };
+
+
+class ScoreCounter {
+public:
+	double MULTIPLIER_INCREASE = 0.1;
+	int MULTIPLIER_TIME = 2500; // msec to start depleting
+
+
+	void addScore(int points) {
+		score += points * multiplier;
+		sprintf(scoreText->text, "%d", score);
+	}
+
+	void removeScore(int points) {
+		score -= points;
+	}
+
+	void increaseMultiplier() {
+		multiplier += MULTIPLIER_INCREASE;
+		multiplierTimer.start();
+	}
+
+	void decreaseMultiplier() {
+		if (multiplier > 1.0) {
+			multiplier -= MULTIPLIER_INCREASE;
+			multiplier = multiplier < 1.0 ? 1.0 : multiplier;
+		}
+	}
+
+	int getScore() {
+		return score;
+	}
+
+	void update(double delta) {
+		multiplierTimer.update(delta);
+	}
+
+	void setText(Text* _text) {
+		scoreText = _text;
+	}
+
+private:
+	Timer multiplierTimer = Timer(MULTIPLIER_TIME);
+	Text* scoreText;
+	int score = 0;
+	double multiplier = 1.0;
+};
+

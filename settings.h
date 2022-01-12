@@ -4,6 +4,7 @@
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
 const int MAX_FPS = 144;
+const int MAX_CHARS = 120;
 const bool FULLSCREEN = false;
 static const char* TITLE = "Wojna Wydzialow";
 const bool DRAW_COLLISION_BOX = false;
@@ -20,7 +21,7 @@ static char* ACID_TXT_PATH = "./assets/acid.bmp";
 static char* CHEMICZNY_TXT_PATH = "./assets/chemiczny.bmp";
 static char* BACKGROUND_TXT_PATH = "./assets/sky.bmp";
 static char* PLAYER_TXT_PATH = "./assets/etispinner_small.bmp";
-static char* CHARSET_TXT_PATH = "./assets/cs8x8.bmp";
+static char* CHARSET_TXT_PATH = "./assets/charset8x8.bmp";
 static char* ROBOT_TXT_PATH = "./assets/robot_small.bmp";
 static char* AIR_TXT_PATH = "./assets/air.bmp";
 static char* EMP_TXT_PATH = "./assets/emp_granade/emp_granade.bmp";
