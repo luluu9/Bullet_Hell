@@ -43,8 +43,9 @@ struct Timer {
 	bool started;
 	bool autoLoad; // if stopped substract delta time
 	bool autoStart; // if ended start again
+	bool resetOnStart; // if start called reset timer
 
-	Timer(double _time, bool _autoLoad, bool _autoStart = false);
+	Timer(double _time, bool _autoLoad, bool _autoStart = false, bool _resetOnStart = false);
 	Timer(double _time);
 	Timer();
 	void start();

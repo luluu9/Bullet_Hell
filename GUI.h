@@ -248,7 +248,7 @@ public:
 	}
 
 	SDL_Renderer* renderer = nullptr;
-	Timer multiplierTimer = Timer(MULTIPLIER_TIME);
+	Timer multiplierTimer = Timer(MULTIPLIER_TIME, false, false, true);
 	Text* scoreText;
 	int score = 0;
 	double multiplier = 1.0;

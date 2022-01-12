@@ -46,6 +46,7 @@ Color::Color(uint8_t _r, uint8_t _g, uint8_t _b)
 Timer::Timer() {
 	autoLoad = false;
 	autoStart = false;
+	resetOnStart = false;
 	elapsedTime = 0.0;
 	started = false;
 }
@@ -55,14 +56,16 @@ Timer::Timer(double _time) {
 	time = _time;
 	autoLoad = false;
 	autoStart = false;
+	resetOnStart = false;
 	elapsedTime = 0.0;
 	started = false;
 }
 
-Timer::Timer(double _time, bool _autoLoad, bool _autoStart) {
+Timer::Timer(double _time, bool _autoLoad, bool _autoStart, bool _resetOnStart) {
 	time = _time;
 	autoLoad = _autoLoad;
 	autoStart = _autoStart;
+	resetOnStart = _resetOnStart;
 	elapsedTime = 0.0;
 	started = false;
 }
@@ -72,7 +75,7 @@ void Timer::start() {
 		elapsedTime = 0;
 		started = true;
 	}
-	else {
+	else if (resetOnStart) {
 		elapsedTime = 0;
 	}
 }
