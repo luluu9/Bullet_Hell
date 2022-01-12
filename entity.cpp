@@ -7,7 +7,7 @@
 Entity::Entity(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera) {
+	Camera* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	renderer = _renderer;
@@ -20,7 +20,7 @@ Entity::Entity(
 
 Entity::Entity(
 	SDL_Renderer* _renderer,
-	Rect* _camera) {
+	Camera* _camera) {
 	pos.x = pos.y = 0;
 	speed = angle = 0;
 	HEIGHT = WIDTH = 0;
@@ -102,7 +102,7 @@ void Entity::setAngle(int _angle) {
 DestroyableEntity::DestroyableEntity(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera)
+	Camera* _camera)
 	:Entity(_renderer, texturePath, _camera) { }
 
 void DestroyableEntity::render() {
@@ -140,7 +140,7 @@ float DestroyableEntity::getHP() {
 Enemy::Enemy(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	:DestroyableEntity(_renderer, texturePath, _camera) {
@@ -265,9 +265,9 @@ Vector2 getDirectionFromAngle(float angle) {
 
 AnimationPlayer::AnimationPlayer(
 	SDL_Renderer* _renderer,
-	Rect* _camera,
+	Camera* _camera,
 	char* _texturesDir,
-	int _frames,
+	unsigned int _frames,
 	Vector2 _pos) 
 	:Entity(_renderer, _camera){
 	texturesDir = _texturesDir;
@@ -284,9 +284,8 @@ AnimationPlayer::AnimationPlayer(
 
 AnimationPlayer::~AnimationPlayer() {
 	printf_s("Deleting AnimationPlayer");
-	for (unsigned int i = 0; i < frames; i++)
-		delete txtFrames[i];
 	delete[] txtFrames;
+	delete txtFrames;
 }
 
 void AnimationPlayer::update(double delta) {

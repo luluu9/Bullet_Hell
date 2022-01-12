@@ -16,7 +16,7 @@ struct Vector2 {
 	Vector2 operator *(double m) { return Vector2(x * m, y * m); }
 };
 
-struct Rect {
+struct Camera {
 	float x;
 	float y;
 	float w;

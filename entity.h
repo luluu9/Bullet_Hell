@@ -23,10 +23,10 @@ public:
 	Entity(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera);
+		Camera* _camera);
 	Entity(
 		SDL_Renderer* _renderer,
-		Rect* _camera);
+		Camera* _camera);
 	~Entity();
 
 	virtual void handleEvent(SDL_Event& event);
@@ -46,7 +46,7 @@ protected:
 	float speed, angle;
 	SDL_Renderer* renderer;
 	SDL_Texture* texture;
-	Rect* camera;
+	Camera* camera;
 };
 
 
@@ -55,7 +55,7 @@ public:
 	DestroyableEntity(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera);
+		Camera* _camera);
 	void render();
 	void drawHPBar();
 	void setHP(float _MAX_HP);
@@ -77,7 +77,7 @@ public:
 	//Initializes the variablesA
 	Enemy(SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera,
+		Camera* _camera,
 		GameEntities* entities,
 		Player* _player);
 
@@ -116,9 +116,9 @@ class AnimationPlayer : public Entity {
 public:
 	AnimationPlayer(
 		SDL_Renderer* _renderer,
-		Rect* _camera,
+		Camera* _camera,
 		char* _texturesDir,
-		int _frames,
+		unsigned int _frames,
 		Vector2 _pos);
 	~AnimationPlayer();
 	void update(double delta);

@@ -21,7 +21,7 @@ public:
 	//Initializes the variablesA
 	Player(
 		SDL_Renderer* _renderer,
-		Rect* _camera,
+		Camera* _camera,
 		KeyboardHandler* _keyboard,
 		GameEntities* _entities);
 	~Player();
@@ -54,7 +54,7 @@ class Spark : public Entity {
 public:
 	Spark(
 		SDL_Renderer* _renderer,
-		Rect* _camera,
+		Camera* _camera,
 		GameEntities* entities,
 		Vector2 startPos);
 	void update(double delta);
@@ -76,7 +76,7 @@ class Chemiczny : public Enemy {
 public:
 	Chemiczny(
 		SDL_Renderer* _renderer,
-		Rect* _camera,
+		Camera* _camera,
 		GameEntities* _entities,
 		Player* player);
 
@@ -110,7 +110,7 @@ class AIR : public Enemy {
 public:
 	AIR(
 		SDL_Renderer* _renderer,
-		Rect* _camera,
+		Camera* _camera,
 		GameEntities* _entities,
 		Player* player);
 	AIR::~AIR();
@@ -136,7 +136,7 @@ class WILIS : public Enemy {
 public:
 	WILIS(
 		SDL_Renderer* _renderer,
-		Rect* _camera,
+		Camera* _camera,
 		GameEntities* _entities,
 		Player* player);
 

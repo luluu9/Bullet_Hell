@@ -9,7 +9,7 @@
 
 Player::Player(
 	SDL_Renderer* _renderer,
-	Rect* _camera,
+	Camera* _camera,
 	KeyboardHandler* _keyboard,
 	GameEntities* _entities)
 	: DestroyableEntity{ _renderer, PLAYER_TXT_PATH, _camera },
@@ -159,7 +159,7 @@ void Player::stopInvincibility() {
 
 Spark::Spark(
 	SDL_Renderer* _renderer,
-	Rect* _camera,
+	Camera* _camera,
 	GameEntities* _entities,
 	Vector2 startPos)
 	:Entity(_renderer, SPARK_TXT_PATH, _camera) {
@@ -188,7 +188,7 @@ void Spark::render() {
 
 Chemiczny::Chemiczny(
 	SDL_Renderer* _renderer,
-	Rect* _camera,
+	Camera* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, CHEMICZNY_TXT_PATH, _camera, _entities, _player } {
@@ -263,7 +263,7 @@ void Chemiczny::update(double delta) {
 
 AIR::AIR(
 	SDL_Renderer* _renderer,
-	Rect* _camera,
+	Camera* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, AIR_TXT_PATH, _camera, _entities, _player } {
@@ -344,7 +344,7 @@ void AIR::update(double delta) {
 
 WILIS::WILIS(
 	SDL_Renderer* _renderer,
-	Rect* _camera,
+	Camera* _camera,
 	GameEntities* _entities,
 	Player* _player)
 	: Enemy{ _renderer, WILIS_TXT_PATH, _camera, _entities, _player } {

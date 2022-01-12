@@ -10,7 +10,7 @@
 Weapon::Weapon(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	int _angle)
 	:Entity(_renderer, texturePath, _camera) {
 	angle = _angle;
@@ -27,7 +27,7 @@ void Weapon::update(double delta) {
 Acid::Acid(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	int _angle)
 	:Weapon(_renderer, texturePath, _camera, _angle) {
 	weaponType = ACID;
@@ -37,7 +37,7 @@ Acid::Acid(
 Robot::Robot(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	Vector2 startPos,
 	int startAngle,
 	float _radius,
@@ -62,7 +62,7 @@ void Robot::update(double delta) {
 EMP::EMP(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	GameEntities* _entities,
 	float _startAngle)
 	:Weapon(_renderer, texturePath, _camera, _startAngle) {
@@ -109,7 +109,7 @@ void EMP::startAnimation() {
 EMPWave::EMPWave(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	GameEntities* _entities,
 	float _startAngle)
 	:Weapon(_renderer, texturePath, _camera, _startAngle) {
@@ -134,7 +134,7 @@ void EMPWave::render() {
 Hammer::Hammer(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	int _angle)
 	:Weapon(_renderer, texturePath, _camera, _angle) {
 	DAMAGE = _DAMAGE;
@@ -158,7 +158,7 @@ void Hammer::update(double delta) {
 WreckingBall::WreckingBall(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	Vector2 _impactPos)
 	:Weapon(_renderer, texturePath, _camera, 0) {
 	impactPos = _impactPos;
@@ -207,7 +207,7 @@ void WreckingBall::shakeCamera() {
 Gas::Gas(
 	SDL_Renderer* _renderer,
 	char* texturePath,
-	Rect* _camera,
+	Camera* _camera,
 	GameEntities* _gameEntities,
 	Vector2 startPos,
 	float _destroyTime,

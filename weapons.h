@@ -11,7 +11,7 @@ public:
 	Weapon(
 		SDL_Renderer* _renderer, 
 		char* texturePath,
-		Rect* _camera, 
+		Camera* _camera, 
 		int _angle);
 	void update(double delta);
 };
@@ -22,7 +22,7 @@ public:
 	Acid(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera,
+		Camera* _camera,
 		int _angle);
 };
 
@@ -32,7 +32,7 @@ public:
 	Robot(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera,
+		Camera* _camera,
 		Vector2 startPos,
 		int startAngle,
 		float _radius,
@@ -49,7 +49,7 @@ public:
 	EMP(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera,
+		Camera* _camera,
 		GameEntities* _entities,
 		float _startAngle);
 	void update(double delta);
@@ -74,7 +74,7 @@ public:
 	EMPWave(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera,
+		Camera* _camera,
 		GameEntities* _entities,
 		float _startAngle);
 	void update(double delta);
@@ -92,7 +92,7 @@ public:
 	Hammer(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera,
+		Camera* _camera,
 		int _angle);
 
 	void Hammer::update(double delta);
@@ -107,7 +107,7 @@ public:
 	WreckingBall(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera,
+		Camera* _camera,
 		Vector2 _impactPos);
 
 	void update(double delta);
@@ -134,7 +134,7 @@ public:
 	Gas(
 		SDL_Renderer* _renderer,
 		char* texturePath,
-		Rect* _camera,
+		Camera* _camera,
 		GameEntities* _gameEntities,
 		Vector2 startPos,
 		float _destroyTime,

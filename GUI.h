@@ -87,7 +87,7 @@ private:
 	int bgWidth, bgHeight;
 	GameEntities entities;
 	Player* player;
-	Rect camera;
+	Camera camera;
 	Game* game;
 	SCREEN currentLevel;
 	char text[128];
