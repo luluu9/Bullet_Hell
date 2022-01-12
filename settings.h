@@ -52,3 +52,16 @@ static int CHEMICZNY_GAS_DELAY = 8000; // in msec
 static int CHEMICZNY_GAS_SPEED = 10000; // how fast gas expands to fill GAS_WIDTH 
 static int CHEMICZNY_GAS_HEIGHT = 600;
 static int CHEMICZNY_GAS_WIDTH = SCREEN_WIDTH * 4;
+
+// AIR
+static int AIR_SPEED = 300;
+static int AIR_SHOOTING_DELAY = 2500;
+static int AIR_ROBOTS_NUMBER = 5;
+static int AIR_ROBOTS_RADIUS = 250;
+static int AIR_SHOOTING_THRESHOLD = 1000;
+
+// WILIS
+static int WILIS_HAMMER_SHOOTING_THRESHOLD = 600; // px
+static int WILIS_HAMMER_SHOOTING_DELAY = 2000; // in msec
+static int WILIS_BALL_SHOOTING_DELAY = 3000; 
+static int WILIS_SPEED = 200; // px per second

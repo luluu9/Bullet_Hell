@@ -122,11 +122,11 @@ public:
 	void AIR::tryToShoot(double delta);
 	void AIR::update(double delta);
 private:
-	int SPEED = 200;
-	int SHOOTING_DELAY = 2500; // in msec
-	int ROBOTS_NUMBER = 5;
-	int ROBOTS_RADIUS = 250;
-	int SHOOTING_THRESHOLD = 600;
+	int SPEED = AIR_SPEED;
+	int SHOOTING_DELAY = AIR_SHOOTING_DELAY;
+	int ROBOTS_NUMBER = AIR_ROBOTS_NUMBER; 
+	int ROBOTS_RADIUS = AIR_ROBOTS_RADIUS; 
+	int SHOOTING_THRESHOLD = AIR_SHOOTING_THRESHOLD; 
 	Timer* shootingTimer;
 	Robot** robots;
 	
@@ -147,9 +147,9 @@ public:
 private:
 	Timer* hammerShootingTimer;
 	Timer* ballShootingTimer;
-	int HAMMER_SHOOTING_THRESHOLD = 600; // px
-	int HAMMER_SHOOTING_DELAY = 2000; // in msec
-	int BALL_SHOOTING_DELAY = 3000;
-	int SPEED = 200;
+	int HAMMER_SHOOTING_THRESHOLD = WILIS_HAMMER_SHOOTING_THRESHOLD; 
+	int HAMMER_SHOOTING_DELAY = WILIS_HAMMER_SHOOTING_DELAY;
+	int BALL_SHOOTING_DELAY = WILIS_BALL_SHOOTING_DELAY;
+	int SPEED = WILIS_SPEED;
 
 };
