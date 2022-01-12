@@ -55,7 +55,8 @@ Game::Game() {
 	SDL_SetTextureBlendMode(textTexture, SDL_BLENDMODE_BLEND);
 
 	charset = SDL_LoadBMP(CHARSET_TXT_PATH);
-	SDL_SetColorKey(charset, true, 0xFF000000);
+	SDL_SetSurfaceBlendMode(charset, SDL_BLENDMODE_NONE);
+	SDL_SetColorKey(charset, true, 0x0000000);
 
 	keyboard = new KeyboardHandler;
 	score = new ScoreCounter;

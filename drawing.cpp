@@ -11,10 +11,11 @@ void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface
 	SDL_FillRect(screen, NULL, 0x000000);
 	int px, py, c;
 	SDL_Rect s, d;
+	int DEST_CHAR_SIZE = 24;
 	s.w = 8;
 	s.h = 8;
-	d.w = 8;
-	d.h = 8;
+	d.w = DEST_CHAR_SIZE;
+	d.h = DEST_CHAR_SIZE;
 	while (*text) {
 		c = *text & 255;
 		px = (c % 16) * 8;
@@ -23,8 +24,8 @@ void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface
 		s.y = py;
 		d.x = x;
 		d.y = y;
-		SDL_BlitSurface(charset, &s, screen, &d);
-		x += 8;
+		SDL_BlitScaled(charset, &s, screen, &d);
+		x += DEST_CHAR_SIZE;
 		text++;
 	};
 };
