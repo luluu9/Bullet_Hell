@@ -190,6 +190,7 @@ class ScoreCounter {
 public:
 	double MULTIPLIER_INCREASE = 0.1;
 	int MULTIPLIER_TIME = 2500; // msec to start depleting
+	int MAX_MULTIPLIER = 60; 
 
 	void addScore(int points) {
 		score += points * multiplier;
@@ -204,7 +205,8 @@ public:
 	}
 
 	void increaseMultiplier() {
-		multiplier += MULTIPLIER_INCREASE;
+		if (multiplier < MAX_MULTIPLIER)
+			multiplier += MULTIPLIER_INCREASE;
 		multiplierTimer.start();
 		printf_s("%f\n", multiplier);
 	}
