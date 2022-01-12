@@ -232,9 +232,13 @@ void Chemiczny::gasOut() {
 
 void Chemiczny::tryToShoot(double delta) {
 	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= SHOOTING_THRESHOLD) {
-		Weapon* acidWeapon = new Acid(renderer, ACID_TXT_PATH, camera, angle);
-		acidWeapon->setPos(pos);
-		entities->addEntity(acidWeapon);
+		int currentWeaponAngle = 0;
+		for (int i=0; i<SHOOTING_SIDES; i++) {
+			Weapon* acidWeapon = new Acid(renderer, ACID_TXT_PATH, camera, currentWeaponAngle);
+			acidWeapon->setPos(pos);
+			entities->addEntity(acidWeapon);
+			currentWeaponAngle += 360 / SHOOTING_SIDES;
+		}
 	}
 	if (gasTimer->update(delta)) {
 		gasOut();

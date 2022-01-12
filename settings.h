@@ -46,7 +46,8 @@ static int WILIS_HP = 700;
 // CHEMICZNY
 static int CHEMICZNY_SPEED = 350;
 static int CHEMICZNY_SHOOTING_THRESHOLD = 700; // px
-static int CHEMICZNY_SHOOTING_DELAY = 700; // in msec
+static int CHEMICZNY_SHOOTING_DELAY = 1500; // in msec
+static int CHEMICZNY_SHOOTING_SIDES = 6; // in msec
 static int CHEMICZNY_GAS_DELAY = 8000; // in msec
 static int CHEMICZNY_GAS_SPEED = 10000; // how fast gas expands to fill GAS_WIDTH 
 static int CHEMICZNY_GAS_HEIGHT = 600;
