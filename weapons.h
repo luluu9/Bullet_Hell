@@ -24,6 +24,8 @@ public:
 		char* texturePath,
 		Camera* _camera,
 		int _angle);
+private:
+	float _DAMAGE = 15;
 };
 
 
@@ -39,8 +41,10 @@ public:
 		int _rotateSpeed);
 	void update(double delta);
 private:
+	float _DAMAGE = 20;
 	float radius; 
 	int rotateSpeed; // per second
+
 };
 
 
@@ -56,16 +60,16 @@ public:
 	void render();
 	void startAnimation();
 private:
-	const int GRANADE_SPEED = 300;
+	const int GRANADE_SPEED = 450;
 	const int ROTATE_SPEED = 300;
 	const int BOOM_DELAY = 1500; // msec
-	const int BOOM_DIRECTIONS = 4;
+	const int BOOM_DIRECTIONS = 6;
 	const int BOOM_DURATION = 0.5;
 	Timer boomTimer = Timer(BOOM_DELAY);
 	GameEntities* entities;
 	float angle = 0;
 	float startAngle;
-	
+	float _DAMAGE = 30;
 	
 };
 
@@ -82,6 +86,7 @@ public:
 private:
 	const int WAVE_SPEED = 300;
 	const int WAVE_DURATION = 1500; // msec;
+	float _DAMAGE = 25;
 	GameEntities* entities;
 	double scale = 0.1;
 };

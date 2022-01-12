@@ -31,6 +31,7 @@ Acid::Acid(
 	int _angle)
 	:Weapon(_renderer, texturePath, _camera, _angle) {
 	weaponType = ACID;
+	DAMAGE = _DAMAGE;
 }
 
 
@@ -43,6 +44,7 @@ Robot::Robot(
 	float _radius,
 	int _rotateSpeed)
 	: Weapon(_renderer, texturePath, _camera, 0) {
+	DAMAGE = _DAMAGE;
 	weaponType = ROBOT;
 	pos = startPos;
 	angle = startAngle;
@@ -68,6 +70,7 @@ EMP::EMP(
 	:Weapon(_renderer, texturePath, _camera, _startAngle) {
 	startAngle = _startAngle;
 	weaponType = EMP_GRANADE;
+	DAMAGE = _DAMAGE;
 	SPEED = GRANADE_SPEED;
 	entities = _entities;
 	boomTimer.start();
@@ -114,6 +117,7 @@ EMPWave::EMPWave(
 	float _startAngle)
 	:Weapon(_renderer, texturePath, _camera, _startAngle) {
 	entities = _entities;
+	DAMAGE = _DAMAGE;
 }
 
 void EMPWave::update(double delta) {
