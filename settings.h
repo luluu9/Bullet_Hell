@@ -5,6 +5,7 @@ const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
 const int MAX_FPS = 144;
 const int MAX_CHARS = 120;
+const int DEST_CHAR_SIZE = 32;
 const bool FULLSCREEN = false;
 static const char* TITLE = "Wojna Wydzialow";
 const bool DRAW_COLLISION_BOX = false;
@@ -43,6 +44,11 @@ static int PLAYER_HP = 100;
 static int CHEMICZNY_HP = 400;
 static int AIR_HP = 500;
 static int WILIS_HP = 700;
+
+// PLAYER
+static int ATTACK_SCORE = 1;
+static int DMG_SCORE = 100;
+
 
 // CHEMICZNY
 static int CHEMICZNY_SPEED = 350;

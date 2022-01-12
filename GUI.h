@@ -191,19 +191,21 @@ public:
 	double MULTIPLIER_INCREASE = 0.1;
 	int MULTIPLIER_TIME = 2500; // msec to start depleting
 
-
 	void addScore(int points) {
 		score += points * multiplier;
-		sprintf(scoreText->text, "%d", score);
+		updateText();
+		increaseMultiplier();
 	}
 
 	void removeScore(int points) {
 		score -= points;
+		updateText();
 	}
 
 	void increaseMultiplier() {
 		multiplier += MULTIPLIER_INCREASE;
 		multiplierTimer.start();
+		printf_s("%f\n", multiplier);
 	}
 
 	void decreaseMultiplier() {
@@ -218,7 +220,15 @@ public:
 	}
 
 	void update(double delta) {
-		multiplierTimer.update(delta);
+		if (multiplierTimer.update(delta)) {
+			decreaseMultiplier();
+			if (multiplier > 1.0)
+				multiplierTimer.start();
+		}
+	}
+
+	void updateText() {
+		sprintf(scoreText->text, "%d", score);
 	}
 
 	void setText(Text* _text) {

@@ -1,6 +1,7 @@
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "base_types.h"
+#include "settings.h"
 
 
 // narysowanie napisu txt na powierzchni screen, zaczynaj¹c od punktu (x, y)
@@ -11,7 +12,6 @@ void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface
 	SDL_FillRect(screen, NULL, 0x000000);
 	int px, py, c;
 	SDL_Rect s, d;
-	int DEST_CHAR_SIZE = 24;
 	s.w = 8;
 	s.h = 8;
 	d.w = DEST_CHAR_SIZE;

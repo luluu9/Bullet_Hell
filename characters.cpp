@@ -82,7 +82,6 @@ void Player::update(double delta) {
 			stopInvincibility();
 		}
 	}
-	score->addScore(1);
 }
 
 void Player::render() {
@@ -123,6 +122,7 @@ void Player::collideEnemy(Enemy* enemy, double delta) {
 		enemy->hit(damage * delta);
 		Spark* spark = new Spark(renderer, camera, entities, enemy->getPos());
 		entities->addEntity(spark);
+		score->addScore(ATTACK_SCORE);
 	}
 }
 
@@ -146,7 +146,9 @@ void Player::collideWeapon(Weapon* weapon, double delta) {
 			startInvincibility();
 		}
 		entities->queueRemove(weapon);
+		score->removeScore(DMG_SCORE);
 	}
+	
 }
 
 void Player::startInvincibility() {

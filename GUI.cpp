@@ -120,13 +120,12 @@ GameScreen::GameScreen(
 	camera.h = SCREEN_HEIGHT;
 
 	SDL_Rect textRect;
-	textRect.w = 100;
-	textRect.h = 100;
 	textRect.x = SCREEN_WIDTH / 2;
-	textRect.y = SCREEN_HEIGHT / 10;
+	textRect.y = 50;
 	scoreText = new Text(renderer, textRect, textSurface, charset, MAX_CHARS);
 	addElement(scoreText);
 	score->setText(scoreText);
+	score->updateText();
 
 	player = new Player(renderer, &camera, game->getKeyboard(), &entities, score);
 	entities.addEntity(player);
@@ -299,7 +298,7 @@ Text::~Text() {
 
 void Text::render() {
 	if (!hidden) {
-		DrawString(textSurface, rect.x, rect.y, text, charset);
+		DrawString(textSurface, rect.x-strlen(text)*DEST_CHAR_SIZE/2, rect.y, text, charset);
 	}
 }
 
