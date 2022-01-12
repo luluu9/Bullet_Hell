@@ -59,7 +59,7 @@ Game::Game() {
 	SDL_SetColorKey(charset, true, 0x0000000);
 
 	keyboard = new KeyboardHandler;
-	score = new ScoreCounter;
+	score = new ScoreCounter(renderer);
 	currentScreen = new MainMenu(renderer, textSurface, charset, this);
 }
 

@@ -4,6 +4,7 @@
 #include "base_types.h"
 #include "entity.h"
 #include "game.h"
+#include "drawing.h"
 #include "settings.h"
 
 #ifndef SCREEN_ENUM
@@ -192,6 +193,10 @@ public:
 	int MULTIPLIER_TIME = 2500; // msec to start depleting
 	int MAX_MULTIPLIER = 60; 
 
+	ScoreCounter(SDL_Renderer* _renderer) {
+		renderer = _renderer;
+	}
+
 	void addScore(int points) {
 		score += points * multiplier;
 		updateText();
@@ -233,7 +238,16 @@ public:
 		scoreText = _text;
 	}
 
-private:
+	void drawGrade() {
+		SDL_Rect windowRect;
+		windowRect.x = 0;
+		windowRect.y = 0;
+		windowRect.w = SCREEN_WIDTH;
+		windowRect.h = SCREEN_HEIGHT;
+		drawRectangle(renderer, windowRect, Color(), Color(255, 0, 0, multiplier * 1.5));
+	}
+
+	SDL_Renderer* renderer = nullptr;
 	Timer multiplierTimer = Timer(MULTIPLIER_TIME);
 	Text* scoreText;
 	int score = 0;

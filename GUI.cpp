@@ -217,6 +217,7 @@ void GameScreen::render() {
 		shadowRect.h = SCREEN_HEIGHT;
 		drawRectangle(renderer, shadowRect, Color(0, 0, 0), Color(-255, -255, -255, 100));
 	}
+	score->drawGrade();
 	Screen::render(); // draw last to always be visible
 }
 
