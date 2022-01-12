@@ -112,13 +112,13 @@ GameScreen::GameScreen(
 	game = _game;
 	currentLevel = levelId;
 
+	charset = SDL_LoadBMP("./cs8x8.bmp");
+	SDL_SetColorKey(charset, true, 0xFF000000);
+
 	camera.x = 0;
 	camera.y = 0;
 	camera.w = SCREEN_WIDTH;
 	camera.h = SCREEN_HEIGHT;
-
-	charset = SDL_LoadBMP("./cs8x8.bmp");
-	SDL_SetColorKey(charset, true, 0xFF000000);
 
 	player = new Player(renderer, &camera, game->getKeyboard(), &entities);
 	entities.addEntity(player);

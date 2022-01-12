@@ -70,10 +70,11 @@ void Player::update(double delta) {
 	pos.y += velocity.y;
 	camera->x += velocity.x;
 	camera->y += velocity.y;
+	camera->setPos(pos-Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2));
+	camera->update(delta);
 	attackTimer->update(delta);
 	attackCountdown->update(delta);
 	gassed = false;
-	//printf("%f\t%f\n", attackTimer->elapsedTime, attackCountdown->elapsedTime);
 	if (invincible) {
 		if (invincibleTimer->update(delta)) {
 			stopInvincibility();
@@ -129,9 +130,9 @@ void Player::collideWeapon(Weapon* weapon, double delta) {
 		weapon->update(0.05); // prevent infinite loop inside player rect
 	}
 	else if (weapon->weaponType == GAS) {
-		if (!gassed){ 
+		if (!gassed) {
 			Gas* gas = dynamic_cast<Gas*>(weapon);
-			healthPoints -= gas->DAMAGE*delta;
+			healthPoints -= gas->DAMAGE * delta;
 			gassed = true;
 		}
 	}

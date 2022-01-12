@@ -186,20 +186,11 @@ void WreckingBall::render() {
 void WreckingBall::update(double delta) {
 	if (fallTimer.update(delta)) {
 		COLLISIONS_DISABLED = false;
-		shakeTimer.start();
+		camera->startShake(SHAKE_DURATION, SHAKE_POWER);
 	}
 	if (fallTimer.elapsedTime >= SHOW_BALL_TIME) {
 		ballShown = true;
 	}
-	if (COLLISIONS_DISABLED == false && shakeTimer.elapsedTime < SHAKE_DURATION) {
-		shakeTimer.update(delta);
-		shakeCamera();
-	}
-}
-
-void WreckingBall::shakeCamera() {
-	camera->x += -SHAKE_POWER / 2 + rand() % SHAKE_POWER;
-	camera->y += -SHAKE_POWER / 2 + rand() % SHAKE_POWER;
 }
 
 

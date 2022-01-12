@@ -1,6 +1,8 @@
 #pragma once
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
+#include <cstdlib>
+
 
 struct Vector2 {
 	float x;
@@ -14,14 +16,10 @@ struct Vector2 {
 	float getDistanceTo(Vector2 destVec);
 
 	Vector2 operator *(double m) { return Vector2(x * m, y * m); }
+	Vector2 operator /(double m) { return Vector2(x / m, y / m); }
+	Vector2 operator -(Vector2 m) { return Vector2(x - m.x, y - m.y); }
 };
 
-struct Camera {
-	float x;
-	float y;
-	float w;
-	float h;
-};
 
 struct Color {
 	uint8_t r;
@@ -47,10 +45,48 @@ struct Timer {
 
 	Timer(double _time, bool _autoLoad, bool _autoStart = false);
 	Timer(double _time);
+	Timer();
 	void start();
 	void end();
 	void resume();
 	void stop();
 	bool update(double delta);
+
+};
+
+
+struct Camera {
+	float x;
+	float y;
+	float w;
+	float h;
+	Timer shakeTimer;
+	int shakeMsec;
+	int shakePower;
+	bool shake = false;
+
+	void startShake(int _shakeMsec, int _shakePower) {
+		shakeMsec = _shakeMsec;
+		shakePower = _shakePower;
+		shakeTimer.time = shakeMsec;
+		shakeTimer.start();
+		shake = true;
+	}
+
+	void update(double delta) {
+		if (shakeTimer.update(delta))
+			shake = false;
+		if (shake) {
+			x += -shakePower / 2 + rand() % shakePower+1;
+			y += -shakePower / 2 + rand() % shakePower+1;
+		}
+	}
+
+	void setPos(Vector2 pos) {
+		if (!shake) {
+			x = pos.x;
+			y = pos.y;
+		}
+	}
 
 };

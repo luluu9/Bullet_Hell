@@ -43,6 +43,13 @@ Color::Color(uint8_t _r, uint8_t _g, uint8_t _b)
 	:Color(_r, _g, _b, 255) { };
 
 
+Timer::Timer() {
+	autoLoad = false;
+	autoStart = false;
+	elapsedTime = 0.0;
+	started = false;
+}
+
 // time in msec
 Timer::Timer(double _time) {
 	time = _time;
