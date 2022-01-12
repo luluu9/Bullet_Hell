@@ -198,7 +198,8 @@ public:
 	}
 
 	void removeScore(int points) {
-		score -= points;
+		if (score > 0)
+			score = score-points > 0 ? score-points : 0;
 		updateText();
 	}
 
@@ -208,11 +209,8 @@ public:
 		printf_s("%f\n", multiplier);
 	}
 
-	void decreaseMultiplier() {
-		if (multiplier > 1.0) {
-			multiplier -= MULTIPLIER_INCREASE;
-			multiplier = multiplier < 1.0 ? 1.0 : multiplier;
-		}
+	void resetMultiplier() {
+		multiplier = 1.0;
 	}
 
 	int getScore() {
@@ -221,9 +219,7 @@ public:
 
 	void update(double delta) {
 		if (multiplierTimer.update(delta)) {
-			decreaseMultiplier();
-			if (multiplier > 1.0)
-				multiplierTimer.start();
+			resetMultiplier();
 		}
 	}
 
