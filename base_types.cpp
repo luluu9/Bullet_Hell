@@ -110,3 +110,28 @@ bool Timer::update(double delta) {
 	}
 	return false;
 }
+
+
+void Camera::startShake(int _shakeMsec, int _shakePower) {
+	shakeMsec = _shakeMsec;
+	shakePower = _shakePower;
+	shakeTimer.time = shakeMsec;
+	shakeTimer.start();
+	shake = true;
+}
+
+void Camera::update(double delta) {
+	if (shakeTimer.update(delta))
+		shake = false;
+	if (shake) {
+		x += -shakePower / 2 + rand() % shakePower+1;
+		y += -shakePower / 2 + rand() % shakePower+1;
+	}
+}
+
+void Camera::setPos(Vector2 pos) {
+	if (!shake) {
+		x = pos.x;
+		y = pos.y;
+	}
+}

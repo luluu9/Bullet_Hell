@@ -20,6 +20,8 @@ public:
 	int INVINCIBLE_TIME = 1500;
 	int MAX_ATTACK_TIME = 2000;
 	int ATTACK_ROT_MULTIPLIER = 10;
+	int HIT_SHAKE_DURATION = 100;
+	int HIT_SHAKE = 10;
 
 	//Initializes the variablesA
 	Player(

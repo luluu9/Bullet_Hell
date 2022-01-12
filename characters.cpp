@@ -144,11 +144,11 @@ void Player::collideWeapon(Weapon* weapon, double delta) {
 			healthPoints -= weapon->DAMAGE;
 			healthPoints = (healthPoints < 0.0) ? 0.0 : healthPoints;
 			startInvincibility();
+			camera->startShake(HIT_SHAKE_DURATION, HIT_SHAKE);
 		}
 		entities->queueRemove(weapon);
 		score->removeScore(DMG_SCORE);
 	}
-	
 }
 
 void Player::startInvincibility() {
