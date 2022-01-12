@@ -268,9 +268,11 @@ AnimationPlayer::AnimationPlayer(
 	Camera* _camera,
 	char* _texturesDir,
 	unsigned int _frames,
-	Vector2 _pos) 
+	Vector2 _pos,
+	GameEntities* _entities)
 	:Entity(_renderer, _camera){
 	texturesDir = _texturesDir;
+	entities = _entities;
 	frames = _frames;
 	pos = _pos;
 	txtFrames = new SDL_Texture * [frames];
@@ -291,7 +293,6 @@ AnimationPlayer::~AnimationPlayer() {
 void AnimationPlayer::update(double delta) {
 	if (started) {
 		if (timer->update(delta)) {
-			printf_s("change txt\n");
 			nextFrame();
 		}
 	}
@@ -307,7 +308,7 @@ void AnimationPlayer::render() {
 void AnimationPlayer::nextFrame() {
 	currentFrame++;
 	if (currentFrame == frames) {
-		//delete this;
+		entities->queueRemove(this);
 		return;
 	}
 }

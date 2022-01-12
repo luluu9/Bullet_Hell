@@ -119,7 +119,8 @@ public:
 		Camera* _camera,
 		char* _texturesDir,
 		unsigned int _frames,
-		Vector2 _pos);
+		Vector2 _pos,
+		GameEntities* _entities);
 	~AnimationPlayer();
 	void update(double delta);
 	void render();
@@ -127,6 +128,7 @@ public:
 	void start();
 private:
 	SDL_Texture** txtFrames;
+	GameEntities* entities;
 	Timer* timer;
 	char* texturesDir;
 	int frames;

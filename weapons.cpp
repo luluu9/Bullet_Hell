@@ -101,7 +101,7 @@ void EMP::render() {
 }
 
 void EMP::startAnimation() {
-	AnimationPlayer* boomAnimation = new AnimationPlayer(renderer, camera, EMP_GRANADE_DIR_PATH, EMP_GRANADE_FRAMES, pos);
+	AnimationPlayer* boomAnimation = new AnimationPlayer(renderer, camera, EMP_GRANADE_DIR_PATH, EMP_GRANADE_FRAMES, pos, entities);
 	entities->addEntity(boomAnimation);
 	boomAnimation->start();
 }
@@ -201,7 +201,6 @@ void WreckingBall::shakeCamera() {
 	camera->x += -SHAKE_POWER / 2 + rand() % SHAKE_POWER;
 	camera->y += -SHAKE_POWER / 2 + rand() % SHAKE_POWER;
 }
-
 
 
 Gas::Gas(
