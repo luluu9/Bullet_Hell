@@ -1,6 +1,6 @@
 #pragma once
 #include "./SDL2-2.0.10/include/SDL.h"
-const int KEY_CODES_NUMBER = 283;
+const int KEY_CODES_NUMBER = 483;
 enum KEY_STATES { RELEASED, PRESSED };
 
 struct KeyboardHandler {
