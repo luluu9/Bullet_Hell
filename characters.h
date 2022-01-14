@@ -22,6 +22,8 @@ public:
 	int ATTACK_ROT_MULTIPLIER = 10;
 	int HIT_SHAKE_DURATION = 100;
 	int HIT_SHAKE = 10;
+	int BONUS_HP = 25;
+	int BONUS_MARGIN = SCREEN_HEIGHT/4;
 
 	//Initializes the variablesA
 	Player(
@@ -42,6 +44,7 @@ public:
 	void collideWeapon(Weapon* weapon, double delta);
 	void startInvincibility();
 	void stopInvincibility();
+	void addBonus();
 
 private:
 	KeyboardHandler* keyboard;

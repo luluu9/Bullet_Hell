@@ -133,6 +133,7 @@ GameScreen::GameScreen(
 	background = loadTextureFromBMP(renderer, BACKGROUND_TXT_PATH);
 	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
 
+
 	switch (currentLevel) {
 	case LEVEL_1: {
 		for (int i = 0; i < 1; i++) {

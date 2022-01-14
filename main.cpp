@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 #include "game.h"
@@ -6,6 +7,7 @@
 
 
 int main(int argc, char** argv) {
+	srand(time(NULL));
 	int delta;
 	double frames, t1, t2, worldTime, fpsTimer, fps, deltaDivided;
 

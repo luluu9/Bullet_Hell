@@ -156,6 +156,14 @@ void Enemy::hit(float damage) {
 }
 
 
+Bonus::Bonus(
+	SDL_Renderer* _renderer,
+	Camera* _camera)
+	:Entity(_renderer, BONUS_ENTITY_PATH, _camera) {
+	entityType = BONUS;
+}
+
+
 GameEntities::GameEntities() {
 	for (unsigned int i = 0; i < amount; i++)
 		entities[i] = nullptr;
@@ -248,7 +256,7 @@ AnimationPlayer::AnimationPlayer(
 	unsigned int _frames,
 	Vector2 _pos,
 	GameEntities* _entities)
-	:Entity(_renderer, _camera){
+	:Entity(_renderer, _camera) {
 	texturesDir = _texturesDir;
 	entities = _entities;
 	frames = _frames;

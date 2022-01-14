@@ -32,6 +32,7 @@ static char* HAMMER_TXT_PATH = "./assets/hammer_small.bmp";
 static char* WRECKING_BALL_TXT_PATH = "./assets/ball.bmp";
 static char* WRECKING_BALL_SHADOW_TXT_PATH = "./assets/ball_shadow.bmp";
 static char* GAS_TXT_PATH = "./assets/gas.bmp";
+static char* BONUS_ENTITY_PATH = "./assets/bonus.bmp";
 
 
 // ANIMATIONS

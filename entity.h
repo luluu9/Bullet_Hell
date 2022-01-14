@@ -4,7 +4,7 @@
 #include "base_types.h"
 #include <stdio.h>
 
-enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON };
+enum ENTITY_TYPES { UNKNOWN, PLAYER, ENEMY, WEAPON, BONUS };
 enum ENEMY_TYPES { CHEMICZNY=1, AIR_TYPE, WILIS_TYPE };
 enum WEAPON_TYPES { ACID=1, ROBOT, EMP_GRANADE, HAMMER, WRECKING_BALL, GAS };
 
@@ -86,6 +86,14 @@ public:
 protected:
 	GameEntities* entities;
 	Player* player;
+};
+
+
+class Bonus : public Entity {
+public:
+	Bonus(
+		SDL_Renderer* _renderer,
+		Camera* _camera);
 };
 
 

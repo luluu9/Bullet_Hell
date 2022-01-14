@@ -1,6 +1,7 @@
 #pragma once
 #include "keyboard.h"
 
+
 void KeyboardHandler::handleEvent(SDL_Event event) {
     if (event.type == SDL_KEYDOWN) {
         int keyCode = handleKeyCode(event.key.keysym.sym);
@@ -21,7 +22,6 @@ bool KeyboardHandler::isReleased(int keyCode) {
     keyCode = handleKeyCode(keyCode);
     return (keyState[keyCode] == RELEASED);
 }
-
 
 int KeyboardHandler::handleKeyCode(int keyCode) {
     if (keyCode >= SDLK_CAPSLOCK) // https://wiki.libsdl.org/SDLKeycodeLookup

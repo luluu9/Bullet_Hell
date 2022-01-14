@@ -1,0 +1,12 @@
+LEVEL 1
+Player 
+Position 100 100
+End
+Chemiczny
+Position 1000 400
+
+LEVEL 2 
+Player
+Position 0 0
+
+

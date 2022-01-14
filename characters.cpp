@@ -25,6 +25,9 @@ Player::Player(
 	camera->x = pos.x - SCREEN_WIDTH / 2;
 	camera->y = (pos.y + HEIGHT / 2) - SCREEN_HEIGHT / 2;
 	setHP(PLAYER_HP);
+	addBonus();
+	addBonus();
+	addBonus();
 }
 
 Player::~Player() {
@@ -116,6 +119,11 @@ void Player::collide(Entity* collidingEntity, double delta) {
 		Enemy* enemy = dynamic_cast<Enemy*>(collidingEntity);
 		collideEnemy(enemy, delta);
 	}
+	else if (collidingEntity->entityType == BONUS) {
+		healthPoints += BONUS_HP;
+		healthPoints = healthPoints > MAX_HP ? MAX_HP : healthPoints;
+		entities->queueRemove(collidingEntity);
+	}
 }
 
 void Player::collideEnemy(Enemy* enemy, double delta) {
@@ -162,6 +170,20 @@ void Player::stopInvincibility() {
 	SDL_SetTextureColorMod(texture, 255, 255, 255);
 }
 
+void Player::addBonus() {
+	Bonus* bonusPoint = new Bonus(renderer, camera);
+	entities->addEntity(bonusPoint);
+	Vector2 bonusPos = Vector2(
+		-BONUS_MARGIN / 2 + rand() % BONUS_MARGIN,
+		-BONUS_MARGIN / 2 + rand() % BONUS_MARGIN);
+	// make bonus to be outside screen
+	if (bonusPos.x < 0) bonusPos.x -= SCREEN_WIDTH/2;
+	else bonusPos.x += SCREEN_WIDTH;
+	if (bonusPos.y < 0) bonusPos.y -= SCREEN_HEIGHT/2;
+	else bonusPos.y += SCREEN_HEIGHT;
+	bonusPoint->setPos(bonusPos);
+	printf_s("Bonus pos: %f, %f\n", bonusPos.x, bonusPos.y);
+}
 
 Spark::Spark(
 	SDL_Renderer* _renderer,
