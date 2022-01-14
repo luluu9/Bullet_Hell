@@ -45,9 +45,10 @@ void Player::handleEvent(SDL_Event& event) {
 	if (keyboard->isPressed(SDLK_SPACE)) {
 		attack();
 	}
-	else {
+	else if (attacking) {
 		attacking = false;
 		attackTimer->stop();
+		angle = attackStartAngle;
 	}
 	if (speed > MAX_SPEED)
 		speed = MAX_SPEED;
@@ -58,13 +59,16 @@ void Player::handleEvent(SDL_Event& event) {
 void Player::attack() {
 	if (attackCountdown->elapsedTime >= MAX_ATTACK_TIME &&
 		attackTimer->elapsedTime < MAX_ATTACK_TIME) {
+		if (attacking == false)
+			attackStartAngle = angle;
 		attackTimer->resume();
 		angle += ROT_SPEED * ATTACK_ROT_MULTIPLIER;
 		attacking = true;
 	}
-	else {
+	else if (attacking) {
 		attacking = false;
 		attackCountdown->start();
+		angle = attackStartAngle;
 	}
 }
 
@@ -182,7 +186,6 @@ void Player::addBonus() {
 	if (bonusPos.y < 0) bonusPos.y -= SCREEN_HEIGHT/2;
 	else bonusPos.y += SCREEN_HEIGHT;
 	bonusPoint->setPos(bonusPos);
-	printf_s("Bonus pos: %f, %f\n", bonusPos.x, bonusPos.y);
 }
 
 Spark::Spark(

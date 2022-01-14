@@ -55,6 +55,7 @@ private:
 	bool invincible = false;
 	bool attacking = false;
 	bool gassed = false;
+	float attackStartAngle = 0;
 	ScoreCounter* score;
 
 	float damage = 100; // dmg per second
