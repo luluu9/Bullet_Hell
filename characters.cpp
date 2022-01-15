@@ -22,6 +22,8 @@ Player::Player(
 	attackTimer = new Timer(MAX_ATTACK_TIME, true);
 	attackCountdown = new Timer(MAX_ATTACK_TIME);
 	attackCountdown->elapsedTime = MAX_ATTACK_TIME;
+	pos.x = PLAYER_START_POS_X;
+	pos.y = PLAYER_START_POS_Y;
 	camera->x = pos.x - SCREEN_WIDTH / 2;
 	camera->y = (pos.y + HEIGHT / 2) - SCREEN_HEIGHT / 2;
 	setHP(PLAYER_HP);
