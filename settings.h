@@ -83,6 +83,6 @@ extern int WILIS_START_POS_X;
 extern int WILIS_START_POS_Y;
 
 
-void loadSettings();
+void loadSettings(int level);
 void readCommand(FILE* settings, char* character);
 void changeValue(FILE* settings, char* character, char* command);

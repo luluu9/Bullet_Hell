@@ -110,10 +110,11 @@ GameScreen::GameScreen(
 		_textSurface,
 		_charset,
 		levelId) {
-	loadSettings();
 	game = _game;
 	currentLevel = levelId;
 	score = _score;
+
+	loadSettings(currentLevel);
 
 	camera.x = 0;
 	camera.y = 0;
@@ -133,7 +134,6 @@ GameScreen::GameScreen(
 
 	background = loadTextureFromBMP(renderer, BACKGROUND_TXT_PATH);
 	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
-
 
 	switch (currentLevel) {
 	case LEVEL_1: {

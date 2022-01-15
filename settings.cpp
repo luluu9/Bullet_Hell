@@ -84,14 +84,19 @@ int in(char** arr, int arr_len, char* target) {
 	return 0;
 }
 
-void loadSettings() { // int level?
+void loadSettings(int level) { // int level?
 	FILE* settings = fopen(SETTINGS_PATH, "r");
 	if (settings == NULL) return;
 	char text[READ_BUFFER];
 	int numOfCharacters = sizeof(CHARACTERS) / sizeof(char*);
+	int currentLevel;
 	while (fscanf(settings, "%s", text) != EOF) {
-		if (in(CHARACTERS, numOfCharacters, text)) {
-			readCommand(settings, text);
+		if (strcmp(text, "LEVEL") == 0)
+			fscanf(settings, "%i", &currentLevel);
+		if (level == currentLevel) {
+			if (in(CHARACTERS, numOfCharacters, text)) {
+				readCommand(settings, text);
+			}
 		}
 	}
 	fclose(settings);
