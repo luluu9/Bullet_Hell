@@ -140,20 +140,17 @@ GameScreen::GameScreen(
 		for (int i = 0; i < 1; i++) {
 			Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
 			entities.addEntity(enemy);
-			enemy->setPos(Vector2(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT));
 		}
 		break;
 	}
 	case LEVEL_2: {
 		AIR* air = new AIR(renderer, &camera, &entities, player);
 		entities.addEntity(air);
-		air->setPos(Vector2(400, 400));
 		break;
 	}
 	case LEVEL_3: {
 		WILIS* wilis = new WILIS(renderer, &camera, &entities, player);
 		entities.addEntity(wilis);
-		wilis->setPos(Vector2(500, 500));
 		break;
 	}
 	}

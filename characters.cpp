@@ -183,12 +183,15 @@ void Player::addBonus() {
 		-BONUS_MARGIN / 2 + rand() % BONUS_MARGIN,
 		-BONUS_MARGIN / 2 + rand() % BONUS_MARGIN);
 	// make bonus to be outside screen
-	if (bonusPos.x < 0) bonusPos.x -= SCREEN_WIDTH/2;
+	if (bonusPos.x < 0) bonusPos.x -= SCREEN_WIDTH / 2;
 	else bonusPos.x += SCREEN_WIDTH;
-	if (bonusPos.y < 0) bonusPos.y -= SCREEN_HEIGHT/2;
+	if (bonusPos.y < 0) bonusPos.y -= SCREEN_HEIGHT / 2;
 	else bonusPos.y += SCREEN_HEIGHT;
+	bonusPos = bonusPos + pos;
+	printf_s("Bonus pos: %f, %f\n", bonusPos.x, bonusPos.y);
 	bonusPoint->setPos(bonusPos);
 }
+
 
 Spark::Spark(
 	SDL_Renderer* _renderer,
@@ -230,6 +233,9 @@ Chemiczny::Chemiczny(
 	shootingTimer = new Timer(SHOOTING_DELAY, false, true);
 	shootingTimer->elapsedTime = rand() % SHOOTING_DELAY;
 	gasTimer = new Timer(GAS_DELAY, false, true);
+
+	pos.x = CHEMICZNY_START_POS_X;
+	pos.y = CHEMICZNY_START_POS_Y;
 
 	SDL_Texture* gasTxt = loadTextureFromBMP(renderer, GAS_TXT_PATH);
 	SDL_QueryTexture(texture, NULL, NULL, &GAS_WEAPON_WIDTH, &GAS_WEAPON_HEIGHT);
@@ -306,6 +312,8 @@ AIR::AIR(
 	enemyType = AIR_TYPE;
 	setHP(AIR_HP);
 	angle = 0;
+	pos.x = AIR_START_POS_X;
+	pos.y = AIR_START_POS_Y;
 	robots = new Robot * [ROBOTS_NUMBER];
 	int angleStep = 360 / ROBOTS_NUMBER;
 	for (int i = 0; i < ROBOTS_NUMBER; i++) {
@@ -347,7 +355,6 @@ void AIR::setPos(Vector2 newPos) {
 }
 
 void AIR::updatePosition(double delta) {
-	//printf_s("%f, %f\n", robots[0]->getPos().x, robots[0]->getPos().y);
 	Vector2 playerPos = player->getPos();
 	angle = pos.getAngleTo(playerPos);
 	Vector2 velocity = getDirectionFromAngle(angle);
@@ -390,6 +397,8 @@ WILIS::WILIS(
 	ballShootingTimer = new Timer(BALL_SHOOTING_DELAY, false, true);
 	ballShootingTimer->start();
 	ballShootingTimer->elapsedTime = 6000;
+	pos.x = WILIS_START_POS_X;
+	pos.y = WILIS_START_POS_Y;
 	setHP(WILIS_HP);
 	enemyType = WILIS_TYPE;
 };

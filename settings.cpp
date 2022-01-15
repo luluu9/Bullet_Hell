@@ -100,7 +100,8 @@ void loadSettings() { // int level?
 void readCommand(FILE* settings, char* character) {
 	char text[READ_BUFFER];
 	int numOfCommands = sizeof(COMMANDS) / sizeof(char*);
-	while (fscanf(settings, "%s", text) != EOF || strcmp(text, "END") == 0) {
+	while (fscanf(settings, "%s", text) != EOF) {
+		if (strcmp(text, "END") == 0) break;
 		if (in(COMMANDS, numOfCommands, text)) {
 			changeValue(settings, character, text);
 		}

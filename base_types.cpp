@@ -48,6 +48,7 @@ Timer::Timer() {
 	resetOnStart = false;
 	elapsedTime = 0.0;
 	started = false;
+	time = 0.0;
 }
 
 // time in msec

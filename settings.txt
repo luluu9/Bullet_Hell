@@ -3,10 +3,21 @@ PLAYER
 Position 100 100
 END
 CHEMICZNY
-Position 1000 400
+Position 5000 400
+END
 
 LEVEL 2 
 PLAYER
 Position 5000 0
+END
+AIR
+Position 1000 400
+END
 
-
+LEVEL 3
+PLAYER
+Position 1000 1000
+END
+WILIS
+Position 1000 400
+END

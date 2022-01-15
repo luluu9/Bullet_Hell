@@ -19,6 +19,7 @@ struct Vector2 {
 	Vector2 operator *(double m) { return Vector2(x * m, y * m); }
 	Vector2 operator /(double m) { return Vector2(x / m, y / m); }
 	Vector2 operator -(Vector2 m) { return Vector2(x - m.x, y - m.y); }
+	Vector2 operator +(Vector2 m) { return Vector2(x + m.x, y + m.y); }
 };
 
 

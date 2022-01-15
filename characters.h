@@ -23,7 +23,7 @@ public:
 	int HIT_SHAKE_DURATION = 100;
 	int HIT_SHAKE = 10;
 	int BONUS_HP = 25;
-	int BONUS_MARGIN = SCREEN_HEIGHT/4;
+	int BONUS_MARGIN = SCREEN_HEIGHT;
 
 	//Initializes the variablesA
 	Player(
