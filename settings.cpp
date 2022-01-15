@@ -27,6 +27,12 @@ char* EMP_GRANADE_DIR_PATH = "./assets/emp_granade";
 int EMP_GRANADE_FRAMES = 9;
 
 
+// LEVEL SETTINGS
+bool LEVEL_CHEMICZNY = 0;
+bool LEVEL_AIR = 0;
+bool LEVEL_WILIS = 0;
+
+
 // CHARACTERS
 int PLAYER_HP = 100;
 int CHEMICZNY_HP = 400;
@@ -87,9 +93,13 @@ int in(char** arr, int arr_len, char* target) {
 void loadSettings(int level) { // int level?
 	FILE* settings = fopen(SETTINGS_PATH, "r");
 	if (settings == NULL) return;
+
+	resetSettings();
+
 	char text[READ_BUFFER];
 	int numOfCharacters = sizeof(CHARACTERS) / sizeof(char*);
 	int currentLevel;
+
 	while (fscanf(settings, "%s", text) != EOF) {
 		if (strcmp(text, "LEVEL") == 0)
 			fscanf(settings, "%i", &currentLevel);
@@ -100,6 +110,12 @@ void loadSettings(int level) { // int level?
 		}
 	}
 	fclose(settings);
+}
+
+void resetSettings() {
+	LEVEL_CHEMICZNY = 0;
+	LEVEL_AIR = 0;
+	LEVEL_WILIS = 0;
 }
 
 void readCommand(FILE* settings, char* character) {
@@ -117,12 +133,18 @@ void changeValue(FILE* settings, char* character, char* command) {
 	if (strcmp(command, "Position") == 0) {
 		if (strcmp(character, "PLAYER") == 0)
 			fscanf(settings, "%i %i", &PLAYER_START_POS_X, &PLAYER_START_POS_Y);
-		else if (strcmp(character, "CHEMICZNY") == 0)
+		else if (strcmp(character, "CHEMICZNY") == 0) {
+			LEVEL_CHEMICZNY = true;
 			fscanf(settings, "%i %i", &CHEMICZNY_START_POS_X, &CHEMICZNY_START_POS_Y);
-		else if (strcmp(character, "AIR") == 0)
+		}
+		else if (strcmp(character, "AIR") == 0) {
+			LEVEL_AIR = true;
 			fscanf(settings, "%i %i", &AIR_START_POS_X, &AIR_START_POS_Y);
-		else if (strcmp(character, "WILIS") == 0)
+		}
+		else if (strcmp(character, "WILIS") == 0) {
+			LEVEL_WILIS = true;
 			fscanf(settings, "%i %i", &WILIS_START_POS_X, &WILIS_START_POS_Y);
+		}
 	}
 
 }

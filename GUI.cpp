@@ -135,24 +135,17 @@ GameScreen::GameScreen(
 	background = loadTextureFromBMP(renderer, BACKGROUND_TXT_PATH);
 	SDL_QueryTexture(background, NULL, NULL, &bgWidth, &bgHeight);
 
-	switch (currentLevel) {
-	case LEVEL_1: {
-		for (int i = 0; i < 1; i++) {
-			Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
-			entities.addEntity(enemy);
-		}
-		break;
+	if (LEVEL_CHEMICZNY) {
+		Chemiczny* enemy = new Chemiczny(renderer, &camera, &entities, player);
+		entities.addEntity(enemy);
 	}
-	case LEVEL_2: {
+	if (LEVEL_AIR) {
 		AIR* air = new AIR(renderer, &camera, &entities, player);
 		entities.addEntity(air);
-		break;
 	}
-	case LEVEL_3: {
+	if (LEVEL_WILIS) {
 		WILIS* wilis = new WILIS(renderer, &camera, &entities, player);
 		entities.addEntity(wilis);
-		break;
-	}
 	}
 }
 

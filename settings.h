@@ -41,6 +41,12 @@ extern char* EMP_GRANADE_DIR_PATH;
 extern int EMP_GRANADE_FRAMES;
 
 
+// LEVEL SETTINGS
+extern bool LEVEL_CHEMICZNY;
+extern bool LEVEL_AIR;
+extern bool LEVEL_WILIS;
+
+
 // CHARACTERS
 extern int PLAYER_HP;
 extern int CHEMICZNY_HP;
@@ -84,5 +90,6 @@ extern int WILIS_START_POS_Y;
 
 
 void loadSettings(int level);
+void resetSettings();
 void readCommand(FILE* settings, char* character);
 void changeValue(FILE* settings, char* character, char* command);
