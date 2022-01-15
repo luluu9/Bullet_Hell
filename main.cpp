@@ -8,6 +8,7 @@
 
 int main(int argc, char** argv) {
 	srand(time(NULL));
+
 	int delta;
 	double frames, t1, t2, worldTime, fpsTimer, fps, deltaDivided;
 

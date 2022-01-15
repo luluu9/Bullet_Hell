@@ -27,6 +27,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="characters.cpp" />
     <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="settings.cpp" />
     <ClCompile Include="weapons.cpp" />
   </ItemGroup>
   <ItemGroup>

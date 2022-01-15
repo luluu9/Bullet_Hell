@@ -110,6 +110,7 @@ GameScreen::GameScreen(
 		_textSurface,
 		_charset,
 		levelId) {
+	loadSettings();
 	game = _game;
 	currentLevel = levelId;
 	score = _score;
