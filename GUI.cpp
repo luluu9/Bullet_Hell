@@ -391,7 +391,15 @@ void ScoreCounter::resetMultiplier() {
 
 void ScoreCounter::update(double delta) {
 	if (multiplierTimer.update(delta)) {
-		resetMultiplier();
+		//resetMultiplier();
+		resetTimer.start();
+	}
+	if (resetTimer.update(delta)) {
+		multiplier -= 1.0;
+		if (multiplier <= 1.0) {
+			resetTimer.stop();
+			multiplier = 1.0;
+		}
 	}
 }
 

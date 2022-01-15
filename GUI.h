@@ -191,6 +191,7 @@ class ScoreCounter {
 public:
 	double MULTIPLIER_INCREASE = 0.1;
 	int MULTIPLIER_TIME = 2500; // msec to start depleting
+	int RESET_TIME = 10; // descrease each x msec
 	int MAX_MULTIPLIER = 60;
 
 	ScoreCounter(SDL_Renderer* _renderer);
@@ -208,6 +209,7 @@ public:
 
 	SDL_Renderer* renderer = nullptr;
 	Timer multiplierTimer = Timer(MULTIPLIER_TIME, false, false, true);
+	Timer resetTimer = Timer(RESET_TIME, false, true, false);
 	Text* scoreText;
 	int score = 0;
 	double multiplier = 1.0;
