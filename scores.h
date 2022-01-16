@@ -7,7 +7,7 @@ public:
 	char nicknames[MAX_SCORES][MAX_CHARS];
 	char scoreStrings[MAX_SCORES][MAX_CHARS];
 
-	int* getScores(int startIndex = 0, int number = 10);
+	int* getScores();
 	int getScoresNumber();
 	void addScore(char* nickname, int score);
 private:

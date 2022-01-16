@@ -301,7 +301,6 @@ void AnimationPlayer::start() {
 }
 
 
-
 bool isColliding(Entity* a, Entity* b) {
 	if (a->COLLISIONS_DISABLED || b->COLLISIONS_DISABLED) return false;
 	// AABB algorithm

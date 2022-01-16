@@ -5,7 +5,7 @@
 #include "settings.h"
 
 
-int* Scores::getScores(int startIndex, int number) {
+int* Scores::getScores() {
 	if (!scoresLoaded) loadScores();
 	return scores;
 }
