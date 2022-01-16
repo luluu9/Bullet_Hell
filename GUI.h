@@ -10,7 +10,7 @@
 
 #ifndef SCREEN_ENUM
 #define SCREEN_ENUM
-enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, SCOREBOARD, QUIT };
+enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, QUIT, SCOREBOARD };
 #endif
 
 class GUIElement; // forward declaration

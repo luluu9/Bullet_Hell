@@ -61,7 +61,6 @@ Game::Game() {
 	keyboard = new KeyboardHandler;
 	score = new ScoreCounter(renderer);
 	currentScreen = new MainMenu(renderer, textSurface, charset, this);
-	//currentScreen = new Scoreboard(renderer, textSurface, charset, this, SCOREBOARD, score);
 }
 
 Game::~Game() {
@@ -87,7 +86,8 @@ void Game::handleEvents() {
 }
 
 void Game::update(double delta, double worldTime) {
-	currentScreen->update(delta, worldTime);
+	if (currentScreen != nullptr)
+		currentScreen->update(delta, worldTime);
 }
 
 void Game::render() {
@@ -95,7 +95,6 @@ void Game::render() {
 	if (currentScreen!=nullptr)
 		currentScreen->render();
 	SDL_UpdateTexture(textTexture, NULL, textSurface->pixels, textSurface->pitch);
-	//SDL_FillRect(textSurface, NULL, 0x000000);
 	SDL_RenderCopy(renderer, textTexture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
@@ -146,7 +145,6 @@ SDL_Texture* Game::loadTextureFromBMP(const char* filepath) {
 	SDL_Surface* tmpSurface = SDL_LoadBMP(filepath);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, tmpSurface);
 	SDL_FreeSurface(tmpSurface);
-
 	return texture;
 }
 

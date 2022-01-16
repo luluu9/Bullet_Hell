@@ -278,10 +278,6 @@ Scoreboard::Scoreboard(
 	textRect.h = inputHeight;
 	textInput = new TextInput(renderer, textRect, textSurface, charset, defaultButtonOutline, defaultButtonFill);
 	addElement(textInput);
-
-	//textRect.y += 200;
-	//Text* nickname = new Text(renderer, textRect, textSurface, charset, "testXD");
-	//addElement(nickname);
 }
 
 Scoreboard::~Scoreboard() {
@@ -313,7 +309,6 @@ void Scoreboard::showScores() {
 	int numOfScores = scores->getScoresNumber();
 	int currentY = scoresStartY;
 	for (int i = 0; i < numOfScores; i++) {
-		printf_s("%s: %s\n", scores->nicknames[i], scores->scoreStrings[i]);
 		SDL_Rect nickRect, scoreRect;
 
 		nickRect.y = SCREEN_HEIGHT / 100 * currentY;
