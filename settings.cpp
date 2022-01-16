@@ -89,9 +89,10 @@ int in(char** arr, int arr_len, char* target) {
 	return 0;
 }
 
-void loadSettings(int level) { // int level?
-	FILE* settings = fopen(SETTINGS_PATH, "r");
-	if (settings == NULL) return;
+void loadSettings(int level) { 
+	FILE* settings;
+	int err = fopen_s(&settings, SETTINGS_PATH, "r");
+	if (err != 0) return;
 
 	resetSettings();
 
@@ -99,9 +100,9 @@ void loadSettings(int level) { // int level?
 	int numOfCharacters = sizeof(CHARACTERS) / sizeof(char*);
 	int currentLevel;
 
-	while (fscanf(settings, "%s", text) != EOF) {
+	while (fscanf_s(settings, "%s", text, (unsigned int)sizeof(text)) != EOF) {
 		if (strcmp(text, "LEVEL") == 0)
-			fscanf(settings, "%i", &currentLevel);
+			fscanf_s(settings, "%i", &currentLevel);
 		if (level == currentLevel) {
 			if (in(CHARACTERS, numOfCharacters, text)) {
 				readCommand(settings, text);
@@ -120,7 +121,7 @@ void resetSettings() {
 void readCommand(FILE* settings, char* character) {
 	char text[READ_BUFFER];
 	int numOfCommands = sizeof(COMMANDS) / sizeof(char*);
-	while (fscanf(settings, "%s", text) != EOF) {
+	while (fscanf_s(settings, "%s", text, (unsigned int)sizeof(text)) != EOF) {
 		if (strcmp(text, "END") == 0) break;
 		if (in(COMMANDS, numOfCommands, text)) {
 			changeValue(settings, character, text);
@@ -131,18 +132,18 @@ void readCommand(FILE* settings, char* character) {
 void changeValue(FILE* settings, char* character, char* command) {
 	if (strcmp(command, "Position") == 0) {
 		if (strcmp(character, "PLAYER") == 0)
-			fscanf(settings, "%i %i", &PLAYER_START_POS_X, &PLAYER_START_POS_Y);
+			fscanf_s(settings, "%i %i", &PLAYER_START_POS_X, &PLAYER_START_POS_Y);
 		else if (strcmp(character, "CHEMICZNY") == 0) {
 			LEVEL_CHEMICZNY = true;
-			fscanf(settings, "%i %i", &CHEMICZNY_START_POS_X, &CHEMICZNY_START_POS_Y);
+			fscanf_s(settings, "%i %i", &CHEMICZNY_START_POS_X, &CHEMICZNY_START_POS_Y);
 		}
 		else if (strcmp(character, "AIR") == 0) {
 			LEVEL_AIR = true;
-			fscanf(settings, "%i %i", &AIR_START_POS_X, &AIR_START_POS_Y);
+			fscanf_s(settings, "%i %i", &AIR_START_POS_X, &AIR_START_POS_Y);
 		}
 		else if (strcmp(character, "WILIS") == 0) {
 			LEVEL_WILIS = true;
-			fscanf(settings, "%i %i", &WILIS_START_POS_X, &WILIS_START_POS_Y);
+			fscanf_s(settings, "%i %i", &WILIS_START_POS_X, &WILIS_START_POS_Y);
 		}
 	}
 
