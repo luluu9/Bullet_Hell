@@ -79,8 +79,6 @@ int WILIS_START_POS_Y = 0;
 char* COMMANDS[] = { "Position", "END" };
 char* CHARACTERS[] = { "PLAYER", "CHEMICZNY", "AIR", "WILIS" };
 
-const int READ_BUFFER = 128;
-
 // check if target string is in arr
 int in(char** arr, int arr_len, char* target) {
 	for (int i = 0; i < arr_len; i++) {
