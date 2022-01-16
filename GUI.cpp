@@ -95,6 +95,12 @@ MainMenu::MainMenu(
 		addElement(button);
 		buttonRect.y += buttonHeight * 1.25;
 	}
+
+	SDL_Rect textRect;
+	textRect.x = SCREEN_WIDTH / 2;
+	textRect.y = 50;
+	TextInput* testInput = new TextInput(renderer, textRect, textSurface, charset);
+	addElement(testInput);
 }
 
 
@@ -422,4 +428,44 @@ void ScoreCounter::drawGrade() {
 
 int ScoreCounter::getScore() {
 	return score;
+}
+
+
+TextInput::TextInput(
+	SDL_Renderer* _renderer, 
+	SDL_Rect _rect, 
+	SDL_Surface* _textSurface, 
+	SDL_Surface* _charset)
+	:Text(_renderer, _rect, _textSurface, _charset, MAX_CHARS) {
+}
+
+void TextInput::handleEvent(SDL_Event& event) {
+	switch (event.type) {
+	case SDL_KEYDOWN:
+		SDL_Keycode currKey = event.key.keysym.sym;
+		char newChar = 'A' + (currKey - SDLK_a);
+		if ('A' <= newChar && newChar <= 'Z')
+			addChar(newChar);
+		else if (currKey == SDLK_SPACE)
+			addChar(' ');
+		else if (currKey == SDLK_BACKSPACE)
+			removeLastChar();
+		printf_s("%s\n", text);
+		break;
+	};
+}
+
+void TextInput::removeLastChar() {
+	if (currChar > 0) {
+		text[currChar - 1] = '\0';
+		currChar--;
+	}
+}
+
+void TextInput::addChar(char c) {
+	if (currChar < MAX_CHARS) {
+		text[currChar] = c;
+		text[currChar + 1] = '\0';
+		currChar++;
+	}
 }

@@ -215,3 +215,14 @@ public:
 	double multiplier = 1.0;
 };
 
+
+class TextInput : public Text {
+public:
+	int currChar = 0;
+
+	TextInput(SDL_Renderer* _renderer, SDL_Rect _rect, SDL_Surface* _textSurface, SDL_Surface* _charset);
+
+	void handleEvent(SDL_Event& event); // issue with n char bcs its new game char
+	void removeLastChar();
+	void addChar(char c);
+};
