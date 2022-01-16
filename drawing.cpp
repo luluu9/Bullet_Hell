@@ -9,7 +9,6 @@
 // draw a text txt on surface screen, starting from the point (x, y)
 // charset is a 128x128 bitmap containing character images
 void drawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset) {
-	SDL_FillRect(screen, NULL, 0x000000);
 	int px, py, c;
 	SDL_Rect s, d;
 	s.w = 8;
@@ -24,6 +23,7 @@ void drawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface
 		s.y = py;
 		d.x = x;
 		d.y = y;
+		SDL_FillRect(screen, &d, 0x000000);
 		SDL_BlitScaled(charset, &s, screen, &d);
 		x += DEST_CHAR_SIZE;
 		text++;
