@@ -248,7 +248,7 @@ Chemiczny::Chemiczny(
 
 	shootingTimer->start();
 	gasTimer->start();
-};
+}
 
 void Chemiczny::updatePosition(double delta) {
 	Vector2 playerPos = player->getPos();
@@ -269,7 +269,7 @@ void Chemiczny::gasOut() {
 
 void Chemiczny::tryToShoot(double delta) {
 	if (shootingTimer->update(delta) && pos.getDistanceTo(player->getPos()) <= SHOOTING_THRESHOLD) {
-		int currentWeaponAngle = 0;
+		int currentWeaponAngle = angle;
 		for (int i = 0; i < SHOOTING_SIDES; i++) {
 			Weapon* acidWeapon = new Acid(renderer, ACID_TXT_PATH, camera, currentWeaponAngle);
 			acidWeapon->setPos(pos);
