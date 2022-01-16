@@ -3,6 +3,7 @@
 // SETTINGS
 static const char* TITLE = "Wojna Wydzialow";
 static const char* SETTINGS_PATH = "./settings.txt";
+static const char* SCORES_PATH = "./scores.txt";
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
 const int MAX_FPS = 144;

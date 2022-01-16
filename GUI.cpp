@@ -262,6 +262,8 @@ Scoreboard::Scoreboard(
 	currentLevel = levelId;
 	score = _score;
 
+	scores = new Scores;
+
 	SDL_Rect titleRect;
 	titleRect.x = SCREEN_WIDTH / 2;
 	titleRect.y = SCREEN_HEIGHT / 100 * titleHeight;
@@ -285,13 +287,15 @@ Scoreboard::~Scoreboard() {
 void Scoreboard::handleEvent(SDL_Event& event) {
 	switch (event.type) {
 	case SDL_KEYDOWN:
-		if (event.key.keysym.sym == SDLK_BACKSPACE){
+		if (event.key.keysym.sym == SDLK_RETURN && !scoreSaved) {
 			saveScore();
 			showScores();
+			scoreSaved = true;
 			return;
 		}
 		break;
 	};
+
 	Screen::handleEvent(event);
 }
 
@@ -301,12 +305,16 @@ void Scoreboard::render() {
 }
 
 void Scoreboard::saveScore() {
-	printf_s("%s\n", textInput->text);
+	printf_s("%s, %i\n", textInput->text, score->getScore());
+	scores->addScore(textInput->text, score->getScore());
 	textInput->hide();
 }
 
 void Scoreboard::showScores() {
-
+	int* scoreValues = scores->getScores();
+	int numOfScores = scores->getScoresNumber();
+	for (int i = 0; i < numOfScores; i++)
+		printf_s("%s: %d\n", scores->nicknames[i], scoreValues[i]);
 }
 
 
@@ -521,7 +529,7 @@ void TextInput::handleEvent(SDL_Event& event) {
 		if ('A' <= newChar && newChar <= 'Z')
 			addChar(newChar);
 		else if (currKey == SDLK_SPACE)
-			addChar(' ');
+			addChar('_');
 		else if (currKey == SDLK_BACKSPACE)
 			removeLastChar();
 		printf_s("%s\n", text);

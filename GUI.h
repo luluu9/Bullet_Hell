@@ -6,6 +6,7 @@
 #include "game.h"
 #include "drawing.h"
 #include "settings.h"
+#include "scores.h"
 
 #ifndef SCREEN_ENUM
 #define SCREEN_ENUM
@@ -137,6 +138,9 @@ private:
 	SCREEN currentLevel;
 	ScoreCounter* score;
 	TextInput* textInput;
+	Scores* scores;
+
+	bool scoreSaved = false;
 
 	const int titleHeight = 20; // percentage of screen from top
 	const int inputWidth = MAX_CHARS * DEST_CHAR_SIZE * 1.2;;

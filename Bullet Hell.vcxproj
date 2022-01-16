@@ -27,6 +27,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="characters.cpp" />
     <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="scores.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="weapons.cpp" />
   </ItemGroup>
@@ -41,6 +42,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="scores.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="weapons.h" />
     <ClInclude Include="keyboard.h" />
