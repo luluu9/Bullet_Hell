@@ -6,7 +6,7 @@ static const char* SETTINGS_PATH = "./settings.txt";
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
 const int MAX_FPS = 144;
-const int MAX_CHARS = 64;
+const int MAX_CHARS = 16;
 const int DEST_CHAR_SIZE = 32;
 const bool FULLSCREEN = false;
 const bool DRAW_COLLISION_BOX = false;
@@ -34,6 +34,7 @@ extern char* WRECKING_BALL_TXT_PATH;
 extern char* WRECKING_BALL_SHADOW_TXT_PATH;
 extern char* GAS_TXT_PATH;
 extern char* BONUS_ENTITY_PATH;
+extern char* SCOREBOARD_PATH;
 
 
 // ANIMATIONS

@@ -20,6 +20,7 @@ char* WRECKING_BALL_TXT_PATH = "./assets/ball.bmp";
 char* WRECKING_BALL_SHADOW_TXT_PATH = "./assets/ball_shadow.bmp";
 char* GAS_TXT_PATH = "./assets/gas.bmp";
 char* BONUS_ENTITY_PATH = "./assets/bonus.bmp";
+char* SCOREBOARD_PATH = "./assets/scoreboard.bmp";
 
 
 // ANIMATIONS
@@ -35,7 +36,7 @@ bool LEVEL_WILIS = 0;
 
 // CHARACTERS
 int PLAYER_HP = 100;
-int CHEMICZNY_HP = 400;
+int CHEMICZNY_HP = 4;
 int AIR_HP = 500;
 int WILIS_HP = 700;
 

@@ -95,12 +95,6 @@ MainMenu::MainMenu(
 		addElement(button);
 		buttonRect.y += buttonHeight * 1.25;
 	}
-
-	SDL_Rect textRect;
-	textRect.x = SCREEN_WIDTH / 2;
-	textRect.y = 50;
-	TextInput* testInput = new TextInput(renderer, textRect, textSurface, charset);
-	addElement(testInput);
 }
 
 
@@ -129,7 +123,7 @@ GameScreen::GameScreen(
 
 	SDL_Rect textRect;
 	textRect.x = SCREEN_WIDTH / 2;
-	textRect.y = 50;
+	textRect.y = scoreY;
 	scoreText = new Text(renderer, textRect, textSurface, charset, MAX_CHARS);
 	addElement(scoreText);
 	score->setText(scoreText);
@@ -246,9 +240,73 @@ void GameScreen::popup(STATE state) {
 	if (state == LOST)
 		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, lostButtonPaths[1], currentLevel, game);
 	else
-		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, wonButtonPaths[1], MAIN_MENU, game); // change to SCOREBOARD if implemented
+		button = new Button(renderer, buttonRect, defaultButtonOutline, defaultButtonFill, wonButtonPaths[1], SCOREBOARD, game);
 	addElement(button);
 	pause = true;
+}
+
+
+Scoreboard::Scoreboard(
+	SDL_Renderer* _renderer,
+	SDL_Surface* _textSurface,
+	SDL_Surface* _charset,
+	Game* _game,
+	SCREEN levelId,
+	ScoreCounter* _score)
+	:Screen(
+		_renderer,
+		_textSurface,
+		_charset,
+		levelId) {
+	game = _game;
+	currentLevel = levelId;
+	score = _score;
+
+	SDL_Rect titleRect;
+	titleRect.x = SCREEN_WIDTH / 2;
+	titleRect.y = SCREEN_HEIGHT / 100 * titleHeight;
+	Image* title = new Image(renderer, titleRect, SCOREBOARD_PATH);
+	addElement(title);
+
+	SDL_Rect textRect;
+	textRect.x = SCREEN_WIDTH / 2;
+	textRect.y = SCREEN_HEIGHT / 3;
+	textRect.w = inputWidth;
+	textRect.h = inputHeight;
+	textInput = new TextInput(renderer, textRect, textSurface, charset, defaultButtonOutline, defaultButtonFill);
+	addElement(textInput);
+}
+
+
+Scoreboard::~Scoreboard() {
+
+}
+
+void Scoreboard::handleEvent(SDL_Event& event) {
+	switch (event.type) {
+	case SDL_KEYDOWN:
+		if (event.key.keysym.sym == SDLK_BACKSPACE){
+			saveScore();
+			showScores();
+			return;
+		}
+		break;
+	};
+	Screen::handleEvent(event);
+}
+
+void Scoreboard::render() {
+	if (!hidden)
+		Screen::render();
+}
+
+void Scoreboard::saveScore() {
+	printf_s("%s\n", textInput->text);
+	textInput->hide();
+}
+
+void Scoreboard::showScores() {
+
 }
 
 
@@ -289,6 +347,9 @@ Text::Text(
 	textSurface = _textSurface;
 	charset = _charset;
 	text = new char[maxChars + 1];
+	for (int i = 0; i < maxChars; i++)
+		text[i] = ' ';
+	text[maxChars] = '\0';
 }
 
 Text::~Text() {
@@ -432,14 +493,27 @@ int ScoreCounter::getScore() {
 
 
 TextInput::TextInput(
-	SDL_Renderer* _renderer, 
-	SDL_Rect _rect, 
-	SDL_Surface* _textSurface, 
-	SDL_Surface* _charset)
+	SDL_Renderer* _renderer,
+	SDL_Rect _rect,
+	SDL_Surface* _textSurface,
+	SDL_Surface* _charset,
+	Color _outlineColor,
+	Color _fillColor)
 	:Text(_renderer, _rect, _textSurface, _charset, MAX_CHARS) {
+	outlineColor = _outlineColor;
+	fillColor = _fillColor;
+	bgRect = _rect;
+	bgRect.y += rect.h / 4;
+}
+
+void TextInput::render() {
+	if (hidden) return;
+	Text::render();
+	drawRectangle(renderer, bgRect, outlineColor, fillColor, true);
 }
 
 void TextInput::handleEvent(SDL_Event& event) {
+	if (hidden) return;
 	switch (event.type) {
 	case SDL_KEYDOWN:
 		SDL_Keycode currKey = event.key.keysym.sym;

@@ -9,7 +9,7 @@
 
 #ifndef SCREEN_ENUM
 #define SCREEN_ENUM
-enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, QUIT };
+enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, SCOREBOARD, QUIT};
 #endif
 
 class Screen; // forward declaration
@@ -41,7 +41,6 @@ private:
 	SDL_Texture* textTexture;
 	SDL_Surface* textSurface;
 	SDL_Surface* charset;
-	char text[128];
 
 	Screen* currentScreen;
 	KeyboardHandler* keyboard;

@@ -9,12 +9,13 @@
 
 #ifndef SCREEN_ENUM
 #define SCREEN_ENUM
-enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, QUIT };
+enum SCREEN { MAIN_MENU, LEVEL_1, LEVEL_2, LEVEL_3, SCOREBOARD, QUIT };
 #endif
 
 class GUIElement; // forward declaration
 class Game; // forward declaration
 class Text;
+class TextInput;
 class ScoreCounter;
 
 
@@ -97,7 +98,6 @@ private:
 	ScoreCounter* score;
 	Text* scoreText;
 
-	char text[128];
 	char* lostButtonPaths[2] = {
 		"./assets/menu.bmp",
 		"./assets/try_again.bmp"
@@ -112,9 +112,35 @@ private:
 	const int buttonWidth = 300;
 	const int buttonHeight = 125;
 	const int buttonMargin = 10;
+	const int scoreY = 50;
 	bool pause = false;
+};
 
-	AnimationPlayer* testPlayer;
+
+class Scoreboard : public Screen {
+public:
+	Scoreboard(
+		SDL_Renderer* _renderer,
+		SDL_Surface* _textSurface,
+		SDL_Surface* _charset,
+		Game* _game,
+		SCREEN levelId,
+		ScoreCounter* _score);
+	~Scoreboard();
+
+	void handleEvent(SDL_Event& event);
+	void render();
+	void saveScore();
+	void showScores();
+private:
+	Game* game;
+	SCREEN currentLevel;
+	ScoreCounter* score;
+	TextInput* textInput;
+
+	const int titleHeight = 20; // percentage of screen from top
+	const int inputWidth = MAX_CHARS * DEST_CHAR_SIZE * 1.2;;
+	const int inputHeight = 64;
 };
 
 
@@ -218,11 +244,22 @@ public:
 
 class TextInput : public Text {
 public:
-	int currChar = 0;
+	TextInput(
+		SDL_Renderer* _renderer, 
+		SDL_Rect _rect,
+		SDL_Surface* _textSurface, 
+		SDL_Surface* _charset,
+		Color _outlineColor,
+		Color _fillColor);
 
-	TextInput(SDL_Renderer* _renderer, SDL_Rect _rect, SDL_Surface* _textSurface, SDL_Surface* _charset);
-
+	void render();
 	void handleEvent(SDL_Event& event); // issue with n char bcs its new game char
 	void removeLastChar();
 	void addChar(char c);
+
+private: 
+	int currChar = 0;
+	Color outlineColor;
+	Color fillColor;
+	SDL_Rect bgRect;
 };
