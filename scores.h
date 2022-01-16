@@ -6,7 +6,10 @@ const int MAX_SCORES = 128;
 
 class Scores {
 public:
+	//~Scores();
+
 	char nicknames[MAX_SCORES][MAX_CHARS];
+	char scoreStrings[MAX_SCORES][MAX_CHARS];
 
 	int* getScores(int startIndex = 0, int number = 10);
 	int getScoresNumber();
@@ -15,6 +18,7 @@ private:
 	void loadScores();
 	void saveScores();
 	int scores[MAX_SCORES];
+	
 	int currScore = 0;
 	bool scoresLoaded = false;
 };

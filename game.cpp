@@ -60,7 +60,8 @@ Game::Game() {
 
 	keyboard = new KeyboardHandler;
 	score = new ScoreCounter(renderer);
-	currentScreen = new MainMenu(renderer, textSurface, charset, this);
+	//currentScreen = new MainMenu(renderer, textSurface, charset, this);
+	currentScreen = new Scoreboard(renderer, textSurface, charset, this, SCOREBOARD, score);
 }
 
 Game::~Game() {
@@ -94,7 +95,7 @@ void Game::render() {
 	if (currentScreen!=nullptr)
 		currentScreen->render();
 	SDL_UpdateTexture(textTexture, NULL, textSurface->pixels, textSurface->pitch);
-	SDL_FillRect(textSurface, NULL, 0x000000);
+	//SDL_FillRect(textSurface, NULL, 0x000000);
 	SDL_RenderCopy(renderer, textTexture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }

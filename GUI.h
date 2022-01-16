@@ -130,7 +130,6 @@ public:
 	~Scoreboard();
 
 	void handleEvent(SDL_Event& event);
-	void render();
 	void saveScore();
 	void showScores();
 private:
@@ -145,6 +144,10 @@ private:
 	const int titleHeight = 20; // percentage of screen from top
 	const int inputWidth = MAX_CHARS * DEST_CHAR_SIZE * 1.2;;
 	const int inputHeight = 64;
+	const int scoresStartY = 50; // percentage of screen from top
+	const int scoresPos = 60; // percentage of screen from left
+	const int nicknamesPos = 40;
+	const int scoresGap = 5; // percentage of screen height
 };
 
 
@@ -177,7 +180,9 @@ public:
 private:
 	SDL_Surface* textSurface;
 	SDL_Surface* charset;
+	bool deleteText = false;
 };
+
 
 class Image : public GUIElement {
 public:
@@ -191,6 +196,7 @@ public:
 private:
 	SDL_Texture* image;
 };
+
 
 class Button : public GUIElement {
 public:
@@ -241,7 +247,7 @@ public:
 	Timer multiplierTimer = Timer(MULTIPLIER_TIME, false, false, true);
 	Timer resetTimer = Timer(RESET_TIME, false, true, false);
 	Text* scoreText;
-	int score = 0;
+	int score = 1001;
 	double multiplier = 1.0;
 };
 

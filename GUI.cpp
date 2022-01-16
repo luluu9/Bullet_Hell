@@ -277,11 +277,14 @@ Scoreboard::Scoreboard(
 	textRect.h = inputHeight;
 	textInput = new TextInput(renderer, textRect, textSurface, charset, defaultButtonOutline, defaultButtonFill);
 	addElement(textInput);
+
+	//textRect.y += 200;
+	//Text* nickname = new Text(renderer, textRect, textSurface, charset, "testXD");
+	//addElement(nickname);
 }
 
-
 Scoreboard::~Scoreboard() {
-
+	printf_s("Deleting scoreboard\n");
 }
 
 void Scoreboard::handleEvent(SDL_Event& event) {
@@ -299,22 +302,36 @@ void Scoreboard::handleEvent(SDL_Event& event) {
 	Screen::handleEvent(event);
 }
 
-void Scoreboard::render() {
-	if (!hidden)
-		Screen::render();
-}
-
 void Scoreboard::saveScore() {
-	printf_s("%s, %i\n", textInput->text, score->getScore());
 	scores->addScore(textInput->text, score->getScore());
 	textInput->hide();
 }
 
 void Scoreboard::showScores() {
-	int* scoreValues = scores->getScores();
+	scores->getScores();
 	int numOfScores = scores->getScoresNumber();
-	for (int i = 0; i < numOfScores; i++)
-		printf_s("%s: %d\n", scores->nicknames[i], scoreValues[i]);
+	int currentY = scoresStartY;
+	for (int i = 0; i < numOfScores; i++) {
+		printf_s("%s: %s\n", scores->nicknames[i], scores->scoreStrings[i]);
+		SDL_Rect nickRect, scoreRect;
+
+		nickRect.y = SCREEN_HEIGHT / 100 * currentY;
+		nickRect.x = SCREEN_WIDTH / 100 * nicknamesPos;
+		nickRect.w = SCREEN_WIDTH / 100 * 20;
+		nickRect.h = SCREEN_HEIGHT / 100 * 10;
+		Text* nickname = new Text(renderer, nickRect, textSurface, charset, scores->nicknames[i]);
+		addElement(nickname);
+
+		scoreRect.y = SCREEN_HEIGHT / 100 * currentY;
+		scoreRect.x = SCREEN_WIDTH / 100 * scoresPos;
+		scoreRect.w = SCREEN_WIDTH / 100 * 20;
+		scoreRect.h = SCREEN_HEIGHT / 100 * 10;
+		char scoreBuffer[MAX_CHARS];
+		Text* score = new Text(renderer, scoreRect, textSurface, charset, scores->scoreStrings[i]);
+		addElement(score);
+
+		currentY += scoresGap;
+	}
 }
 
 
@@ -358,10 +375,12 @@ Text::Text(
 	for (int i = 0; i < maxChars; i++)
 		text[i] = ' ';
 	text[maxChars] = '\0';
+	deleteText = true;
 }
 
 Text::~Text() {
-	delete[] text;
+	if (deleteText) 
+		delete[] text;
 }
 
 void Text::render() {

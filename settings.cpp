@@ -36,9 +36,9 @@ bool LEVEL_WILIS = 0;
 
 // CHARACTERS
 int PLAYER_HP = 100;
-int CHEMICZNY_HP = 4;
+int CHEMICZNY_HP = 400;
 int AIR_HP = 500;
-int WILIS_HP = 700;
+int WILIS_HP = 600;
 
 // PLAYER
 int ATTACK_SCORE = 1;

@@ -4,6 +4,7 @@
 #include "scores.h"
 #include "settings.h"
 
+
 int* Scores::getScores(int startIndex, int number) {
 	if (!scoresLoaded) loadScores();
 	return scores;
@@ -19,8 +20,10 @@ void Scores::addScore(char* nickname, int score) {
 		if (score > scores[i]) {
 			scores[i + 1] = scores[i];
 			strcpy(nicknames[i+1], nicknames[i]);
+			sprintf_s(scoreStrings[i+1], "%d", scores[i]);
 			scores[i] = score;
 			strcpy(nicknames[i], nickname);
+			sprintf_s(scoreStrings[i], "%d", score);
 			currScore++;
 			saveScores();
 			return;
@@ -29,6 +32,7 @@ void Scores::addScore(char* nickname, int score) {
 	// if not returned, it means that score is lowest (on the end of scores);
 	scores[currScore] = score;
 	strcpy(nicknames[currScore], nickname);
+	sprintf_s(scoreStrings[currScore], "%d", score);
 	currScore++;
 	saveScores();
 }
@@ -42,6 +46,7 @@ void Scores::loadScores() {
 	while (fscanf(scoresFile, "%s %d", nickname, &score) != EOF) {
 		scores[currScore] = score;
 		strcpy(nicknames[currScore], nickname);
+		sprintf_s(scoreStrings[currScore], "%d", score);
 		currScore++;
 	}
 
