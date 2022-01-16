@@ -59,7 +59,8 @@ void Scores::saveScores() {
 	if (scoresFile == NULL) return;
 
 	for (int i = 0; i < currScore; i++) {
-		fprintf(scoresFile, "%s %i\n", nicknames[i], scores[i]);
+		if (scores[i] >= 0)
+			fprintf(scoresFile, "%s %i\n", nicknames[i], scores[i]);
 	}
 
 	fclose(scoresFile);

@@ -60,8 +60,8 @@ Game::Game() {
 
 	keyboard = new KeyboardHandler;
 	score = new ScoreCounter(renderer);
-	//currentScreen = new MainMenu(renderer, textSurface, charset, this);
-	currentScreen = new Scoreboard(renderer, textSurface, charset, this, SCOREBOARD, score);
+	currentScreen = new MainMenu(renderer, textSurface, charset, this);
+	//currentScreen = new Scoreboard(renderer, textSurface, charset, this, SCOREBOARD, score);
 }
 
 Game::~Game() {

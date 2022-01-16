@@ -28,6 +28,7 @@ Screen::~Screen() {
 		delete elements[i];
 	}
 	delete[] elements;
+	SDL_FillRect(textSurface, NULL, 0x000000);
 	exit = true; // exit each loop
 }
 

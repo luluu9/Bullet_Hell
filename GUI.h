@@ -247,7 +247,7 @@ public:
 	Timer multiplierTimer = Timer(MULTIPLIER_TIME, false, false, true);
 	Timer resetTimer = Timer(RESET_TIME, false, true, false);
 	Text* scoreText;
-	int score = 1001;
+	int score = 0;
 	double multiplier = 1.0;
 };
 
