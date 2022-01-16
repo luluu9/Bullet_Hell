@@ -37,11 +37,9 @@ Entity::~Entity() {
 }
 
 void Entity::handleEvent(SDL_Event& event) {
-	//printf("entity event");
 }
 
 void Entity::update(double delta) {
-	//printf("entity update");
 }
 
 void Entity::renderCollisionBox() {
@@ -55,7 +53,6 @@ void Entity::renderCollisionBox() {
 }
 
 void Entity::render() {
-	//printf_s("%f, %f: %d, %d\n", pos.x, pos.y, cam.x, cam.y);
 	drawTextureRotated(renderer, texture, pos.x - camera->x, pos.y - camera->y, angle);
 	renderCollisionBox();
 }

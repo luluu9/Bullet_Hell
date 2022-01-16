@@ -1,13 +1,9 @@
 #pragma once
 #include "settings.h"
 
-const int READ_BUFFER = 128;
-const int MAX_SCORES = 128;
 
 class Scores {
 public:
-	//~Scores();
-
 	char nicknames[MAX_SCORES][MAX_CHARS];
 	char scoreStrings[MAX_SCORES][MAX_CHARS];
 

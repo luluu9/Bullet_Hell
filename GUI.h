@@ -58,6 +58,7 @@ public:
 		SDL_Surface* _textSurface,
 		SDL_Surface* _charset,
 		Game* _game);
+
 private:
 	char* titlePath = "./assets/title.bmp";
 	const int buttonsNumber = 4;
@@ -88,6 +89,7 @@ public:
 	void update(double delta, double worldTime);
 	void render();
 	void popup(STATE state);
+
 private:
 	SDL_Texture* background;
 	int bgWidth, bgHeight;
@@ -107,6 +109,7 @@ private:
 		"./assets/next_level.bmp",
 		"./assets/save_score.bmp"
 	};
+
 	char* lostTitle = "./assets/lost.bmp";
 	char* wonTitle = "./assets/won.bmp";
 	const int titleHeight = 20; // percentage of screen from top
@@ -132,6 +135,7 @@ public:
 	void handleEvent(SDL_Event& event);
 	void saveScore();
 	void showScores();
+
 private:
 	Game* game;
 	SCREEN currentLevel;

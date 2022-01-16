@@ -11,7 +11,8 @@ const int MAX_CHARS = 16;
 const int DEST_CHAR_SIZE = 32;
 const bool FULLSCREEN = false;
 const bool DRAW_COLLISION_BOX = false;
-
+const int READ_BUFFER = 128;
+const int MAX_SCORES = 128;
 
 // SPECIFIC VALUES
 const double PI = 3.14159265;

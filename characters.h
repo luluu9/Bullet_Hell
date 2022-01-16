@@ -14,12 +14,12 @@ class ScoreCounter;
 
 class Player : public DestroyableEntity {
 public:
-	double ACCEL = 20;
-	double ROT_SPEED = 2;
+	double ACCEL = 10;
+	double ROT_SPEED = 3;
 	double MAX_SPEED = 700; //px per sec
 	int INVINCIBLE_TIME = 1500;
-	int MAX_ATTACK_TIME = 2000;
-	int ATTACK_ROT_MULTIPLIER = 10;
+	int MAX_ATTACK_TIME = 1000;
+	int ATTACK_ROT_MULTIPLIER = 6;
 	int HIT_SHAKE_DURATION = 100;
 	int HIT_SHAKE = 10;
 	int BONUS_HP = 25;
@@ -97,6 +97,7 @@ public:
 	void Chemiczny::gasOut();
 	void Chemiczny::updateGas(double delta=0.0);
 	void Chemiczny::update(double delta);
+
 private:
 	Timer* shootingTimer;
 	Timer* gasTimer;
@@ -115,7 +116,6 @@ private:
 	int addGasTime;
 	float gasEjected = 0;
 	int gasNumberToFillHeight = 0;
-	
 };
 
 
@@ -133,6 +133,7 @@ public:
 	void AIR::updatePosition(double delta);
 	void AIR::tryToShoot(double delta);
 	void AIR::update(double delta);
+
 private:
 	int SPEED = AIR_SPEED;
 	int SHOOTING_DELAY = AIR_SHOOTING_DELAY;
@@ -141,7 +142,6 @@ private:
 	int SHOOTING_THRESHOLD = AIR_SHOOTING_THRESHOLD; 
 	Timer* shootingTimer;
 	Robot** robots;
-	
 };
 
 
@@ -156,6 +156,7 @@ public:
 	void updatePosition(double delta);
 	void tryToShoot(double delta);
 	void update(double delta);
+
 private:
 	Timer* hammerShootingTimer;
 	Timer* ballShootingTimer;
@@ -163,5 +164,4 @@ private:
 	int HAMMER_SHOOTING_DELAY = WILIS_HAMMER_SHOOTING_DELAY;
 	int BALL_SHOOTING_DELAY = WILIS_BALL_SHOOTING_DELAY;
 	int SPEED = WILIS_SPEED;
-
 };
