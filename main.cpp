@@ -38,12 +38,16 @@ int main(int argc, char** argv) {
 		game->update(deltaDivided, worldTime);
 		game->render();
 
-		
-		// limit framerate to MAX_FPS
-		int desired_delta = 1000 / MAX_FPS;
-		if (delta < desired_delta) {
-			SDL_Delay(desired_delta-delta);
+		if (MAX_FPS > 0) {
+			// limit framerate to MAX_FPS
+			int desired_delta = 1000 / MAX_FPS;
+			if (delta < desired_delta) {
+				SDL_Delay(desired_delta-delta);
+			}
 		}
+
+		if (WRITE_FPS)
+			printf_s("FPS: %f\n", fps);
 		
 		frames++;
 	};
