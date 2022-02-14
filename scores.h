@@ -14,7 +14,7 @@ private:
 	void loadScores();
 	void saveScores();
 	int scores[MAX_SCORES];
-	
+
 	int currScore = 0;
 	bool scoresLoaded = false;
 };

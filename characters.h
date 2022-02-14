@@ -14,7 +14,7 @@ class ScoreCounter;
 
 class Player : public DestroyableEntity {
 public:
-	double ACCEL = 10;
+	double ACCEL = 7;
 	double ROT_SPEED = 3;
 	double MAX_SPEED = 700; //px per sec
 	int INVINCIBLE_TIME = 1500;
