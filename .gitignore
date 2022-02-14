@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -366,3 +367,4 @@ FodyWeavers.xsd
 /assets/Clouds V2.aseprite
 /assets/Clouds V2-2.png
 /Bullet Hell 2021-11-25.pdf
+/scores.txt
