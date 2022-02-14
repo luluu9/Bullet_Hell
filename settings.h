@@ -6,8 +6,8 @@ static const char* SETTINGS_PATH = "./settings.txt";
 static const char* SCORES_PATH = "./scores.txt";
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
-const int MAX_FPS = 144; // -1 = unlimited
-const bool WRITE_FPS = false;
+const int MAX_FPS = -1; // -1 = unlimited
+const bool WRITE_FPS = true;
 const int MAX_CHARS = 16;
 const int DEST_CHAR_SIZE = 32;
 const bool FULLSCREEN = false;

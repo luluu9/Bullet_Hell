@@ -194,13 +194,18 @@ void GameScreen::update(double delta, double worldTime) {
 		popup(LOST);
 	}
 }
-
+#include <thread>
 void GameScreen::render() {
 	for (int i = -1; i <= SCREEN_WIDTH / bgWidth + 2; i++)
 		for (int j = -1; j <= SCREEN_HEIGHT / bgHeight + 2; j++)
 			drawTexture(renderer, background, -((int)camera.x % bgWidth) + i * bgWidth, -((int)camera.y % bgHeight) + j * bgHeight);
+	
+	std::thread* renderThreads = new std::thread[entities.currentEntity];
+	for (unsigned int i = 0; i < entities.currentEntity; i++) 
+		renderThreads[i] = std::thread(&Entity::render, entities.getEntity(i));
 	for (unsigned int i = 0; i < entities.currentEntity; i++)
-		entities.getEntity(i)->render();
+		renderThreads[i].join();
+	delete[] renderThreads;
 
 	if (pause) {
 		SDL_Rect shadowRect;
